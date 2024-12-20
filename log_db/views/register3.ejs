@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a4e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('/css/BSUP.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .all {
+            width: 100%;
+            max-width: 370px;
+            padding: 30px;
+            background: rgba(47, 47, 95, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+            text-align: center;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .input1 {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .phone-input input {
+            width: 100%;
+            padding: 12px 40px 12px 50px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background: rgba(245, 245, 245, 0.85);
+            color: #333;
+            font-size: 16px;
+            transition: 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .phone-input .country-code {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 16px;
+        }
+
+        .input1 i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 20px;
+        }
+
+        .sub {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #000000;
+            border-radius: 20px;
+            background-color: #ffffff;
+            color: #333;
+            font-size: 16px;
+            font-weight: bolder;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sub:hover {
+            background-color: #9a9a9a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn {
+            margin-top: 20px;
+        }
+
+        .otpverify {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="all">
+        <form>
+            <h1><b>Sign Up</b></h1>
+        
+            <!-- Email input -->
+            <div class="input1 phone-input">
+                <input type="email" id="email" placeholder="Enter your E-mail" required>
+                <i class="bx bx-envelope"></i>
+            </div>
+
+            <!-- OTP verification section -->
+            <div class="otpverify" id="otp_section">
+                <div class="input1 phone-input">
+                    <label for="otp_inp">Please enter the OTP code:</label>
+                    <input type="text" id="otp_inp" placeholder="Enter the OTP sent to your E-mail">
+                    <button type="button" class="btn sub" id="otp-btn">Verify OTP</button>
+                </div>
+            </div>
+
+            <!-- Send OTP button -->
+            <button type="button" class="btn sub" onclick="sendOTP()">Send OTP</button>
+        </form>
+    </div>
+
+    <script>
+        let otp_val; // Define OTP value globally
+
+        function sendOTP() {
+            const email = document.getElementById('email').value;
+            const otpSection = document.getElementById('otp_section');
+
+            // Generate a random 4-digit OTP
+            otp_val = Math.floor(1000 + Math.random() * 9000);
+
+            // Email body
+            let emailBody = '<h2>Your OTP is </h2>' + otp_val;
+
+            // Sending email using SMTP.js
+            Email.send({
+                SecureToken: "e6136d71-9907-4cb1-994b-624dedc9f7b8", // Replace with your actual SecureToken
+                To: email,
+                From: "lenabukhalil98@gmail.com",
+                Subject: "Email OTP Using JavaScript",
+                Body: emailBody,
+            }).then((message) => {
+                if (message === "OK") {
+                    alert("OTP sent to your email: " + email);
+                    otpSection.style.display = 'block'; // Show the OTP section
+                } else {
+                    alert("Failed to send OTP. Please check your email address.");
+                }
+            });
+        }
+
+        // Verify OTP
+        document.getElementById('otp-btn').addEventListener('click', () => {
+            const otpInput = document.getElementById('otp_inp').value;
+
+            if (otpInput == otp_val) {
+                alert("Email address verified successfully!");
+            } else {
+                alert("Invalid OTP. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>

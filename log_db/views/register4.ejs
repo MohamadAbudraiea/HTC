@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://smtpjs.com/v3/smtp.js">
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a4e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('/css/BSUP.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .all {
+            width: 100%;
+            max-width: 450px;
+            padding: 50px;
+            background: rgba(47, 47, 95, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+            text-align: center;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .otp-message {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .input1 {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input1 input {
+            
+            width: 100%;
+            padding: 14px 40px 14px 15px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            background: rgba(245, 245, 245, 0.85);
+            color: #333;
+            font-size: 18px;
+            transition: 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .input1 input:focus {
+            border: 2px solid #dddddd;
+            box-shadow: 0 0 10px rgba(173, 173, 173, 0.6);
+        }
+
+        .input1 i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 24px;
+        }
+
+        .timer {
+            color: #f3e07d;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .resend {
+            color: #f3e07d;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .resend:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .sub {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #000000;
+            border-radius: 25px;
+            background-color: #ffffff;
+            color: #333;
+            font-size: 18px;
+            font-weight: bolder;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sub:hover {
+            background-color: #9a9a9a;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .create p b {
+            color: black;
+        }
+
+        .create a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .create a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        let countdown;
+        let timeLeft = 60; // الوقت المتبقي بالثواني
+
+        // دالة لتحديث العد التنازلي
+        function updateTimer() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                document.getElementById("timer").innerText = `${timeLeft}s`;
+            } else {
+                clearInterval(countdown);
+                document.getElementById("resend-btn").disabled = false;
+                document.getElementById("resend-btn").innerText = "Resend OTP";
+            }
+        }
+
+        // تفعيل العد التنازلي عند تحميل الصفحة
+        window.onload = function() {
+            countdown = setInterval(updateTimer, 1000);
+            document.getElementById("resend-btn").disabled = true; // تعطيل زر الإعادة في البداية
+        };
+
+        // دالة لإعادة إرسال OTP
+        function resendOTP() {
+            // هنا يمكن إرسال طلب لإعادة إرسال OTP
+            alert("OTP has been resent to your phone!");
+
+            // إعادة تعيين العداد والزر بعد إعادة الإرسال
+            timeLeft = 60;
+            document.getElementById("resend-btn").disabled = true;
+            document.getElementById("resend-btn").innerText = "Sending...";
+            countdown = setInterval(updateTimer, 1000);
+
+
+
+            function verifyOTP() {
+            window.location.href = "/home";
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="all">
+        <h1><b>Sign Up</b></h1>
+        <h1><b>OTP Verification</b></h1>
+
+        <div class="input1">
+            <div class="input1 phone-input ">
+                <input type="text" id="otp_inp" placeholder="Enter the otp sent to your E-mail" required="">
+                
+            </div>
+        </div>
+
+        <div class="timer">
+            <p>Time remaining: <span id="timer">60s</span></p>
+        </div>
+
+        <div class="create">
+            <p><b>Didn't receive the code?</b> <a href="javascript:void(0);" id="resend-btn" onclick="resendOTP()"><b>Resend OTP</b></a></p>
+        </div>
+
+        <input type="button" class="sub" value="Verify OTP" onclick="verifyOTP()">
+    </div>
+    <script src="emailotp.js"></script>
+    <script>
+    function sendOTP() {
+        const email = document-getElementById( 'email');
+        const otpverify = document-getElementsByClassName('otpverify')[0];  // 
+        };
+        let otp_val = Math.floor(Math.random*1000);
+        let emailbody ='<h2>Your OTP is </h2>' +otp_val+ '.';
+        Email.send({
+    SecureToken : "e6136d71-9907-4cb1-994b-624dedc9f7b8",
+    To : email.value,
+    From : "lenabukhalil98@gmail.com",
+    Subject : "Email OTP Using JavaScript",
+    Body : emailbody,
+}).then(
+  message => {
+    if(message ==="OK")
+    alert("OTP sent to your email" +email.value);
+
+
+    const otp_inp = document.getElementById( 'otp_inp');
+    const otp_btn = document.getElementById( 'otp-btn');
+    
+    otp_btn.addEventListener('click', () => {
+     if (otp_inp.value == otp_val) {
+     alert("Email address verified...");}
+     
+     else {   
+      alert("Invalid OTP");
+          }
+        
+        })
+    }
+
+
+);
+    </script>
+</body>
+</html>

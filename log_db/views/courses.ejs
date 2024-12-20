@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Company Listings</title>
+    <style>
+              
+              * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            color: rgb(0, 0, 0);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+  
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 20px;
+            background-color: #003366;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(131, 214, 237, 0.5);
+            
+            
+        }
+
+      
+        .menu-icon {
+            font-size: 28px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+       
+        .nav-links {
+            display: flex;
+            list-style: none;
+            text-decoration: none;
+            gap: 40px;
+            margin-left: 800px;
+            margin-top: -4px;
+           
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .nav-links li a:hover {
+            background-color: rgba(110, 181, 255, 0.2);
+            border-radius: 5px;
+            padding: 5px 10px;
+            
+        }
+        /* Icons */
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            color: white;
+            gap: 20px;
+        }
+
+        .navbar-right i {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .custom-link {
+            color: white;
+    text-decoration: none;
+}
+
+.custom-link:hover {
+    color: #ddd; 
+}
+
+
+
+        .dropdown-menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 250px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Hidden by default */
+    z-index: 9999;
+}
+
+.profile-section {
+    padding: 10px;
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+}
+
+
+.profile-img2 {
+    width: 125px; 
+    height: 120px;
+    border-radius: 50%;
+    margin-top:10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+
+
+}
+
+.profile-name {
+    font-weight: bold;
+}
+
+.profile-info {
+    font-size: 14px;
+}
+
+.dropdown-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dropdown-links li a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.dropdown-links li a:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-links li a:last-child {
+    color: rgb(0, 0, 0);
+}
+
+
+footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 500px;
+            width: 100%;
+
+        }
+    /*  chat  */    
+
+    h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #004890;
+    font-size: 2.5em;
+    text-shadow: 1px 1px 2px #ccc;
+}
+
+.major {
+    margin: 20px auto;
+    width: 80%;
+    border: 2px solid #004890;
+    border-radius: 10px;
+    padding: 20px;
+    background: linear-gradient(145deg, #ffffff, #f3f3f3);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.major h2 {
+    background-color: #004890;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.8em;
+    text-shadow: 1px 1px 2px #000;
+}
+.course-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.course-item {
+    padding: 10px 0;
+    font-size: 1.2em;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.course-item a {
+    text-decoration: none;
+    color: #004890;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.course-item a:hover {
+    color: #004890;
+    text-decoration: underline;
+}
+
+.certificate-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.certificate-item {
+    padding: 10px 0;
+    font-size: 1.2em;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.certificate-item a {
+    text-decoration: none;
+    color: #004890;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.certificate-item a:hover {
+    color: #004890;
+    text-decoration: underline;
+}
+
+
+.custom-even {
+    background-color: #e9ecef;
+    padding: 10px;
+}
+
+.custom-odd {
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+.custom-even:hover, .custom-odd:hover {
+    background-color: #f1f9ff;
+    transform: scale(1.02);
+}
+
+.certificates {
+    margin-top: 20px;
+    background-color: #f0f0f0;
+    border-top: 2px solid #004890;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.certificates h3 {
+    color: #004890;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 1px #ccc;
+}
+.main-h1 {
+    text-align: center;
+    margin: 80px auto;
+    font-size: 3em;
+    color: #ffffff;
+    background: linear-gradient(90deg, #5D7185, #004890);
+    padding: 30px;
+    border-radius: 20px;
+    width: fit-content;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Soft, more prominent shadow */
+    font-family: 'Helvetica', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: bold;
+    animation: fadeIn 1.5s ease-in-out; /* New fade-in animation */
+}
+
+/* Animation for the header */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* General Container and Layout */
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.g-5 {
+    gap: 1.5rem;
+}
+
+.py-5 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+/* For flex-lg-row-reverse and responsiveness */
+.flex-lg-row-reverse {
+    flex-direction: row-reverse;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.col-lg-6 {
+    flex: 1;
+    max-width: 50%;
+}
+
+.col-10,
+.col-sm-8 {
+    max-width: 100%;
+}
+
+/* Image styling */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.mx-lg-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.d-block {
+    display: block;
+}
+
+img {
+    border-radius: 10px;
+}
+
+/* Heading and Text Styling */
+.display-5 {
+    font-size: 2.5rem;
+    text-align: left;
+    font-weight: 700;
+}
+
+.fw-bold {
+    font-weight: bold;
+}
+
+.text-body-emphasis {
+    color: #004890;
+
+}
+
+.lh-1 {
+    line-height: 1;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.lead {
+    font-size: 1.25rem;
+    color: #6c757d;
+}
+/* Responsive Design for Mobile and Larger Screens */
+@media (max-width: 767.98px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .col-10,
+    .col-sm-8 {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .col-lg-6 {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .display-5 {
+        font-size: 2rem;
+        text-align: left;
+        margin-bottom: 1rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+        text-align: left;
+    }
+}
+
+@media (min-width: 800px) {
+    .col-lg-6 {
+        max-width: 50%;
+    }
+}/* Initial state - image is transparent */
+.animated-img {
+    opacity: 0;
+    animation: fadeIn 2s ease-out forwards;
+    transition: transform 0.3s ease-in-out; /* For zoom effect */
+}
+
+/* Animation for fading in */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Zoom effect on hover */
+.animated-img:hover {
+    transform: scale(1.1); /* Scales the image by 10% */
+}
+
+
+
+    </style>
+</head>
+
+<body>
+   
+   <!-- Header -->
+<header>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+     <div class="menu-icon" onclick="toggleMenu()">
+         <span>&#9776;</span>
+     </div>
+     
+  
+ 
+     <ul class="nav-links">
+         <li><a href="/home">Home</a></li>
+         <li><a href="companies">Companies</a></li>
+          <li><a href="/courses">Courses</a></li>
+          <li><a href="/login">Login</a></li>
+         <li><a href="/register">Sign Up</a></li>
+        
+     </ul>
+ 
+     <div class="navbar-right">
+         <i class="fas fa-bell"></i> <!-- Icon for Notifications -->
+         <a href="/profile" title="Profile" class="custom-link">
+         <i class="fas fa-user-circle"></i> <!-- Icon for User Profile -->
+         </a>
+     </div>
+
+     <!-- Dropdown menu structure -->
+     <div id="dropdown-menu" class="dropdown-menu">
+         <div class="profile-section">
+             <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg" alt="Profile Picture" class="profile-img2"><br>
+             <span class="profile-name">Leen Samer Al-Suradi</span>
+             <span class="profile-info">Computer Information Systems<br>2145088</span>
+         </div>
+         <ul class="dropdown-links">
+             <li><a href="companies">Companies</a></li>
+             <li><a href="cv">CV</a></li>
+             <li><a href="courses">Courses</a></li>
+             <li><a href="student-task">Student Task</a></li>
+             <li><a href="student-rating">Student Rating</a></li>
+             <li><a href="training-opportunities">Training Opportunities</a></li>
+             <li><a href="settings">Settings</a></li>
+             <li><a href="contact-us">Contact Us</a></li>
+             <li><a href="logout" style="color: red;">Logout</a></li>
+         </ul>
+     </div>
+ </nav>
+
+</header>
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="https://i.pinimg.com/736x/b5/d4/2c/b5d42c76e8e42e9aa2b65dafc23dbf48.jpg" class="d-block mx-lg-auto img-fluid animated-img" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Explore Our Available Courses and Certifications</h1>
+        <p class="lead">Enhance your expertise with top online courses and earn internationally recognized certificates to take your career to the next level.</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+         
+        </div>
+      </div>
+    </div>
+  </div>
+<h1 class=" main-h1" >Available Courses And International Certificates</h1>
+
+<!-- Loop through each major and its courses -->
+<% const majors = [
+    {
+        name: 'CIS (Computer Information Systems)',
+        courses: [
+            { name: 'Database Management', link: 'https://www.coursera.org/specializations/database-systems' },
+            { name: 'System Analysis and Design', link: 'https://www.udemy.com/course/system-analysis-design-k/?couponCode=KEEPLEARNING' },
+            { name: 'E-Business', link: 'https://www.coursera.org/learn/make-the-sale/' },
+            { name: 'Enterprise Systems', link: 'https://www.coursera.org/learn/enterprise-systems' },
+            { name: 'Data Mining', link: 'https://www.coursera.org/learn/data-mining-project' }
+        ],
+        certificates: [
+            { name: 'Microsoft Certified: Azure Database Administrator', link: 'https://www.globalknowledge.com/us-en/training/certification-prep/brands/microsoft/section/data-ai/microsoft-certified-azure-database-administrator-associate/' },
+            { name: 'SAP Certified Technology Associate', link: 'https://training.sap.com/' },
+            { name: 'Oracle Database Administrator Certified Professional', link: 'https://education.oracle.com/oracle-database-administration-2019-certified-professional/trackp_DB19COCP' }
+        ]
+    },
+    {
+        name: 'CS (Computer Science)',
+        courses: [
+            { name: 'Algorithms', link: 'https://www.coursera.org/specializations/algorithms' },
+            { name: 'Operating Systems', link: 'https://www.coursera.org/courses?query=operating%20system' },
+            { name: 'Artificial Intelligence', link: 'https://www.coursera.org/learn/ai-for-everyone' },
+            { name: 'Computer Graphics', link: 'https://www.coursera.org/learn/interactive-computer-graphics' },
+            { name: 'Web Development', link: 'https://www.udemy.com/course/the-complete-web-development-bootcamp/' }
+        ],
+        certificates: [
+            { name: 'AWS Certified Solutions Architect', link: 'https://aws.amazon.com/certification/certified-solutions-architect-associate/' },
+            { name: 'Google Professional Cloud Developer', link: 'https://cloud.google.com/certification/cloud-developer' },
+            { name: 'Microsoft Certified: Azure Developer Associate', link: 'https://learn.microsoft.com/en-us/certifications/azure-developer/' }
+        ]
+    },
+    {
+        name: 'SW (Software Engineering)',
+        courses: [
+            { name: 'Software Design Patterns', link: 'https://www.udemy.com/course/design-patterns-java/' },
+            { name: 'Software Quality Assurance', link: 'https://www.udemy.com/course/quality-assurance-manual/?couponCode=KEEPLEARNING' },
+            { name: 'Agile Development', link: 'https://www.udemy.com/course/agile-crash-course/?couponCode=KEEPLEARNING' },
+            { name: 'DevOps Practices', link: 'https://www.udemy.com/course/the-devops-way/' },
+            { name: 'Mobile Application Development', link: 'https://www.coursera.org/specializations/android-app-development' }
+        ],
+        certificates: [
+            { name: 'Certified ScrumMaster (CSM)', link: 'https://www.scrumalliance.org/get-certified/scrum-master-track/certified-scrummaster' },
+            { name: 'Microsoft Certified: DevOps Engineer Expert', link: 'https://learn.microsoft.com/en-us/certifications/devops-engineer/' },
+            { name: 'AWS Certified DevOps Engineer - Professional', link: 'https://aws.amazon.com/certification/certified-devops-engineer-professional/' }
+        ]
+    },
+    {
+        "name": "AI (Artificial Intelligence)",
+        "courses": [
+            { "name": "Introduction to Artificial Intelligence", "link": "https://www.udemy.com/course/introduction-to-artificial-intelligence-ai-l/?couponCode=KEEPLEARNING" },
+            { "name": "Machine Learning A-Z", "link": "https://www.udemy.com/course/machinelearning/" },
+            { "name": "Deep Learning Specialization", "link": "https://www.coursera.org/specializations/deep-learning" },
+            { "name": "AI for Everyone", "link": "https://www.coursera.org/learn/ai-for-everyone" },
+            { "name": "AI and Machine Learning for Business", "link": "https://www.udemy.com/course/artificial-intelligence-machine-learning-business/?couponCode=KEEPLEARNING" }
+        ],
+        "certificates": [
+            { "name": "IBM AI Engineering Professional Certificate", "link": "https://www.ibm.com/blogs/ibm-training/unlock-a-career-as-an-ai-developer-with-ibm-on-coursera/" },
+            { "name": "Google Cloud Professional Machine Learning Engineer", "link": "https://cloud.google.com/certification/machine-learning-engineer" },
+            { "name": "Microsoft Certified: Azure AI Engineer Associate", "link": "https://learn.microsoft.com/en-us/certifications/azure-ai-engineer/" }
+        ]
+    },
+    {
+        "name": "Cyber Security",
+        "courses": [
+            { "name": "Introduction to Cyber Security", "link": "https://www.codecademy.com/learn/introduction-to-cybersecurity" },
+            { "name": "Certified Information Systems Security Professional (CISSP)", "link": "https://www.simplilearn.com/cism-vs-cissp-article" },
+            { "name": "Cybersecurity Specialization", "link": "https://www.udemy.com/course/cybersecurity-from-beginner-to-expert/?couponCode=KEEPLEARNING" },
+            { "name": "CompTIA Security+ Certification", "link": "https://www.coursera.org/courses?query=comptia%20security%2B" },
+            { "name": "Ethical Hacking", "link": "https://skillscouter.com/best-ethical-hacking-courses-certification/" }
+        ],
+        "certificates": [
+            { "name": "Certified Information Systems Security Professional (CISSP)", "link": "https://www.isc2.org/cissp" },
+            { "name": "CompTIA Security+", "link": "https://www.comptia.org/certifications/security" },
+            { "name": "Certified Ethical Hacker (CEH)", "link": "https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/" }
+        ]
+    },
+    {
+        "name": "BIT (Business Information Technology)",
+        "courses": [
+            { "name": "Introduction to Business Information Technology", "link": "https://www.fhnw.ch/en/degree-programmes/business/bsc-in-business-information-technology/module-descriptions/introduction-to-business-information-technology" },
+            { "name": "Enterprise Resource Planning (ERP) Systems", "link": "https://www.coursera.org/learn/enterprise-systems" },
+            { "name": "Data Analytics for Business", "link": "https://www.coursera.org/learn/data-analytics-business" },
+            { "name": "Digital Transformation in Business", "link": "https://www.udemy.com/course/digital-transformation-management/?couponCode=KEEPLEARNING" },
+            { "name": "Business Process Management", "link": "https://www.udemy.com/course/master-course-in-business-process-management-bpm/?couponCode=KEEPLEARNING" }
+        ],
+        "certificates": [
+            { "name": "Certified Business Analysis Professional (CBAP)", "link": "https://go.iiba.org/CBAP-Special-Offer" },
+            { "name": "Certified Information Systems Auditor (CISA)", "link": "https://www.isaca.org/credentialing/cisa" },
+            { "name": "Microsoft Certified: Azure Fundamentals", "link": "https://learn.microsoft.com/en-us/certifications/azure-fundamentals/" }
+        ]
+    }
+    
+    
+    
+    
+]; %>
+
+
+<% majors.forEach(major => { %>
+    <div class="major">
+        <h2><%= major.name %></h2>
+        
+        <ul class="course-list">
+            <% major.courses.forEach((course, index) => { %>
+                <li class="course-item <%= index % 2 === 0 ? 'custom-even' : 'custom-odd' %>">
+                    <a href="<%= course.link %>" target="_blank"><%= course.name %></a>
+                </li>
+            <% }) %>
+        </ul>
+        <div class="certificates">
+            <h3>International Certificates</h3>
+            <ul class="certificate-list">
+                <% major.certificates.forEach((certificate, index) => { %>
+                    <li class="certificate-item <%= index % 2 === 0 ? 'custom-even' : 'custom-odd' %>">
+                        <a href="<%= certificate.link %>" target="_blank"><%= certificate.name %></a>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+<% }) %>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 HTC. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+
+        function toggleMenu() {
+            var dropdownMenu = document.getElementById("dropdown-menu");
+            if (dropdownMenu.style.display === "block") {
+                dropdownMenu.style.display = "none";
+            } else {
+                dropdownMenu.style.display = "block";
+            }
+        }
+        
+        document.addEventListener('click', function(event) {
+            var dropdownMenu = document.getElementById("dropdown-menu");
+            var menuIcon = document.querySelector('.menu-icon');
+            if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+
