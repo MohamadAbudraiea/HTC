@@ -54,7 +54,7 @@
             transition: 0.3s ease;
             box-sizing: border-box;
         }
-      
+
         .input1 input:focus {
             border: 2px solid #dddddd;  /* إضافة تأثير الحدود عند التركيز */
             box-shadow: 0 0 10px rgba(173, 173, 173, 0.6);
@@ -86,21 +86,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .remember-forget label {
-            color: #fff; /* تغيير لون النص "Remember me" إلى الأبيض */
-            margin-left: 10px;
-            display: flex;
-            align-items: center; /* تأكد من محاذاة العناصر رأسياً */
-            gap: 15px; 
-        }
-
-        .remember-forget a {
-            color: #007bff; /* تغيير رابط "Forget password" إلى اللون الأزرق */
-            margin-left: 170px;
-            display: block;
-            margin-bottom: 5px;
-        }
-
         .create p {
             margin-top: 15px;
             color: #000000; /* تغيير النص إلى اللون الأبيض */
@@ -117,8 +102,13 @@
             text-decoration: underline;
         }
 
-        .create a, .remember-forget a {
-            color: #fff; /* جعل الروابط بيضاء */
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #888;
         }
     </style>
 </head>
@@ -126,31 +116,87 @@
 <body>
 
     <div class="all">
-        <form action="/register2" method="POST">
+        <form id="signupForm" action="/register2" method="POST">
             <h1>Sign Up</h1>
             <div class="input1">
                 <input type="text" name="username" placeholder="Full name" required>
                 <i class='bx bx-edit'></i>
             </div>
             <div class="input1">
-                <input type="text" name="std_id" placeholder="ID Number" required>
+                <input type="text" id="std_id" name="std_id" placeholder="ID Number" required>
                 <i class='bx bx-user'></i>
             </div>
           
+            <!-- حقل كلمة المرور الأول -->
             <div class="input1">
-                <input type="password" name="password" placeholder="Password" required>
-                <i class='bx bxs-lock-alt'></i>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <i class='bx bx-show toggle-password' id="togglePassword1" onclick="togglePasswordVisibility('password', 'togglePassword1')"></i> <!-- أيقونة العين -->
             </div>
+            
+            <!-- حقل تأكيد كلمة المرور -->
             <div class="input1">
-                <input type="password" name="confirm_password" placeholder="Retype password" required>
-                <i class='bx bxs-lock-alt'></i>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Retype password" required>
+                <i class='bx bx-show toggle-password' id="togglePassword2" onclick="togglePasswordVisibility('confirm_password', 'togglePassword2')"></i> <!-- أيقونة العين -->
             </div>
+            
             <input type="submit" class="sub" value="Sign Up">
             <div class="create">
                 <p>Already have an account? <a href="/login"><b>Login !</b></a></p>
             </div>
         </form>
     </div>
+
+    <script>
+        // وظيفة لإظهار/إخفاء كلمة المرور
+        function togglePasswordVisibility(passwordId, iconId) {
+            const passwordField = document.getElementById(passwordId);
+            const toggleIcon = document.getElementById(iconId);
+
+            // التبديل بين "password" و "text" فقط لحقل كلمة المرور المحدد
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('bx-show');
+                toggleIcon.classList.add('bx-hide');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('bx-hide');
+                toggleIcon.classList.add('bx-show');
+            }
+        }
+
+        // اختيار النموذج
+        const form = document.getElementById('signupForm');
+
+        form.addEventListener('submit', function (e) {
+            // الحصول على القيم المدخلة
+            const stdId = document.getElementById('std_id').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+
+            // تحقق من ID Number (رقمي وطوله 7)
+            const idNumberRegex = /^\d{7}$/;  // تعديل الرقم ليتكون من 7 أرقام
+            if (!idNumberRegex.test(stdId)) {
+                alert("The ID Number must be a 7-digit number.");
+                e.preventDefault(); // منع الإرسال
+                return;
+            }
+
+            // تحقق من كلمة المرور باستخدام تعبير عادي محسن
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                alert("The password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.");
+                e.preventDefault(); // منع الإرسال
+                return;
+            }
+
+            // التحقق من تطابق كلمة المرور
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                e.preventDefault(); // منع الإرسال
+                return;
+            }
+        });
+    </script>
 
 </body>
 </html>

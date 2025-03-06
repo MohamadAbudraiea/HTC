@@ -212,18 +212,99 @@ main {
     margin-bottom: 20px;
 }
 
-/* Upload Icon Styling */
-.upload-icon {
-    font-size: 100px;
-    color: #8cfc86;
-    margin: 20px 0;
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 50%;
+/* General form styling */
+.cv-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+/* Upload icon label styling */
+.upload-icon {
+    cursor: pointer;
+    font-size: 2.5rem;
+    color: #25fa7a;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for the upload icon */
+.upload-icon:hover {
+    background-color: #79d9ff;
+    transform: scale(1.05);
+    color: #fff;
+}
+
+/* File input hidden styling */
+#cv-upload {
+    display: none;
+}
+
+/* Submit button styling */
+.btn-submit {
+    background-color: #004890;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Submit button hover effect */
+.btn-submit:hover {
+    background-color: #79d9ff;
+}
+
+/* File name display styling */
+.file-name {
+    font-size: 1rem;
+    margin-top: 15px;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Success/Error message styles */
+#upload-status {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+#upload-status.success {
+    color: green;
+}
+
+#upload-status.error {
+    color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cv-form {
+        width: 80%;
+    }
+}
+
 
 /* إضافة حركة الترجمة مع التأثيرات عند التمرير */
 .upload-icon:hover {
@@ -446,62 +527,73 @@ main {
 .welcome-card {
     animation: fadeIn 1s ease-out;
 }
+/* Logo Styling */
+.navbar .logo-container {
+    display: inline-block;
+    padding-right: 15px; /* Add spacing if necessary */
+}
 
+.navbar .logo {
+    height: 50px; /* Adjust as necessary */
+    width: auto;
+}
 
 
     </style>
 </head>
 <body>
- <!-- الشريط العلوي -->
- 
-<!-- Header -->
+    <!-- Header -->
 <header>
     <!-- Navigation Bar -->
+
     <nav class="navbar">
      <div class="menu-icon" onclick="toggleMenu()">
          <span>&#9776;</span>
      </div>
-     
-  
- 
-     <ul class="nav-links">
-         <li><a href="/home">Home</a></li>
-         <li><a href="companies">Companies</a></li>
-          <li><a href="courses">Courses</a></li>
-          <li><a href="/login">Login</a></li>
-         <li><a href="/register">Sign Up</a></li>
-        
-     </ul>
- 
-     <div class="navbar-right">
-         <i class="fas fa-bell"></i> <!-- Icon for Notifications -->
-         <a href="/profile" title="Profile" class="custom-link">
-         <i class="fas fa-user-circle"></i> <!-- Icon for User Profile -->
-         </a>
-     </div>
+     <div class="logo-container">
+      <!-- Logo Image -->
+      <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="Logo" class="logo">
 
-     <!-- Dropdown menu structure -->
-     <div id="dropdown-menu" class="dropdown-menu">
-         <div class="profile-section">
-             <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg" alt="Profile Picture" class="profile-img2"><br>
-             <span class="profile-name">Leen Samer Al-Suradi</span>
-             <span class="profile-info">Computer Information Systems<br>2145088</span>
-         </div>
-         <ul class="dropdown-links">
+</div>
+         <ul class="nav-links">
+             <li><a href="/home">Home</a></li>
              <li><a href="companies">Companies</a></li>
-             <li><a href="cv">CV</a></li>
-             <li><a href="courses">Courses</a></li>
-             <li><a href="student-task">Student Task</a></li>
-             <li><a href="student-rating">Student Rating</a></li>
-             <li><a href="training-opportunities">Training Opportunities</a></li>
-             <li><a href="settings">Settings</a></li>
-             <li><a href="contact-us">Contact Us</a></li>
-             <li><a href="logout" style="color: red;">Logout</a></li>
+              <li><a href="/certi-0">Certificates</a></li>
+              <li><a href="/courses">Courses</a></li>
+              <li><a href="/login">Login</a></li>
+             <li><a href="/register">Sign Up</a></li>
+            
          </ul>
-     </div>
- </nav>
-
-</header>
+     
+         <div class="navbar-right">
+             <i class="fas fa-bell"></i> <!-- Icon for Notifications -->
+             <a href="/profile" title="Profile" class="custom-link">
+             <i class="fas fa-user-circle"></i> <!-- Icon for User Profile -->
+             </a>
+         </div>
+    
+         <!-- Dropdown menu structure -->
+         <div id="dropdown-menu" class="dropdown-menu">
+             <div class="profile-section">
+                 <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg" alt="Profile Picture" class="profile-img2"><br>
+                 <span class="profile-name">Leen Samer Al-Suradi</span>
+                 <span class="profile-info">Computer Information Systems<br>2145088</span>
+             </div>
+             <ul class="dropdown-links">
+                 <li><a href="companies">Companies</a></li>
+                 <li><a href="cv">CV</a></li>
+                 <li><a href="courses">Courses</a></li>
+                 <li><a href="student-task">Student Task</a></li>
+                 <li><a href="student-rating">Student Rating</a></li>
+                 <li><a href="training-opportunities">Training Opportunities</a></li>
+                 <li><a href="settings">Settings</a></li>
+                 <li><a href="contact-us">Contact Us</a></li>
+                 <li><a href="logout" style="color: red;">Logout</a></li>
+             </ul>
+         </div>
+     </nav>
+    
+    </header>
 
 
 <main>
@@ -523,14 +615,31 @@ main {
     
     <section class="intro">
         
-        <p>Ready to land your dream job? Upload your CV and get started!</p>
-        <form id="cv-form" action="/submit-cv" method="POST" enctype="multipart/form-data">
+        <p class="lead-text">Ready to land your dream job? Upload your CV and get started!</p>
+
+        <form id="cv-form" action="/submit-cv" method="POST" enctype="multipart/form-data" class="cv-form">
+            <!-- Icon for the upload button -->
             <label for="cv-upload" class="upload-icon">
                 <i class="fas fa-cloud-upload-alt"></i>
+                <span>Click to Upload CV</span>
             </label>
-            <input type="file" id="cv-upload" name="cv-file" accept=".pdf, .doc, .docx" style="display: none;">
+            
+            <!-- Hidden file input for CV upload -->
+            <input type="file" id="cv-upload" name="cv_file" accept=".pdf, .doc, .docx" required>
+            
+            <!-- Hidden input for student_id -->
+            <input type="hidden" name="student_id" value="12345"> <!-- Replace with dynamic student ID -->
+            
+            <!-- Submit button -->
+            <button type="submit" class="btn-submit">Upload CV</button>
+            
+            <!-- Display selected file name after upload -->
+            <div id="file-name" class="file-name"></div>
         </form>
-    </section>
+        
+        <!-- Optional: Success/Error Message -->
+        <div id="upload-status"></div>
+        
 
     
     <section class="templates">
