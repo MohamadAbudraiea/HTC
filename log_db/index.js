@@ -2,18 +2,22 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 const app = express();
 
 const port = 3000;
 
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "secrets HTC",
-  password: "4412106",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
+
 
 db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -275,10 +279,11 @@ client.connect();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "lenabukhalil98@gmail.com", // بريدك الإلكتروني
-    pass: "uriw pemd gjmi udkz", // كلمة المرور
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
+
 
 app.use(bodyParser.json());
 
