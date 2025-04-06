@@ -2,22 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
-dotenv.config();
-
 
 const app = express();
 
 const port = 3000;
 
 const db = new pg.Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  user: "postgres",
+  host: "localhost",
+  database: "secrets HTC",
+  password: "4412106",
+  port: 5432,
 });
-
 
 db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -107,10 +103,10 @@ app.get("/cyber", (req, res) => {
 app.get('/sw', (req, res) => {
   res.render('sw.ejs'); 
 });
-app.get('/train', (req, res) => {
+app.set('/train', (req, res) => {
   res.render('train.ejs'); 
 });
-app.set('/train', (req, res) => {
+app.get('/train', (req, res) => {
   res.render('train.ejs'); 
 });
 app.get('/first_p', (req, res) => {
@@ -133,7 +129,7 @@ app.post('/comp-1', (req, res) => {
 });
 
 app.get("/register3", (req, res) => {
-  res.render("/register3.ejs");
+  res.render("register3.ejs");
 });
 app.post('/register3', async (req, res) => {
   const { city, university, gpa, gender, specialization } = req.body;
@@ -161,20 +157,14 @@ app.post('/register3', async (req, res) => {
 
 
 
-
 app.post("/register2", async (req, res) => {
-  const username = req.body.username;
-  const std_id = req.body.std_id;  
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirm_password = req.body.confirm_password;
+  const { username, std_id, email, password, confirm_password } = req.body;
 
   if (password !== confirm_password) {
     return res.send("Passwords do not match. Please try again.");
   }
 
   try {
-    // التحقق من وجود ID الطالب أو البريد الإلكتروني مسبقًا في جدول المستخدمين
     const checkResult = await db.query("SELECT * FROM users WHERE std_id = $1", [std_id]);
     if (checkResult.rows.length > 0) {
       return res.send("ID already exists. Try logging in.");
@@ -185,33 +175,34 @@ app.post("/register2", async (req, res) => {
       return res.send("Email already exists. Try logging in.");
     }
 
+    // تجزئة كلمة المرور
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // إدخال بيانات المستخدم في جدول 'users'
     const result = await db.query(
       "INSERT INTO users (username, std_id, email, password) VALUES ($1, $2, $3, $4)",
-      [username, std_id, email, password]
+      [username, std_id, email, hashedPassword]
     );
 
     console.log("User data inserted successfully.");
-
-    // إعادة التوجيه إلى صفحة أخرى أو عرض رسالة نجاح
     res.render("register2.ejs", { message: "Registration successful!" });
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error: ' + err.message);
   }
 });
- app.post("/login", async (req, res) => {
-  const std_id = req.body.std_id;   
-  const password = req.body.password;   
+
+
+app.post("/login", async (req, res) => {
+  const { std_id, password } = req.body;
+
   try {
-    const result = await db.query("SELECT * FROM users WHERE std_id = $1", [
-      std_id,
-    ]);
+    const result = await db.query("SELECT * FROM users WHERE std_id = $1", [std_id]);
     if (result.rows.length > 0) {
       const user = result.rows[0];
-      const storedPassword = user.password;
+      const isMatch = await bcrypt.compare(password, user.password);
 
-      if (password === storedPassword) {
+      if (isMatch) {
         res.render("home.ejs");
       } else {
         res.send("Incorrect Password");
@@ -220,10 +211,11 @@ app.post("/register2", async (req, res) => {
       res.send("User not found");
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
+});
 
-}); 
 
 app.post("/delete-account", async (req, res) => {
   const std_id = req.body.std_id; // يستلم الـ std_id من النموذج المخفي
@@ -243,7 +235,6 @@ app.post("/delete-account", async (req, res) => {
     res.status(500).send("Internal Server Error: " + err.message);
   }
 });
-
 app.post("/delete-account", async (req, res) => {
   const { std_id } = req.body;
 
@@ -279,8 +270,8 @@ client.connect();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: "your_email@gmail.com", // استبدل ببريدك الإلكتروني
+    pass: "your_email_password", // استبدل بكلمة مرور البريد الإلكتروني
   },
 });
 
@@ -411,6 +402,9 @@ app.get('/logout', (req, res) => {
 
 
 // Start the server
+
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
