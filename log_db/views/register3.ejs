@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>OTP Verification</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>
@@ -22,7 +22,7 @@
     .all {
       width: 70%;
       max-width: 450px;
-      padding: 50px; /* Increased padding for more space inside the container */
+      padding: 50px;
       background: rgba(47, 47, 95, 0.8);
       border-radius: 20px;
       box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
@@ -31,20 +31,20 @@
     }
 
     h1 {
-      font-size: 2em; /* Increased font size for better visibility */
-      margin-bottom: 50px; /* More space below the title */
+      font-size: 2em;
+      margin-bottom: 50px;
       font-weight: bold;
       color: #ffffff;
     }
 
     .input1, .input2 {
       position: relative;
-      margin-bottom: 20px; /* Further increased space between input fields */
+      margin-bottom: 20px;
     }
 
     .input1 input, .input2 input {
       width: 100%;
-      padding: 20px 40px 20px 15px; /* More padding inside input fields */
+      padding: 20px 40px 20px 15px;
       border-radius: 25px;
       border: none;
       outline: none;
@@ -80,7 +80,7 @@
       font-weight: bolder;
       cursor: pointer;
       transition: 0.3s;
-      margin-bottom: 30px; /* Increased margin below the button for better spacing */
+      margin-bottom: 30px;
     }
 
     .sub:hover {
@@ -94,22 +94,28 @@
   <div class="all">
     <h1><b>OTP Verification</b></h1>
 
-    <!-- Enter Email -->
-    <div class="input1" id="emailSection">
-      <input type="email" id="email" name="email" placeholder="Enter your email" required>
-      <i class='bx bx-envelope'></i>
+    <!-- Email Form (Step 1) -->
+    <div id="emailSection">
+      <div class="input1">
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        <i class='bx bx-envelope'></i>
+      </div>
+      <button id="sendOtpButton" class="sub">Send OTP</button>
     </div>
 
-    <button id="sendOtpButton" class="sub">Send OTP</button>
-
-    <!-- Enter OTP -->
+    <!-- OTP Input (Step 2) -->
     <div id="otpSection" style="display: none;">
       <div class="input2">
-        <input type="text" id="otp" name="otp" placeholder="Enter the OTP you received" required>
+        <input type="text" id="otp" name="otp" placeholder="Enter the OTP you received" required />
         <i class='bx bx-key'></i>
       </div>
       <button id="verifyOtpButton" class="sub">Verify OTP</button>
     </div>
+
+    <!-- Hidden Form for Final Submission to /register3 -->
+    <form id="registerForm" action="/register3" method="POST" style="display: none;">
+      <input type="hidden" name="email" id="hiddenEmail" />
+    </form>
   </div>
 
   <script>
@@ -120,16 +126,17 @@
     const otpSection = document.getElementById('otpSection');
 
     // Send OTP
-    sendOtpButton.addEventListener('click', async () => {
-      const email = emailInput.value;
+    sendOtpButton.addEventListener('click', async (event) => {
+      event.preventDefault();
 
+      const email = emailInput.value.trim();
       if (!email) {
         alert('Please enter your email.');
         return;
       }
 
       try {
-        const response = await fetch('http://localhost:3000/send-otp', {
+        const response = await fetch('/send-otp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email })
@@ -142,14 +149,17 @@
           otpSection.style.display = 'block';
         }
       } catch (error) {
+        console.error('Error sending OTP:', error);
         alert('Error sending OTP. Please try again.');
       }
     });
 
     // Verify OTP
-    verifyOtpButton.addEventListener('click', async () => {
-      const otp = otpInput.value;
-      const email = emailInput.value;
+    verifyOtpButton.addEventListener('click', async (event) => {
+      event.preventDefault();
+
+      const email = emailInput.value.trim();
+      const otp = otpInput.value.trim();
 
       if (!otp || !email) {
         alert('Please enter the OTP and email.');
@@ -157,25 +167,26 @@
       }
 
       try {
-  const response = await fetch('http://localhost:3000/verify-otp', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, otp })
-  });
+        const response = await fetch('/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, otp })
+        });
 
-  if (response.ok) {
-    // Redirect to home page after successful OTP verification
-    window.location.href = '/home';
-  } else {
-    // Redirect to home page even if there's an issue
-    window.location.href = '/home'; // يمكنك تخصيصه لصفحة أخرى حسب الحاجة
-  }
-} catch (error) {
-  // Redirect to home page in case of an error
-  console.error('Error verifying OTP:', error); // تسجيل الخطأ للمطور
-  window.location.href = '/home'; // التوجيه لصفحة الهوم حتى في حالة الخطأ
-}
+        const data = await response.text();
+        alert(data);
 
+        if (response.ok) {
+          // ✅ Set email in hidden form and submit to /register3
+          document.getElementById('hiddenEmail').value = email;
+          document.getElementById('registerForm').submit();
+        } else {
+          alert('OTP verification failed. Try again.');
+        }
+      } catch (error) {
+        console.error('Error verifying OTP:', error);
+        alert('Error verifying OTP. Please try again.');
+      }
     });
   </script>
 

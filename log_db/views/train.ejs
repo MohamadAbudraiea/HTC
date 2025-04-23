@@ -1,326 +1,526 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training Form</title>
-    <!-- Add Material Icons -->
+    <title>Training Application Form</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
+        /* ========== Global Styles ========== */
+        :root {
+            --primary-blue: #231d6a;
+            --secondary-blue: #1e547a;
+            --dark-blue: #0859a5;
+            --light-blue: #caf0f8;
+            --gradient-blue: linear-gradient(135deg, #8aadff 0%, #140f46 100%);
+            --error-red: #e63946;
+            --success-green: #2a9d8f;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f9;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg,
+                #f5f7fa 0%, #e4e9f2 15%, #d3dce6 30%,
+                #c0cfe0 45%, #a8c0ff 60%, #8fb3ff 75%,
+                #a8c0ff 90%, #d3dce6 100%);
             color: #333;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: var(--transition);
         }
 
-        body.dark-theme {
-            background-color: #1a1a2e;
-            color: #ffffff;
+        /* ========== Navigation Bar ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--primary-blue);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
+        .navbar-logo {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .navbar-logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .navbar-link i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .navbar-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .navbar-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .navbar-link:hover::after {
+            width: 100%;
+        }
+
+        /* ========== Main Container ========== */
         .container {
-            background-color: #ffffff;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin: 100px auto 40px;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(2, 52, 131, 0.15);
             width: 90%;
-            max-width: 800px;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            max-width: 850px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
         }
 
-        body.dark-theme .container {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--gradient-blue);
+            z-index: 1;
         }
 
         h1 {
-            color: #1a237e;
+            color: var(--primary-blue);
             text-align: center;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
         }
 
-        body.dark-theme h1 {
-            color: #ffffff;
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gradient-blue);
+            border-radius: 2px;
         }
 
-        h2 {
-            color: #1a237e;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #1a237e;
-            padding-bottom: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        body.dark-theme h2 {
-            color: #ffffff;
-            border-bottom-color: rgba(255, 255, 255, 0.2);
-        }
-
+        /* ========== Form Sections ========== */
         .form-section {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(202, 240, 248, 0.2);
+            transition: var(--transition);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
+            position: relative;
         }
 
         label {
             display: block;
-            margin-bottom: 0.75rem;
-            color: #1a237e;
+            margin-bottom: 0.8rem;
+            color: var(--dark-blue);
             font-weight: 600;
-            font-size: 1rem;
-        }
-
-        body.dark-theme label {
-            color: #ffffff;
+            font-size: 1.05rem;
+            transition: var(--transition);
         }
 
         input[type="text"],
         input[type="email"],
         input[type="tel"],
         input[type="date"],
+        input[type="number"],
         select,
         textarea {
             width: 100%;
-            padding: 0.875rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             font-size: 1rem;
             color: #333;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
-        body.dark-theme input[type="text"],
-        body.dark-theme input[type="email"],
-        body.dark-theme input[type="tel"],
-        body.dark-theme input[type="date"],
-        body.dark-theme select,
-        body.dark-theme textarea {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus,
-        input[type="date"]:focus,
+        input:focus,
         select:focus,
         textarea:focus {
-            border-color: #00b4d8;
-            box-shadow: 0 0 8px rgba(0, 180, 216, 0.4);
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 3px rgba(30, 84, 122, 0.3);
             outline: none;
         }
 
-        input[type="file"] {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
+        /* ========== File Upload ========== */
+        .file-upload-container {
+            position: relative;
+            margin-top: 15px;
         }
 
-        body.dark-theme input[type="file"] {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-        }
-
-        input[type="file"]:hover {
-            border-color: #00b4d8;
-        }
-
-        .radio-group {
+        .file-upload-label {
             display: flex;
-            gap: 1.5rem;
-        }
-
-        .radio-group label {
-            font-weight: 500;
-            color: #333;
-            font-size: 1rem;
-        }
-
-        body.dark-theme .radio-group label {
-            color: #ffffff;
-        }
-
-        .submit-button,
-        .reset-button {
-            background-color: #1a237e;
-            color: #ffffff;
-            padding: 0.875rem 1.75rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
             cursor: pointer;
-            width: 48%;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: var(--transition);
         }
 
-        body.dark-theme .submit-button,
-        body.dark-theme .reset-button {
-            background-color: #00b4d8;
+        .file-upload-label:hover {
+            border-color: var(--secondary-blue);
+            background: rgba(30, 84, 122, 0.05);
         }
 
-        .reset-button {
-            background-color: #e53935;
-        }
-
-        body.dark-theme .reset-button {
-            background-color: #e63946;
-        }
-
-        .submit-button:hover {
-            background-color: #0d47a1;
-            transform: translateY(-2px);
-        }
-
-        body.dark-theme .submit-button:hover {
-            background-color: #0077b6;
-        }
-
-        .reset-button:hover {
-            background-color: #c62828;
-            transform: translateY(-2px);
-        }
-
-        body.dark-theme .reset-button:hover {
-            background-color: #d90429;
-        }
-
-        .button-group {
-            display: flex;
+        .uploaded-file {
+            display: none;
+            align-items: center;
             justify-content: space-between;
-            margin-top: 2rem;
+            padding: 12px;
+            background: rgba(30, 84, 122, 0.1);
+            border-radius: 8px;
+            margin-top: 15px;
+            animation: fadeIn 0.3s ease;
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 120px;
+        .file-name {
+            flex: 1;
+            margin-right: 15px;
+            color: var(--dark-blue);
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        /* Theme Toggle Button */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #1a237e;
-            color: #ffffff;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.2rem;
+        .delete-btn {
             cursor: pointer;
+            color: var(--error-red);
+            transition: var(--transition);
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            padding: 5px;
         }
 
-        body.dark-theme .theme-toggle {
-            background-color: #00b4d8;
-        }
-
-        .theme-toggle:hover {
+        .delete-btn:hover {
             transform: scale(1.1);
         }
 
-        .material-icons {
-            font-size: 24px;
+        .delete-btn i {
+            font-size: 1.4rem;
         }
 
-        /* Additional Links Section */
-        .additional-links {
-            margin-top: 2rem;
-            text-align: center;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .additional-links a {
-            color: #1a237e;
-            text-decoration: none;
-            font-weight: 600;
-            margin: 0 1rem;
-            transition: color 0.3s ease;
+        /* ========== Buttons ========== */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            gap: 1.5rem;
         }
 
-        body.dark-theme .additional-links a {
-            color: #ffffff;
+        .submit-btn,
+        .reset-btn {
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            flex: 1;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .additional-links a:hover {
-            color: #00b4d8;
+        .submit-btn {
+            background: var(--gradient-blue);
+            box-shadow: 0 4px 15px rgba(0, 97, 255, 0.3);
         }
 
-        .additional-links a i {
-            margin-right: 0.5rem;
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 97, 255, 0.4);
         }
+
+        .reset-btn {
+            background: var(--error-red);
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+        }
+
+        .reset-btn:hover {
+            background: #d90429;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(217, 4, 41, 0.4);
+        }
+
+        /* ========== Dark Theme ========== */
+        body.dark-theme {
+            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+            color: #e6f1ff;
+        }
+
+        body.dark-theme .container {
+            background: #112240;
+            box-shadow: 0 15px 30px rgba(0, 180, 216, 0.1);
+        }
+
+        body.dark-theme .form-section {
+            background: rgba(0, 53, 102, 0.2);
+        }
+
+        body.dark-theme input,
+        body.dark-theme select,
+        body.dark-theme textarea {
+            background: #0a192f;
+            border-color: #1e2a47;
+            color: #e6f1ff;
+        }
+
+        body.dark-theme .file-upload-label {
+            border-color: #1e2a47;
+            background: rgba(30, 42, 71, 0.1);
+        }
+
+        body.dark-theme .uploaded-file {
+            background: rgba(0, 53, 102, 0.3);
+        }
+
+        /* ========== Responsive Design ========== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .navbar-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1.5rem;
+                margin-top: 140px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .submit-btn,
+            .reset-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .file-upload-label {
+                padding: 1.5rem;
+            }
+
+            .file-name {
+                font-size: 0.9rem;
+            }
+        }
+        .error-message {
+    color: var(--error-red);
+    margin-top: 5px;
+    font-size: 0.9rem;
+    animation: shake 0.3s ease;
+}
+
+.success-message {
+    background: var(--success-green);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
     </style>
 </head>
-
 <body>
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <span class="material-icons">dark_mode</span> <!-- Moon Icon -->
+    
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <a href="home" class="navbar-logo">
+                <i class="material-icons">school</i>
+                Training Portal
+            </a>
+            <div class="navbar-links">
+                <a href="home" class="navbar-link">
+                    <i class="material-icons">home</i>
+                    Home
+                </a>
+                <a href="courses" class="navbar-link">
+                    <i class="material-icons">menu_book</i>
+                    Courses
+                </a>
+                <a href="certificate" class="navbar-link">
+                    <i class="material-icons">verified</i>
+                    Certificate
+                </a>
+                <a href="profile" class="navbar-link">
+                    <i class="material-icons">account_circle</i>
+                    Profile
+                </a>
+            </div>
+        </nav>
+     <!-- Theme Toggle Button -->
+     <button class="theme-toggle" onclick="toggleTheme()">
+        <span class="material-icons">dark_mode</span>
     </button>
 
     <div class="container">
-        <h1>Training Form</h1>
-        <form>
+        <h1>Training Application Form</h1>
+        
+        <form action="/submit" method="POST" enctype="multipart/form-data" id="applicationForm">
+            <!-- ======== Personal Information ======== -->
             <div class="form-section">
                 <h2>Personal Information</h2>
+                
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" required aria-label="First Name">
+                    <label for="fullName">Full Name (English)</label>
+                    <input type="text" id="fullName" name="fullName" required dir="rtl">
                 </div>
+
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required aria-label="Last Name">
+                    <label for="englishName">Full Name (English)</label>
+                    <input type="text" id="englishName" name="englishName" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required aria-label="Email">
+                    <label for="nationalId">National ID</label>
+                    <input type="text" id="nationalId" name="nationalId" pattern="[0-9]{10}" required>
                 </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required aria-label="Phone Number" pattern="[0-9]{10}">
-                </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" required aria-label="Address">
-                </div>
+
                 <div class="form-group">
                     <label for="dob">Date of Birth</label>
-                    <input type="date" id="dob" name="dob" required aria-label="Date of Birth">
+                    <input type="date" id="dob" name="dob" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="Profile">Profile Picture</label>
-                    <input type="file" id="Profile" name="Profile" required aria-label="Profile Picture">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
                 </div>
             </div>
 
+            <!-- ======== Contact Information ======== -->
             <div class="form-section">
-                <h2>Academic Degree</h2>
+                <h2>Contact Information</h2>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Mobile Number</label>
+                    <input type="tel" id="phone" name="phone" pattern="07[0-9]{8}" required>
+                    <small>Format: 07XXXXXXXX</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Full Address</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+            </div>
+
+            <!-- ======== Academic Information ======== -->
+            <div class="form-section">
+                <h2>Academic Information</h2>
+                
+                <div class="form-group">
+                    <label for="university">University Name</label>
+                    <input type="text" id="university" name="university" required>
+                </div>
+
                 <div class="form-group">
                     <label for="degree">Select Academic Degree</label>
                     <select id="degree" name="degree" required aria-label="Academic Degree">
+                        <option value="" disabled selected>Select your degree</option>
                         <option value="Bachelor">Bachelor</option>
                         <option value="Master">Master</option>
                         <option value="PhD">PhD</option>
@@ -328,87 +528,280 @@
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="university">University</label>
-                    <input type="text" id="university" name="university" required aria-label="University">
-                </div>
+                
+
                 <div class="form-group">
                     <label for="major">Major</label>
-                    <input type="text" id="major" name="major" required aria-label="Major">
+                    <input type="text" id="major" name="major" required>
                 </div>
+
                 <div class="form-group">
                     <label for="gpa">GPA</label>
                     <select id="gpa" name="gpa" required aria-label="GPA">
+                        <option value="" disabled selected>Select your GPA</option>
                         <option value="Satisfactory">Satisfactory</option>
                         <option value="Good">Good</option>
                         <option value="Very Good">Very Good</option>
                         <option value="Excellent">Excellent</option>
                     </select>
                 </div>
-            </div>
 
+
+            <!-- ======== Training Details ======== -->
             <div class="form-section">
                 <h2>Training Details</h2>
+                
                 <div class="form-group">
-                    <label for="trainingType">Type of Training</label>
-                    <select id="trainingType" name="trainingType" required aria-label="Type of Training">
+                    <label for="trainingType">Training Type</label>
+                    <select id="trainingType" name="trainingType"  required aria-label="Type of Training">
+                        <option value="" disabled selected>Select training type</option>
                         <option value="Hardware Services">Hardware Services</option>
                         <option value="Software Services">Software Services</option>
                         <option value="Cloud Services">Cloud Services</option>
                         <option value="Information Technology">Information Technology</option>
                     </select>
                 </div>
+               
+
                 <div class="form-group">
-                    <label for="trainingRequest">Upload University Training Request</label>
-                    <input type="file" id="trainingRequest" name="trainingRequest" required aria-label="University Training Request">
+                    <label for="startDate">Preferred Start Date</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="skills">Technical Skills</label>
+                    <textarea id="skills" name="skills" rows="4" 
+                        placeholder="List your technical skills separated by commas"></textarea>
                 </div>
             </div>
 
+            <!-- ======== Documents Section ======== -->
             <div class="form-section">
-                <h2>Additional Uploads</h2>
+                <h2>Required Documents</h2>
+                
+                <!-- National ID Upload -->
                 <div class="form-group">
-                    <label for="personalID">Upload Personal ID</label>
-                    <input type="file" id="personalID" name="personalID" required aria-label="Personal ID">
+                  
+
+
+                    <label>National ID Copy (PDF/Image)</label>
+                    <div class="file-upload-container">
+                        <label for="idUpload" class="file-upload-label">
+                            <i class="material-icons">badge</i>
+                            <span>Upload ID Copy</span>
+                        </label>
+                        <input type="file" id="idUpload" name="nationalId" 
+                            accept=".pdf,.jpg,.jpeg,.png" required hidden>
+                        <div class="uploaded-file">
+                            <span class="file-name"></span>
+                            <span class="delete-btn" onclick="removeFile('idUpload')">
+                                <i class="material-icons">delete</i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Transcript Upload -->
                 <div class="form-group">
-                    <label for="transcripts">Upload University Transcripts</label>
-                    <input type="file" id="transcripts" name="transcripts" required aria-label="University Transcripts">
+                    <label>Academic Transcript</label>
+                    <div class="file-upload-container">
+                        <label for="transcriptUpload" class="file-upload-label">
+                            <i class="material-icons">school</i>
+                            <span>Upload Transcript</span>
+                        </label>
+                        <input type="file" id="transcriptUpload" name="transcript" 
+                            accept=".pdf" required hidden>
+                        <div class="uploaded-file">
+                            <span class="file-name"></span>
+                            <span class="delete-btn" onclick="removeFile('transcriptUpload')">
+                                <i class="material-icons">delete</i>
+                            </span>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
+            <!-- ======== Terms & Submission ======== -->
             <div class="form-section">
-                <h2>Additional Information</h2>
                 <div class="form-group">
-                    <label for="comments">Comments</label>
-                    <textarea id="comments" name="comments" rows="4" aria-label="Comments"></textarea>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <span>I certify that all information provided is accurate and complete</span>
+                    </label>
                 </div>
-            </div>
 
-            <div class="button-group">
-                <button type="submit" class="submit-button">Submit Application</button>
-                <button type="reset" class="reset-button">Reset Form</button>
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">
+                        <i class="material-icons">send</i>
+                        Submit Application
+                    </button>
+                    <button type="reset" class="reset-btn">
+                        <i class="material-icons">refresh</i>
+                        Reset Form
+                    </button>
+                </div>
             </div>
         </form>
-
-        <!-- Additional Links Section -->
-        <div class="additional-links">
-            <a href="home"><i class="material-icons">home</i>Back to Home</a>
-            <a href="cv.pdf" download><i class="material-icons">description</i>Download CV</a>
-            <a href="companies.html"><i class="material-icons">business</i>Companies</a>
-        </div>
     </div>
-
     <script>
-        // Function to toggle dark theme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            const themeToggle = document.querySelector('.theme-toggle .material-icons');
-            if (document.body.classList.contains('dark-theme')) {
-                themeToggle.textContent = 'light_mode'; // Sun Icon
-            } else {
-                themeToggle.textContent = 'dark_mode'; // Moon Icon
+        // ========== Theme Management ==========
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeToggle.querySelector('.material-icons').textContent = 'light_mode';
             }
         }
+    
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const icon = document.querySelector('.theme-toggle .material-icons');
+            const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            
+            icon.textContent = currentTheme === 'dark' ? 'light_mode' : 'dark_mode';
+            localStorage.setItem('theme', currentTheme);
+        }
+    
+        // ========== File Upload Handling ==========
+        function initializeFileUploads() {
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    const container = this.closest('.file-upload-container');
+                    const fileName = container.querySelector('.file-name');
+                    const uploadedFile = container.querySelector('.uploaded-file');
+                    
+                    if (this.files.length > 0) {
+                        fileName.textContent = this.files[0].name;
+                        uploadedFile.style.display = 'flex';
+                        container.querySelector('.file-upload-label').style.display = 'none';
+                    }
+                });
+            });
+        }
+    
+        function removeFile(inputId) {
+            const input = document.getElementById(inputId);
+            const container = input.closest('.file-upload-container');
+            
+            input.value = '';
+            container.querySelector('.uploaded-file').style.display = 'none';
+            container.querySelector('.file-upload-label').style.display = 'flex';
+        }
+    
+        // ========== Form Validation ==========
+        function validatePhoneNumber(phone) {
+            return /^07\d{8}$/.test(phone);
+        }
+    
+        function validateForm(event) {
+            const form = event.target;
+            const phoneInput = form.querySelector('#phone');
+            const termsCheckbox = form.querySelector('#terms');
+            let isValid = true;
+    
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+    
+            // Phone validation
+            if (!validatePhoneNumber(phoneInput.value)) {
+                showError(phoneInput, 'Phone number must start with 07 and contain 10 digits');
+                isValid = false;
+            }
+    
+            
+    
+            // Terms agreement
+            if (!termsCheckbox.checked) {
+                showError(termsCheckbox, 'You must agree to the terms and conditions');
+                isValid = false;
+            }
+    
+            if (!isValid) {
+                event.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    
+        function showError(input, message) {
+            const error = document.createElement('div');
+            error.className = 'error-message';
+            error.style.color = 'var(--error-red)';
+            error.style.marginTop = '5px';
+            error.style.fontSize = '0.9rem';
+            error.textContent = message;
+            
+            input.parentNode.insertBefore(error, input.nextSibling);
+            input.focus();
+        }
+    
+        // ========== Form Animations ==========
+        function animateFormSections() {
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        }
+    
+        // ========== Event Listeners ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            initializeFileUploads();
+            animateFormSections();
+            
+            document.getElementById('applicationForm').addEventListener('submit', validateForm);
+            
+            // Input masking for phone number
+            document.getElementById('phone').addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^\d]/g, '').slice(0, 10);
+            });
+        });
+    
+        // ========== Additional Utilities ==========
+        function showSuccessMessage() {
+            const success = document.createElement('div');
+            success.className = 'success-message';
+            success.innerHTML = `
+                <i class="material-icons">check_circle</i>
+                <span>Application submitted successfully!</span>
+            `;
+            
+            document.querySelector('.container').prepend(success);
+            setTimeout(() => success.remove(), 5000);
+        }
+        async function submitForm(formData) {
+    try {
+        const response = await fetch('/train', { // Changed to correct endpoint
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json(); // Parse JSON response
+        
+        if (response.ok) {
+            showSuccessMessage(result.application_id);
+            form.reset();
+            // Optional: Redirect after success
+            window.location.href = `/home/${result.application_id}`;
+        } else {
+            // Handle server-side validation errors
+            showFormError(result.error); 
+        }
+    } catch (error) {
+        // Handle network errors or JSON parsing errors
+        showFormError('Failed to submit. Please try again.');
+        console.error('Submission error:', error);
+    }
+}
     </script>
 </body>
 </html>

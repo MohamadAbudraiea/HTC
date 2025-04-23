@@ -580,7 +580,99 @@ footer {
     height: 50px; /* Adjust as necessary */
     width: auto;
 }
+.notification-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
 
+.notification-icon {
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #ff4d4f;
+  color: rgb(0, 25, 248); 
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: none;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  width: 350px;
+  max-height: 500px;
+  overflow-y: auto;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border: 1px solid #e8e8e8;
+  color:#003366
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fafafa;
+  font-weight: bold;
+}
+
+.mark-read-btn {
+  background: none;
+  border: none;
+  color: #1890ff;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.mark-read-btn:hover {
+  text-decoration: underline;
+}
+
+.notification-content {
+  padding: 0;
+}
+
+.notification-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s;
+}
+
+.notification-item:hover {
+  background-color: #f5f5f5;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+/* Animation for new notifications */
+@keyframes highlight {
+  0% { background-color: rgba(24, 144, 255, 0.1); }
+  100% { background-color: white; }
+}
+
+.notification-item.new {
+  animation: highlight 2s;
+}
 
     
     </style>
@@ -606,7 +698,26 @@ footer {
                 <li><a href="/register">Sign Up</a></li>
             </ul>
             <div class="navbar-right">
-                <i class="fas fa-bell"></i> <!-- Icon for Notifications -->
+                <div id="notification-wrapper">
+                  <div class="notification-icon-wrapper" onclick="toggleNotifications()">
+                    <a href="#" class="notification-icon">
+                      <i class="fas fa-bell"></i>
+                      <span id="notification-badge" class="notification-badge">0</span>
+                    </a>
+                    <!-- Notification dropdown positioned below the icon -->
+                    <div id="notification-dropdown" class="notification-dropdown">
+                      <div class="notification-header">
+                        <span>Notifications</span>
+                        <button class="mark-read-btn" onclick="markNotificationAsRead()">Mark all as read</button>
+                      </div>
+                      <div class="notification-content">
+                        <div class="notification-item">No new notifications</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
                 <a href="/profile" title="Profile" class="custom-link">
                     <i class="fas fa-user-circle"></i> <!-- Icon for User Profile -->
                 </a>
@@ -834,7 +945,190 @@ footer {
     // Clear the form
     document.getElementById('review-form').reset();
 });
-       
-    </script>
+         // This would typically come from server-side rendering or API
+ 
+  // Global variable to track new notifications
+let hasNewNotifications = false;
+
+// Fetch notifications when page loads
+document.addEventListener("DOMContentLoaded", function() {
+  // Show welcome notification immediately and prominently
+  showWelcomeNotification();
+  
+  // Then load other notifications
+  fetchNotifications();
+  
+  // Simulate receiving a new message after 3 seconds (demo only)
+  setTimeout(simulateNewMessage, 3000);
+});
+
+// Show welcome notification as the first thing
+function showWelcomeNotification() {
+  const welcomeMessage = "WELCOME TO HASHIMATE TRAINING CENTER!";
+  const dropdownContent = document.querySelector("#notification-dropdown .notification-content");
+  const badge = document.getElementById("notification-badge");
+  
+  // Clear any existing content
+  dropdownContent.innerHTML = '';
+  
+  // Create special welcome notification element
+  const welcomeNotification = document.createElement("div");
+  welcomeNotification.className = "notification-item welcome-notification";
+  welcomeNotification.innerHTML = `
+    <div class="welcome-header">
+      <i class="fas fa-graduation-cap welcome-icon"></i>
+      <h3>${welcomeMessage}</h3>
+    </div>
+    <p class="welcome-text">We're excited to have you here! Get started with your training journey.</p>
+  `;
+  
+  // Add to dropdown
+  dropdownContent.appendChild(welcomeNotification);
+  
+  // Update badge
+  badge.textContent = "1";
+  badge.style.display = "inline-block";
+  
+  // Force open the dropdown immediately
+  const dropdown = document.getElementById("notification-dropdown");
+  dropdown.style.display = "block";
+  
+  // Add welcome notification style
+  const style = document.createElement('style');
+  style.textContent = `
+    .welcome-notification {
+      background-color: #f8f9fa;
+      border-left: 4px solid #1890ff;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+    .welcome-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .welcome-icon {
+      font-size: 24px;
+      color: #1890ff;
+      margin-right: 10px;
+    }
+    .welcome-notification h3 {
+      color: #1890ff;
+      margin: 0;
+      font-size: 18px;
+    }
+    .welcome-text {
+      color: #666;
+      margin: 0;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Toggle notifications dropdown
+function toggleNotifications() {
+  const dropdown = document.getElementById("notification-dropdown");
+  if (dropdown.style.display === "block") {
+    dropdown.style.display = "none";
+  } else {
+    dropdown.style.display = "block";
+    fetchNotifications(); // Load notifications dynamically
+  }
+}
+
+// Fetch notifications from server
+async function fetchNotifications() {
+  const dropdownContent = document.querySelector("#notification-dropdown .notification-content");
+  const badge = document.getElementById("notification-badge");
+
+  try {
+    const response = await fetch("/api/notifications");
+    const notifications = await response.json();
+
+    if (notifications.length > 0) {
+      notifications.forEach(notif => {
+        const notification = document.createElement("div");
+        notification.className = `notification-item ${notif.isNew ? 'new' : ''}`;
+        notification.textContent = notif.text;
+        dropdownContent.appendChild(notification);
+      });
+      
+      // Update badge count (adding 1 for the welcome message)
+      badge.textContent = notifications.filter(n => !n.isRead).length + 1;
+      badge.style.display = "inline-block";
+    }
+  } catch (error) {
+    console.error("Failed to fetch notifications", error);
+    const errorNotification = document.createElement("div");
+    errorNotification.className = "notification-item error";
+    errorNotification.textContent = "Error loading notifications";
+    dropdownContent.appendChild(errorNotification);
+  }
+}
+// Show new notification immediately
+function showNewNotification(message) {
+  const dropdownContent = document.querySelector("#notification-dropdown .notification-content");
+  const badge = document.getElementById("notification-badge");
+  
+  // Create notification element
+  const notification = document.createElement("div");
+  notification.className = "notification-item new";
+  notification.textContent = message;
+  
+  // Add to top of dropdown content
+  if (dropdownContent.firstChild && dropdownContent.firstChild.textContent === "No new notifications") {
+    dropdownContent.innerHTML = '';
+  }
+  dropdownContent.insertBefore(notification, dropdownContent.firstChild);
+  
+  // Update badge
+  const currentCount = parseInt(badge.textContent || "0");
+  badge.textContent = currentCount + 1;
+  badge.style.display = "inline-block";
+  
+  // Auto-open dropdown if not already open
+  const dropdown = document.getElementById("notification-dropdown");
+  if (dropdown.style.display !== "block") {
+    dropdown.style.display = "block";
+  }
+  
+  hasNewNotifications = true;
+}
+
+// Mark all notifications as read
+function markNotificationAsRead() {
+  const badge = document.getElementById("notification-badge");
+  const notifications = document.querySelectorAll(".notification-item");
+  
+  // Remove 'new' class from all notifications
+  notifications.forEach(notif => notif.classList.remove('new'));
+  
+  // Update badge
+  badge.style.display = "none";
+  badge.textContent = "0";
+  
+  // Send request to server
+  fetch('/api/notifications/read', { 
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  }).catch(error => {
+    console.error('Update error:', error);
+  });
+}
+
+// Simulate receiving a new message (replace with real WebSocket/API)
+function simulateNewMessage() {
+  const messages = [
+    "New course available: Advanced JavaScript",
+    "Your certificate is ready for download",
+    "Upcoming workshop: React Fundamentals",
+    "Reminder: Class starts at 10am tomorrow",
+    "Your progress report has been updated"
+  ];
+  
+  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+  showNewNotification(randomMessage);
+} 
+</script>
 </body>
 </html>

@@ -1,444 +1,312 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Profile</title>
-    <style>
-        /* إعدادات عامة */
-         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fafafa;
-            color: rgb(0, 0, 0);
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= user.name %>'s Profile</title>
+  <style>
+    :root {
+      --primary: #4a90e2;
+      --secondary: #357abd;
+      --accent: #6bb1f7;
+      --light: #f8f9fb;
+      --dark: #2c3e50;
+      --gradient: linear-gradient(135deg, #4a90e2 0%, #6bb1f7 100%);
+    }
 
-        /* Navigation Bar */
-  
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 20px;
-            background-color: #003366;
-            width: 100%;
-            box-shadow: 0 2px 10px rgba(131, 214, 237, 0.5);
-            
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #f9fbfd;
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .profile-pic {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1.5rem;
+      border: 4px solid white;
+      box-shadow: 0 10px 30px rgba(74,144,226,0.2);
+    }
+
+    .profile-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .detail-card {
+      background: var(--light);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: transform 0.3s ease;
+      border-left: 4px solid var(--primary);
+      position: relative;
+    }
+
+    .detail-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(74,144,226,0.1);
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .detail-icon {
+      width: 32px;
+      height: 32px;
+      padding: 6px;
+      background: var(--primary);
+      border-radius: 8px;
+      color: white;
+    }
+
+    /* Navigation Styles */
+    .navbar {
+      background: var(--gradient);
+      padding: 0.8rem 2rem;
+      box-shadow: 0 4px 20px rgba(74,144,226,0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      transition: background 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .logo {
+      height: 40px;
+    }
+
+    /* Notification Styles */
+    .notification-icon {
+      color: white;
+      position: relative;
+      margin-left: 2rem;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background: #ff4757;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+    }
+
+    /* Footer Styles */
+    footer {
+      background: var(--dark);
+      color: var(--light);
+      margin-top: 3rem;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 1rem 1rem 0 0;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
       
-        .menu-icon {
-            font-size: 28px;
-            cursor: pointer;
-            color: #ffffff;
-        }
-       
-        .nav-links {
-            display: flex;
-            list-style: none;
-            
-            gap: 40px;
-            margin-left: 800px;
-            margin-top: -4px;
-           
-        }
+      .profile-card {
+        padding: 1.5rem;
+      }
+      
+      .profile-pic {
+        width: 120px;
+        height: 120px;
+      }
+    }
 
-        .nav-links li a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-        }
+    .status-indicator {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--primary);
+    }
 
-        .nav-links li a:hover {
-            background-color: rgba(110, 181, 255, 0.2);
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-        /* Icons */
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            color: white;
-            gap: 20px;
-        }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background: #2ecc71;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
 
-        .navbar-right i {
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .custom-link {
-    color: white;
-    text-decoration: none;
-}
-
-.custom-link:hover {
-    color: #ddd; /* لون مختلف عند التحويم */
-}
-
-
-
-        .dropdown-menu {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 250px;
-    background-color: #f7f7f7;
-    border: 1px solid #ddd;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    display: none; /* Hidden by default */
-    z-index: 9999;
-}
-
-.profile-section {
-    padding: 10px;
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-}
-
-
-.profile-img2 {
-    width: 125px; /* الحجم الأساسي للصورة */
-    height: 120px;
-    border-radius: 50%;
-    margin-top:10px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-
-
-}
-
-.profile-name {
-    font-weight: bold;
-}
-
-.profile-info {
-    font-size: 14px;
-}
-
-.dropdown-links {
-    list-style-type: none;
-    padding: 0;
-}
-
-.dropdown-links li a {
-    display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
-}
-
-.dropdown-links li a:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown-links li a:last-child {
-    color: rgb(0, 0, 0);
-}
-
-
-
-        /* الحاوية الأساسية */
-        .profile-container {
-            display: flex;
-            max-width: 1200px;
-            margin: 30px auto;
-            background-color: #fff;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        /* الشريط الجانبي للملف الشخصي */
-        .profile-sidebar {
-            width: 30%;
-            padding: 20px;
-            background-color: #ffffff;
-            color: #fff;
-            text-align: center;
-            box-sizing: border-box;
-            border-right: 3px solid #000000;
-        }
-
-        .profile-sidebar .profile-pic {
-            width: 50px; /* الحجم الأساسي للصورة */
-    height: 40px;
-    border-radius: 50%;
-    margin-bottom: 30px;
-    margin-top:50px;
-
-        }
-
-        .profile-sidebar h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: bold;
-          
-                   
-            color: #000000;
-        }
-
-        .profile-sidebar p {
-            margin: 5px 0;
-            font-size: 16px;
-            color: #000000;
-          
-        }
-
-        /* المنطقة الرئيسية للملف الشخصي */
-        
-.profile-section {
-    padding: 20px;
-    background-color: #2c3e50;
-    color: white;
-    
-    text-align: center;
-}
-
-
-.profile-img2 {
-    width: 125px; /* الحجم الأساسي للصورة */
-    height: 120px;
-    border-radius: 50%;
-    margin-top:10px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-
-
-}
-.profile-img {
-    width: 125px; /* الحجم الأساسي للصورة */
-    height: 120px;
-    border-radius: 50%;
-    margin-bottom: 30px;
-    margin-top:50px;
-    display: inline-block;
-    transition: transform 0.5s ease-in-out; /* استخدام transition */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-/* التأثير عند تمرير الفأرة */
-.profile-img:hover {
-    transform: scale(1.5); /* تكبير الصورة بنسبة 3.5 */
-}
-
-
-.profile-name {
-    font-weight: bold;
-}
-
-.profile-info {
-    font-size: 14px;
-}
-
-        .profile-main {
-            width: 70%;
-            padding: 30px;
-            box-sizing: border-box;
-        }
-
-        .profile-main form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .profile-main label {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .profile-main input {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            width: 100%;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s;
-        }
-
-        .profile-main input:focus {
-            border-color: #6EB5FF;
-            outline: none;
-        }
-
-        .profile-main .cancel-btn,
-        .profile-main .save-btn {
-            padding: 12px 25px;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-top: 20px;
-            width: 150px;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .cancel-btn {
-            background-color: #e74c3c;
-        }
-
-        .cancel-btn:hover {
-            background-color: #c0392b;
-        }
-
-        .save-btn {
-            background-color: #2ecc71;
-        }
-
-        .save-btn:hover {
-            background-color: #27ae60;
-        }
-
-        /* تذييل الصفحة */
-        footer {
-            background-color: #003366;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width:
-             100%;
-        }
-        .text-2{
-            text-shadow: -5px -5px 9px black; 
-            /
-        }
-        
-    </style>
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(46,204,113,0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(46,204,113,0); }
+      100% { box-shadow: 0 0 0 0 rgba(46,204,113,0); }
+    }
+  </style>
 </head>
 <body>
-   
-<!-- Header -->
-<header>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-     <div class="menu-icon" onclick="toggleMenu()">
-         <span>&#9776;</span>
-     </div>
-     
-  
- 
-     <ul class="nav-links">
-         <li><a href="/home">Home</a></li>
-         <li><a href="companies">Companies</a></li>
-          <li><a href="courses">Courses</a></li>
-          <li><a href="/login">Login</a></li>
-         <li><a href="/register">Sign Up</a></li>
-        
-     </ul>
- 
-     <div class="navbar-right">
-         <i class="fas fa-bell"></i> <!-- Icon for Notifications -->
-         <a href="/profile" title="Profile" class="custom-link">
-         <i class="fas fa-user-circle"></i> <!-- Icon for User Profile -->
-         </a>
-     </div>
-
-     <!-- Dropdown menu structure -->
-     <div id="dropdown-menu" class="dropdown-menu">
-         <div class="profile-section">
-             <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg" alt="Profile Picture" class="profile-img2"><br>
-             <span class="profile-name">Leen Samer Al-Suradi</span>
-             <span class="profile-info">Computer Information Systems<br>2145088</span>
-         </div>
-         <ul class="dropdown-links">
-             <li><a href="companies">Companies</a></li>
-             <li><a href="cv">CV</a></li>
-             <li><a href="courses">Courses</a></li>
-             <li><a href="student-task">Student Task</a></li>
-             <li><a href="student-rating">Student Rating</a></li>
-             <li><a href="training-opportunities">Training Opportunities</a></li>
-             <li><a href="settings">Settings</a></li>
-             <li><a href="contact-us">Contact Us</a></li>
-             <li><a href="logout" style="color: red;">Logout</a></li>
-         </ul>
-     </div>
- </nav>
-
-</header>
-
-    <!-- محتوى الصفحة -->
-    <div class="profile-container">
-        <div class="profile-sidebar">
-            <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg" alt="Profile Picture" class="profile-img">
-            <h2 class="text_S" >Leen Suradi</h2>
-            <p>Computer Information Systems</p>
-            <p>ID: 215008</p>
-            <p>Phone: +962 790xxxxxx</p>
-            <p>Location: Jordan, Amman</p>
-            <p>University: Yarmouk University</p>
-            <p>GPA: 3.2</p>
-        </div>
-        
-        <div class="profile-main">
-            <form action="/updateProfile" method="post">
-                <label>usersName:</label>
-                <input type="text" name="usersname" placeholder="Leen">
-            
-                <label>email:</label>
-                <input type="text" name="email" placeholder="+962 790xxxxxx">
-            
-                <label>Address:</label>
-                <input type="text" name="address" placeholder="Amman, Jordan">
-            
-                <label>University:</label>
-                <input type="text" name="university" placeholder="Yarmouk University">
-            
-                <label>GPA:</label>
-                <input type="text" name="gpa" placeholder="3.2">
-            
-                <button type="button" class="cancel-btn">Cancel</button>
-                <button type="submit" class="save-btn">Save</button>
-            </form>
-            
-        </div>
-        
-        </div>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="Logo" class="logo">
+    <ul class="nav-links">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/companies">Companies</a></li>
+      <li><a href="/certi-0">Certificates</a></li>
+      <li><a href="/courses">Courses</a></li>
+      <li><a href="/profile" class="active">Profile</a></li>
+    </ul>
+    <div class="notification-icon">
+      <i class="fas fa-bell"></i>
+      <span class="notification-badge">2</span>
     </div>
+  </nav>
 
-    <!-- تذييل الصفحة -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 HTC. All rights reserved.</p>
+  <div class="container">
+    <div class="profile-card">
+      <div class="profile-header">
+        <img src="https://i.pinimg.com/736x/f8/9e/7e/f89e7e8f14bc002a9b0f9f453bec8805.jpg" 
+             alt="Profile Picture" 
+             class="profile-pic">
+        <h1 style="color: var(--primary); margin-bottom: 0.5rem;"><%= user.name %></h1>
+        <div class="status-indicator">
+          <div class="status-dot"></div>
+          <span>Active Now</span>
         </div>
-    </footer>
-    <script>
-        function toggleMenu() {
-            var dropdownMenu = document.getElementById("dropdown-menu");
-            if (dropdownMenu.style.display === "block") {
-                dropdownMenu.style.display = "none";
-            } else {
-                dropdownMenu.style.display = "block";
-            }
-        }
-        
-        document.addEventListener('click', function(event) {
-            var dropdownMenu = document.getElementById("dropdown-menu");
-            var menuIcon = document.querySelector('.menu-icon');
-            if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.style.display = 'none';
-            }
-        });
-    </script>
+        <p style="color: var(--dark);">Student ID: <%= user.std_id %></p>
+      </div>
+
+      <div class="profile-details">
+        <div class="detail-card">
+          <div class="detail-header">
+            <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <div>
+              <h3>Contact Information</h3>
+              <p><%= user.email %></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-header">
+            <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div>
+              <h3>University</h3>
+              <p><%= user.university %></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-header">
+            <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <div>
+              <h3>Academic Major</h3>
+              <p><%= user.major %></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-header">
+            <svg class="detail-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <div>
+              <h3>Academic Performance</h3>
+              <p>GPA: <%= user.gpa %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Training Hub. Empowering Future Professionals.</p>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // Notification handling
+    function toggleNotifications() {
+      const dropdown = document.querySelector('.notification-dropdown');
+      dropdown.classList.toggle('active');
+    }
+
+    // Dynamic status update
+    function updateStatus() {
+      const statusDot = document.querySelector('.status-dot');
+      statusDot.style.backgroundColor = navigator.onLine ? '#2ecc71' : '#e74c3c';
+    }
+
+    // Update status on load and network changes
+    window.addEventListener('load', updateStatus);
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+  </script>
 </body>
 </html>
