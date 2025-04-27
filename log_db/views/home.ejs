@@ -742,8 +742,16 @@ footer {
                 </ul>
             </div>
         </nav>
+
     </header>
 
+
+<!-- إضافة رسالة النجاح هنا -->
+<% if (success_msg) { %>
+  <div class="notification success">
+    <%= success_msg %>
+  </div>
+<% } %>
     <!-- Main Section -->
     <section class="main-section">
         <div class="overlay-image">

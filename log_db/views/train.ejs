@@ -452,24 +452,19 @@
     <div class="container">
         <h1>Training Application Form</h1>
         
-        <form action="/submit" method="POST" enctype="multipart/form-data" id="applicationForm">
+        <form id="applicationForm" action="/train" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
             <!-- ======== Personal Information ======== -->
             <div class="form-section">
                 <h2>Personal Information</h2>
                 
                 <div class="form-group">
-                    <label for="fullName">Full Name (English)</label>
-                    <input type="text" id="fullName" name="fullName" required dir="rtl">
+                    <label for="full_name">Full Name (English)</label>
+                    <input type="text" id="full_name" name="full_name" required dir="rtl">
                 </div>
-
+                
                 <div class="form-group">
-                    <label for="englishName">Full Name (English)</label>
-                    <input type="text" id="englishName" name="englishName" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="nationalId">National ID</label>
-                    <input type="text" id="nationalId" name="nationalId" pattern="[0-9]{10}" required>
+                    <label for="national_id">National ID</label>
+                    <input type="text" id="national_id" name="national_id" pattern="[0-9]{10}" required>
                 </div>
 
                 <div class="form-group">
@@ -552,8 +547,8 @@
                 <h2>Training Details</h2>
                 
                 <div class="form-group">
-                    <label for="trainingType">Training Type</label>
-                    <select id="trainingType" name="trainingType"  required aria-label="Type of Training">
+                    <label for="training_type">Training Type</label>
+                    <select id="training_type" name="training_type"  required aria-label="training_type">
                         <option value="" disabled selected>Select training type</option>
                         <option value="Hardware Services">Hardware Services</option>
                         <option value="Software Services">Software Services</option>
@@ -564,8 +559,8 @@
                
 
                 <div class="form-group">
-                    <label for="startDate">Preferred Start Date</label>
-                    <input type="date" id="startDate" name="startDate" required>
+                    <label for="start_date">Preferred Start Date</label>
+                    <input type="date" id="start_date" name="start_date" required>
                 </div>
 
 
@@ -584,14 +579,15 @@
                 <div class="form-group">
                   
 
-
+                  
+                    
                     <label>National ID Copy (PDF/Image)</label>
                     <div class="file-upload-container">
-                        <label for="idUpload" class="file-upload-label">
+                        <label for="national_id_file" class="file-upload-label">
                             <i class="material-icons">badge</i>
                             <span>Upload ID Copy</span>
                         </label>
-                        <input type="file" id="idUpload" name="nationalId" 
+                        <input type="file" id="national_id_file" name="national_id_file" 
                             accept=".pdf,.jpg,.jpeg,.png" required hidden>
                         <div class="uploaded-file">
                             <span class="file-name"></span>
@@ -606,11 +602,11 @@
                 <div class="form-group">
                     <label>Academic Transcript</label>
                     <div class="file-upload-container">
-                        <label for="transcriptUpload" class="file-upload-label">
+                        <label for="transcript_file"  class="file-upload-label ">
                             <i class="material-icons">school</i>
                             <span>Upload Transcript</span>
                         </label>
-                        <input type="file" id="transcriptUpload" name="transcript" 
+                        <input type="file" id="transcript_file"  name="transcript_file" 
                             accept=".pdf" required hidden>
                         <div class="uploaded-file">
                             <span class="file-name"></span>
@@ -619,6 +615,23 @@
                             </span>
                         </div>
                     </div>
+                    <!-- ======== CV Upload ======== -->
+                <div class="form-group">
+                    <label>CV (PDF)</label>
+                    <div class="file-upload-container">
+                        <label for="cv_file" class="file-upload-label">
+                            <i class="material-icons">description</i>
+                            <span>Upload CV</span>
+                        </label>
+                        <input type="file" id="cv_file" name="cv_file" accept=".pdf" required hidden>
+                        <div class="uploaded-file">
+                            <span class="file-name"></span>
+                            <span class="delete-btn" onclick="removeFile('cvUpload')">
+                                <i class="material-icons">delete</i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 </div>
 
             </div>
@@ -627,7 +640,8 @@
             <div class="form-section">
                 <div class="form-group">
                     <label class="checkbox-label">
-                        <input type="checkbox" id="terms" name="terms" required>
+                        
+                        <input type="checkbox" id="terms_accepted" name="terms_accepted" required>
                         <span>I certify that all information provided is accurate and complete</span>
                     </label>
                 </div>
@@ -666,6 +680,7 @@
             localStorage.setItem('theme', currentTheme);
         }
     
+        
         // ========== File Upload Handling ==========
         function initializeFileUploads() {
             document.querySelectorAll('input[type="file"]').forEach(input => {
@@ -682,6 +697,8 @@
                 });
             });
         }
+      
+
     
         function removeFile(inputId) {
             const input = document.getElementById(inputId);
@@ -767,41 +784,18 @@
         });
     
         // ========== Additional Utilities ==========
-        function showSuccessMessage() {
-            const success = document.createElement('div');
-            success.className = 'success-message';
-            success.innerHTML = `
-                <i class="material-icons">check_circle</i>
-                <span>Application submitted successfully!</span>
-            `;
-            
-            document.querySelector('.container').prepend(success);
-            setTimeout(() => success.remove(), 5000);
-        }
-        async function submitForm(formData) {
-    try {
-        const response = await fetch('/train', { // Changed to correct endpoint
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json(); // Parse JSON response
-        
-        if (response.ok) {
-            showSuccessMessage(result.application_id);
-            form.reset();
-            // Optional: Redirect after success
-            window.location.href = `/home/${result.application_id}`;
-        } else {
-            // Handle server-side validation errors
-            showFormError(result.error); 
-        }
-    } catch (error) {
-        // Handle network errors or JSON parsing errors
-        showFormError('Failed to submit. Please try again.');
-        console.error('Submission error:', error);
-    }
-}
+        document.addEventListener('DOMContentLoaded', () => {
+    initializeTheme();
+    initializeFileUploads();
+    animateFormSections();
+
+    document.getElementById('applicationForm').addEventListener('submit', validateForm);
+
+    document.getElementById('phone').addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^\d]/g, '').slice(0, 10);
+    });
+});
+
     </script>
 </body>
 </html>

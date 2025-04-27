@@ -1,5 +1,7 @@
 // db.js
 import pg from "pg";
+import pkg from 'pg';
+const { Pool } = pkg;
 
 const db = new pg.Client({
   user: "postgres",
