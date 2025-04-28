@@ -21,7 +21,6 @@ const __dirname = path.dirname(__filename);
 
 // Increase event emitter limit
 EventEmitter.defaultMaxListeners = 20;
-console.log("hi");
 const app = express();
 const port = process.env.PORT || 3000;
 
