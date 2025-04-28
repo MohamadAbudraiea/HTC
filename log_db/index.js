@@ -4,17 +4,16 @@ import db from "./db.js";
 import bcrypt from "bcrypt";
 import { EventEmitter } from "events";
 import path from "path";
-import fs from 'fs';
+import fs from "fs";
 import { fileURLToPath } from "url";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import nodemailer from "nodemailer";
 import cors from "cors";
 import session from "express-session";
-import { v4 as uuidv4 } from 'uuid';
-import multer from 'multer';
-import flash from 'connect-flash';
-
+import { v4 as uuidv4 } from "uuid";
+import multer from "multer";
+import flash from "connect-flash";
 
 // Configure __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -22,7 +21,7 @@ const __dirname = path.dirname(__filename);
 
 // Increase event emitter limit
 EventEmitter.defaultMaxListeners = 20;
-
+console.log("hi");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -46,7 +45,6 @@ app.use(
   })
 );
 
-
 // Debug middleware to log requests
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
@@ -55,8 +53,8 @@ app.use((req, res, next) => {
 
 // اجعل الـ flash messages متاحة في الـ views
 app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
   next();
 });
 // View engine setup
@@ -64,7 +62,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Create uploads folder if not exists
-const uploadDir = path.join(__dirname, 'uploads');
+const uploadDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
   console.log("📂 'uploads' folder created.");
@@ -75,13 +73,13 @@ if (!fs.existsSync(uploadDir)) {
 // Multer configuration for disk storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const safeName = file.originalname.replace(/\s+/g, '_');
-    cb(null, uniqueSuffix + '-' + safeName);
-  }
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const safeName = file.originalname.replace(/\s+/g, "_");
+    cb(null, uniqueSuffix + "-" + safeName);
+  },
 });
 
 const upload = multer({ storage: storage });
@@ -92,106 +90,122 @@ app.use(express.json());
 
 // POST endpoint
 // Handle GET requests to /train (if needed)
-app.get('/train', (req, res) => {
-  res.render('train'); // اسم ملف EJS الخاص بصفحة النموذج
+app.get("/train", (req, res) => {
+  res.render("train"); // اسم ملف EJS الخاص بصفحة النموذج
 });
-app.get('/train-success', (req, res) => {
-  res.render('train-success'); // صفحة EJS فيها رسالة نجاح
+app.get("/train-success", (req, res) => {
+  res.render("train-success"); // صفحة EJS فيها رسالة نجاح
 });
 
+app.post(
+  "/train",
+  upload.fields([
+    { name: "national_id_file", maxCount: 1 },
+    { name: "transcript_file", maxCount: 1 },
+    { name: "cv_file", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    console.log("Raw request body:", req.body);
+    console.log("🚀 Received POST /train request");
 
-app.post('/train', upload.fields([
-  { name: 'national_id_file', maxCount: 1 },
-  { name: 'transcript_file', maxCount: 1 },
-  { name: 'cv_file', maxCount: 1 } 
-]), async (req, res) => {
-  console.log("Raw request body:", req.body);
-  console.log("🚀 Received POST /train request");
+    try {
+      const {
+        full_name,
+        national_id,
+        dob,
+        gender,
+        email,
+        phone,
+        address,
+        university,
+        degree,
+        major,
+        gpa,
+        training_type,
+        start_date,
+        skills,
+        terms_accepted,
+      } = req.body;
 
-  try {
-    const {
-      full_name,
-      national_id,
-      dob,
-      gender,
-      email,
-      phone,
-      address,
-      university,
-      degree,
-      major,
-      gpa,
-      training_type,
-      start_date,
-      skills,
-      terms_accepted 
-    } = req.body;
-   
-    if (!full_name || !national_id || !email || !phone) {
-      console.error("❌ Missing required fields.");
-      return res.status(400).json({ error: "Full name, national ID, email, and phone are required." });
-    }
-
-    console.log("✅ Body fields received:");
-    console.table({
-      full_name, national_id, dob, gender, email, phone,
-      address, university, degree, major, gpa,
-      training_type, start_date, skills,
-      terms_accepted: terms_accepted === 'on'
-    });
-
-    const nationalIdFile = req.files?.['national_id_file']?.[0];
-    const transcriptFile = req.files?.['transcript_file']?.[0];
-    const cvFile = req.files?.['cv_file']?.[0];
-
-    if (!req.files || !nationalIdFile) {
-      console.error("❌ Missing National ID file.");
-      return res.status(400).json({ error: "National ID file is required." });
-    }
-
-    if (!req.files || !transcriptFile) {
-      console.error("❌ Missing Transcript file.");
-      return res.status(400).json({ error: "Transcript file is required." });
-    }
-   
-
-if (!cvFile) {
-    return res.status(400).json({ error: "CV file is required." });
-}
-
-    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-    if (nationalIdFile.size > MAX_FILE_SIZE) {
-      console.error("❌ National ID file is too large.");
-      return res.status(400).json({ error: "National ID file size exceeds the limit of 10MB." });
-    }
-
-    if (transcriptFile.size > MAX_FILE_SIZE) {
-      console.error("❌ Transcript file is too large.");
-      return res.status(400).json({ error: "Transcript file size exceeds the limit of 10MB." });
-    }
-    
-
-    console.log("🗂️ Files info:");
-    console.table({
-      'National ID File': {
-        name: nationalIdFile.originalname,
-        savedAs: nationalIdFile.filename,
-        sizeKB: Math.round(nationalIdFile.size / 1024)
-      },
-      'Transcript File': {
-        name: transcriptFile.originalname,
-        savedAs: transcriptFile.filename,
-        sizeKB: Math.round(transcriptFile.size / 1024)
-      },
-      'CV File': {
-        name: cvFile.originalname,
-        savedAs: cvFile.filename,
-        sizeKB: Math.round(cvFile.size / 1024)
+      if (!full_name || !national_id || !email || !phone) {
+        console.error("❌ Missing required fields.");
+        return res.status(400).json({
+          error: "Full name, national ID, email, and phone are required.",
+        });
       }
-    });
-   
 
-    const query = `
+      console.log("✅ Body fields received:");
+      console.table({
+        full_name,
+        national_id,
+        dob,
+        gender,
+        email,
+        phone,
+        address,
+        university,
+        degree,
+        major,
+        gpa,
+        training_type,
+        start_date,
+        skills,
+        terms_accepted: terms_accepted === "on",
+      });
+
+      const nationalIdFile = req.files?.["national_id_file"]?.[0];
+      const transcriptFile = req.files?.["transcript_file"]?.[0];
+      const cvFile = req.files?.["cv_file"]?.[0];
+
+      if (!req.files || !nationalIdFile) {
+        console.error("❌ Missing National ID file.");
+        return res.status(400).json({ error: "National ID file is required." });
+      }
+
+      if (!req.files || !transcriptFile) {
+        console.error("❌ Missing Transcript file.");
+        return res.status(400).json({ error: "Transcript file is required." });
+      }
+
+      if (!cvFile) {
+        return res.status(400).json({ error: "CV file is required." });
+      }
+
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (nationalIdFile.size > MAX_FILE_SIZE) {
+        console.error("❌ National ID file is too large.");
+        return res
+          .status(400)
+          .json({ error: "National ID file size exceeds the limit of 10MB." });
+      }
+
+      if (transcriptFile.size > MAX_FILE_SIZE) {
+        console.error("❌ Transcript file is too large.");
+        return res
+          .status(400)
+          .json({ error: "Transcript file size exceeds the limit of 10MB." });
+      }
+
+      console.log("🗂️ Files info:");
+      console.table({
+        "National ID File": {
+          name: nationalIdFile.originalname,
+          savedAs: nationalIdFile.filename,
+          sizeKB: Math.round(nationalIdFile.size / 1024),
+        },
+        "Transcript File": {
+          name: transcriptFile.originalname,
+          savedAs: transcriptFile.filename,
+          sizeKB: Math.round(transcriptFile.size / 1024),
+        },
+        "CV File": {
+          name: cvFile.originalname,
+          savedAs: cvFile.filename,
+          sizeKB: Math.round(cvFile.size / 1024),
+        },
+      });
+
+      const query = `
       INSERT INTO applications (
         full_name, national_id, dob, gender, email, phone, address,
         university, degree, major, gpa, training_type, start_date, skills,
@@ -203,39 +217,41 @@ if (!cvFile) {
       ) RETURNING id;
     `;
 
-    const values = [
-      full_name,
-      national_id,
-      dob,
-      gender,
-      email,
-      phone,
-      address,
-      university,
-      degree,
-      major,
-      gpa,
-      training_type,
-      start_date,
-      skills,
-      nationalIdFile.filename,
-      transcriptFile.filename,
-      cvFile.filename,
-      terms_accepted === 'on'
-    ];
+      const values = [
+        full_name,
+        national_id,
+        dob,
+        gender,
+        email,
+        phone,
+        address,
+        university,
+        degree,
+        major,
+        gpa,
+        training_type,
+        start_date,
+        skills,
+        nationalIdFile.filename,
+        transcriptFile.filename,
+        cvFile.filename,
+        terms_accepted === "on",
+      ];
 
-    console.log("📤 Sending data to database...");
-    const result = await db.query(query, values);
+      console.log("📤 Sending data to database...");
+      const result = await db.query(query, values);
 
-    if (!result || !result.rows || result.rows.length === 0) {
-      console.error("❌ Failed to insert data into the database.");
-      return res.status(500).json({ error: "Failed to insert data into the database." });
-    }
-    console.log("✅ Insert success. Application ID:", result.rows[0].id);
+      if (!result || !result.rows || result.rows.length === 0) {
+        console.error("❌ Failed to insert data into the database.");
+        return res
+          .status(500)
+          .json({ error: "Failed to insert data into the database." });
+      }
+      console.log("✅ Insert success. Application ID:", result.rows[0].id);
 
-    // Add flash message before redirecting
-        // إضافة الإشعار في جدول notifications
-        const notificationQuery = `
+      // Add flash message before redirecting
+      // إضافة الإشعار في جدول notifications
+      const notificationQuery = `
         INSERT INTO notifications (
           user_std_id, 
           title, 
@@ -243,21 +259,28 @@ if (!cvFile) {
           url
         ) VALUES ($1, $2, $3, $4)
       `;
-  
+
       await db.query(notificationQuery, [
         req.user.std_id,
-        'New Training Application', // أزل المسافة الزائدة في البداية
+        "New Training Application", // أزل المسافة الزائدة في البداية
         `Your application has been successfully submitted! Application ID: ${applicationId}`, // أضف Application ID
-        `/applications/${applicationId}`
+        `/applications/${applicationId}`,
       ]);
-    req.flash('success_msg', `Your application has been successfully submitted! Application ID: ${result.rows[0].id}`);
-    res.redirect('/home');
-  } catch (err) {
-    console.error("🔥 General error occurred:", err.message);
-    console.error("Stack:", err.stack);
-    return res.status(500).json({ error: "An unexpected error occurred. Please try again later.", details: err.message });
+      req.flash(
+        "success_msg",
+        `Your application has been successfully submitted! Application ID: ${result.rows[0].id}`
+      );
+      res.redirect("/home");
+    } catch (err) {
+      console.error("🔥 General error occurred:", err.message);
+      console.error("Stack:", err.stack);
+      return res.status(500).json({
+        error: "An unexpected error occurred. Please try again later.",
+        details: err.message,
+      });
+    }
   }
-});
+);
 
 // ======================
 // NOTIFICATION SYSTEM
@@ -797,10 +820,9 @@ app.get("/profile", requireAuth, async (req, res) => {
     });
   }
 });
-app.get("/train", requireAuth, async (req, res) =>{
+app.get("/train", requireAuth, async (req, res) => {
   res.redirect("/train");
 });
-
 
 // Logout route
 app.get("/logout", (req, res) => {
