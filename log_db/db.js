@@ -17,4 +17,9 @@ await db
   .catch((err) => {
     console.log(err);
   }); // You can also handle errors here if needed
+
+const hi = db.query("select * from users").then((res) => {
+  console.log(res.rows);
+});
+
 export default db;
