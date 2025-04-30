@@ -657,8 +657,19 @@
                     </button>
                 </div>
             </div>
+            <input type="hidden" id="hidden-id" name="id">
+
         </form>
     </div>
+    <script>
+        //This script to parse the ID from the URL
+        // Get the ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');  // Gets the value of the "id" parameter
+    
+        // Set the hidden input value to the ID from the URL
+        document.getElementById('hidden-id').value = id;
+    </script>
     <script>
         // ========== Theme Management ==========
         function initializeTheme() {

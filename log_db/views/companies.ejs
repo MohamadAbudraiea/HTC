@@ -442,6 +442,17 @@
 
         </select>
     </div>
+
+
+    <script>
+        //This script to parse the ID from the URL
+        // Get the ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');  // Gets the value of the "id" parameter
+        if(status!=null)
+        alert("Your Applicant Have been Saved");
+    </script>
+
     <!-- Companies List -->
     <!-- Companies List -->
     <div class="companies-list">
