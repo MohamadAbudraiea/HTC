@@ -129,28 +129,6 @@
     font-size: 14px;
 }
 
-.dropdown-links {
-    list-style-type: none;
-    padding: 0;
-}
-
-.dropdown-links li a {
-    display: block;
-    padding: 10px;
-    color: #333;
-    text-decoration: none;
-    border-bottom: 1px solid #ddd;
-    font-size: 16px;
-}
-
-.dropdown-links li a:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown-links li a:last-child {
-    color: rgb(0, 0, 0);
-}
-
 
         /* Hero Section */
         .hero {
@@ -252,8 +230,8 @@
     <!-- Navigation Bar -->
 
     <nav class="navbar">
-     <div class="menu-icon" onclick="toggleMenu()">
-         <span>&#9776;</span>
+   
+      
      </div>
      <div class="logo-container">
       <!-- Logo Image -->
@@ -277,26 +255,6 @@
          <i class="fas fa-user-circle"></i> <!-- Icon for User Profile -->
          </a>
      </div>
-
-     <!-- Dropdown menu structure -->
-     <div id="dropdown-menu" class="dropdown-menu">
-         <div class="profile-section">
-             <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg" alt="Profile Picture" class="profile-img2"><br>
-             <span class="profile-name">Leen Samer Al-Suradi</span>
-             <span class="profile-info">Computer Information Systems<br>2145088</span>
-         </div>
-         <ul class="dropdown-links">
-            <li><a href="companies">Companies</a></li>
-            <li><a href="cv">CV</a></li>
-            <li><a href="courses">Courses</a></li>
-            <li><a href="task_std">Student Task</a></li>
-            <li><a href="rating">Student Rating</a></li>
-            <li><a href="certi-0">certificate</a></li>
-            <li><a href="settings">Settings</a></li>
-            <li><a href="contact">Contact Us</a></li>
-            <li><a href="logout" style="color: red;">Logout</a></li>
-        </ul>
-     </div>
  </nav>
 
 </header>
@@ -312,22 +270,7 @@
         </div>
     </section>
    <script>
-    function toggleMenu() {
-        var dropdownMenu = document.getElementById("dropdown-menu");
-        if (dropdownMenu.style.display === "block") {
-            dropdownMenu.style.display = "none";
-        } else {
-            dropdownMenu.style.display = "block";
-        }
-    }
-    
-    document.addEventListener('click', function(event) {
-        var dropdownMenu = document.getElementById("dropdown-menu");
-        var menuIcon = document.querySelector('.menu-icon');
-        if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.style.display = 'none';
-        }
-    });
+ 
 </script>
 </body>
 </html>
