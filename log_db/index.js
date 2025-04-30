@@ -104,10 +104,12 @@ app.post(
     { name: "cv_file", maxCount: 1 },
   ]),
   async (req, res) => {
-    console.log("Raw request body:", req.body);
     console.log("🚀 Received POST /train request");
 
     try {
+      console.log(req.params.id);
+      console.log(req.query.id);
+      console.log(req.body);
       const {
         full_name,
         national_id,
