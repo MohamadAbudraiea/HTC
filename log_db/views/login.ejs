@@ -103,11 +103,7 @@
         display: block;
         margin-bottom: 5px;
     }
-      
-        
-
-    
-
+  
     .create p {
         margin-top: 15px;
         color: #fff; /* تغيير النص إلى اللون الأبيض */
@@ -144,13 +140,17 @@
           <input type="password" class="form-control" placeholder="Password" name="password" required>
           <i class='bx bxs-lock-alt'></i>
         </div>
-        <div class="remember-forget">
-          <label>
-            <input type="checkbox"> Remember me
-          </label>
-          <a href="#">Forget password</a>
-        </div>
-        <input type="submit" class="sub" value="Login">
+ 
+<div class="login_as">
+  <label>
+    <h3>Login As</h3>
+    <input type="radio" name="user_type" value="company" required> Company
+    <input type="radio" name="user_type" value="student"> Student
+    
+  </label>
+</div>
+
+        <br> <input type="submit" class="sub" value="Login">
         <div class="create">
           <p>Don't have an account? <a href="/register"><b>Sign up</b></a></p>
           <br>
@@ -185,8 +185,6 @@
     }
   </script>
 
-  <!-- تضمين الفوتر -->
-  <%- include('partials/footer') %>
 
 </body>
 </html>
