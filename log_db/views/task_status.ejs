@@ -342,52 +342,49 @@ textarea.form-control {
 }
       </style>
     </head>
-     <!-- Task List -->
-      <div class="card animate-fade" style="animation-delay: 100ms">
-        <div class="card-header">
-          <h2 class="flex items-center gap-2">
-            <i class="fas fa-list-check text-primary"></i>
-            Recent Tasks
-          </h2>
-        </div>
-        <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Students</th>
-                  <th>Deadline</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-     
-                    <tr class="animate-fade">
-                   
-               
-                          <span class="badge badge-primary">Active</span>
-                      
-                          <span class="badge badge-success">Completed</span>
-                     
-                          <span class="badge badge-danger">Overdue</span>
-                    
-                      </td>
-                    </tr>
-                
-                  <tr>
-                    <td colspan="4">
-                      <div class="empty-state">
-                        <i class="fas fa-tasks empty-state-icon"></i>
-                        <h3>No Tasks Found</h3>
-                        <p>Create your first task to get started</p>
-                      </div>
-                    </td>
-                  </tr>
-              
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+<!-- Task List -->
+<div class="card animate-fade" style="animation-delay: 100ms">
+  <div class="card-header">
+    <h2 class="flex items-center gap-2">
+      <i class="fas fa-list-check text-primary"></i>
+      Recent Tasks
+    </h2>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Students</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Task Submission</th>
+          </tr>
+        </thead>
+        <tbody>   
+          <tr class="animate-fade">
+            <td>Data Analysis</td>
+            <td>Student 1</td>
+            <td>6-5-2025</td>
+            <td>
+              <span class="badge badge-success">Completed</span>
+            </td>
+            <td>
+              <button class="btn btn-secondary btn-sm">
+                <i class="fas fa-eye"></i> Show Task
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <div class="empty-state">
+                <i class="fas fa-tasks empty-state-icon"></i>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>
