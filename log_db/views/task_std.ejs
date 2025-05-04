@@ -175,10 +175,7 @@
         }
 
         .footer-bottom {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ffffff;
+            text-align: center; 
             font-size: 16px;
         }
 
@@ -362,14 +359,18 @@ progress::-moz-progress-bar {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-
-
         /* Task History Section */
         .task-history {
             margin-top: 30px;
             padding: 20px;
             background: #f9f9f9;
             border-top: 2px solid #003366;
+        }
+
+        .task-history h3 {
+            color: #003366;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
         .task-history ul {
@@ -379,6 +380,26 @@ progress::-moz-progress-bar {
 
         .task-history li {
             margin: 10px 0;
+        }
+
+        /* History Book Section */
+        .history-book {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            border: 1px solid #d3e0f7;
+            text-align: center;
+        }
+
+        .history-book h3 {
+            color: #003366;
+            margin-bottom: 15px;
+        }
+
+        .history-book p {
+            color: #666;
+            font-style: italic;
         }
 
         /* Timer Section */
@@ -414,83 +435,19 @@ progress::-moz-progress-bar {
     <div class="container">
         <div class="task-details">
             <h3>Task Title: Build a Responsive Web Page</h3>
-            <p><strong>Description:</strong> Develop a full-stack web application using React for the frontend and Node.js with Express for the backend. The application should include user authentication, data management, and integrate a third-party API to fetch and display dynamic data. The system should handle both front-end routing and back-end database operations with MongoDB. Ensure the application is secure, scalable, and well-documented. Include unit and integration tests for both frontend and backend components, and deploy the final product on a cloud service (e.g., Heroku or AWS).</p>
+            <p><strong>Description:</strong> Develop a full-stack web application using React for the frontend and Node.js with Express for the backend. The application should include user authentication, data management, and integrate a third-party API to fetch and display dynamic data. The system should handle both front-end routing and back-end database operations with MongoDB. Ensure the application is secure, scalable, and well-documented. Include unit and integration tests for both frontend and backend components, and deploy the final product on a cloud service.</p>
             <p><strong>Deadline:</strong> December 31, 2024</p>
             <p><strong>Status:</strong> Pending</p>
-
-            <!-- Task Priority -->
-            <p><strong>Priority:</strong> High</p>
-
-           <!-- Task Progress -->
-<div class="progress-bar">
-    <label for="task-progress">Task Progress</label>
-    <progress id="task-progress" value="0" max="100">0%</progress>
-    <span id="progress-text">0% Complete</span>
-
-    <div>
-        <button class="update-progress-btn" onclick="updateProgress(25)">25% Completed</button>
-        <button class="update-progress-btn" onclick="updateProgress(50)">50% Completed</button>
-        <button class="update-progress-btn" onclick="updateProgress(75)">75% Completed</button>
-        <button class="update-progress-btn" onclick="updateProgress(100)">100% Completed</button>
-    </div>
-</div>
-
-
-            <!-- Mentor Feedback Section -->
-            <div class="feedback-section">
-                <h4>Mentor Feedback:</h4>
-                <textarea rows="4" placeholder="Leave your feedback here..."></textarea>
-                <button class="submit-feedback-btn">Submit Feedback</button>
-            </div>
         </div>
 
-        <div class="upload-section">
-            <label for="task-upload">Upload your completed task:</label>
-            <input type="file" id="task-upload" multiple>
-            <button class="upload-btn" onclick="uploadTask()">Upload Task</button>
-        </div>
-
-        <!-- Task History Section -->
-        <div class="task-history">
-            <h4>Task History</h4>
-            <ul>
-                <li><strong>Task 1:</strong> Completed - <em>Feedback: Good work, keep it up!</em></li>
-                <li><strong>Task 2:</strong> Pending - <em>Feedback: Needs more attention to detail.</em></li>
-            </ul>
-        </div>
-
-        <!-- Task Timer Section -->
-       
-    </div>
+  
 
     <!-- Footer -->
     <footer>
-    
+
         <div class="footer-bottom">
-            &copy; 2024 IT Training Hub. All Rights Reserved.
+            &copy; 2025 HTC All Rights Reserved.
         </div>
     </footer>
-
-    <script>
-        // Task Upload Script
-        function uploadTask() {
-            const fileInput = document.getElementById('task-upload');
-            if (fileInput.files.length === 0) {
-                alert('Please select a file to upload!');
-            } else {
-                alert('Task uploaded successfully!');
-            }
-        }
-
-        // Function to update the progress bar
-function updateProgress(value) {
-    const progressBar = document.getElementById('task-progress');
-    const progressText = document.getElementById('progress-text');
-    progressBar.value = value;
-    progressText.innerHTML = '${value}% Complete';
-}
-
-
-    </script>
 </body>
 </html>
