@@ -50,8 +50,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// اجعل الـ flash messages متاحة في الـ views
+
 app.use((req, res, next) => {
+  // اجعل الـ flash messages متاحة في الـ views
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   next();
