@@ -412,6 +412,52 @@ progress::-moz-progress-bar {
             font-size: 24px;
             color: #003366;
         }
+
+        /* Submission Section */
+        .submission-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            border: 1px solid #d3e0f7;
+        }
+
+        .submission-section h3 {
+            color: #003366;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .submission-section textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 150px;
+            margin-bottom: 15px;
+        }
+
+        .send-task-btn {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-task-btn:hover {
+            background-color: #0055a5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -440,11 +486,16 @@ progress::-moz-progress-bar {
             <p><strong>Status:</strong> Pending</p>
         </div>
 
-  
+        <!-- Submission Section -->
+        <div class="submission-section">
+            <h3>Insert Your Submission</h3>
+            <textarea placeholder="Write your submission here..."></textarea>
+            <button class="send-task-btn">Send Task</button>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
-
         <div class="footer-bottom">
             &copy; 2025 HTC All Rights Reserved.
         </div>
