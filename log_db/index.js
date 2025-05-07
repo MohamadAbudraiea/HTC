@@ -50,8 +50,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// اجعل الـ flash messages متاحة في الـ views
+
 app.use((req, res, next) => {
+  // اجعل الـ flash messages متاحة في الـ views
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   next();
@@ -1116,6 +1117,10 @@ const applications = [
     id: 1,
     name: "Lana Abu-Hmaid",
     email: "lana@example.com",
+    GPA: 3.8,
+    address: "Amman",
+    gender: "Female",
+    position: "Backend Developer",
     cv_url: "/cv_files/cv1.pdf",
     status: "Pending",
   },
@@ -1123,6 +1128,10 @@ const applications = [
     id: 2,
     name: "Ahmad Ali",
     email: "ahmad@example.com",
+    GPA: 3.4,
+    address: "Zarqa",
+    gender: "Male",
+    position: "Software Engineer",
     cv_url: "/cv_files/cv2.pdf",
     status: "Accepted",
   },
