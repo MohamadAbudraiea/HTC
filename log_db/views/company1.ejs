@@ -25,20 +25,15 @@
       --primary-dark: #0d0635;
       --primary-light: #004488;
       --secondary-color: #cad9e0;
-      --secondary-dark: #022238;
       --accent-color: #45c0f5;
-      --accent-dark: #5fb3d9;
       --text-color: #333;
       --text-light: #666;
-      --light-bg: #f9f9f9;
       --white: #ffffff;
       --gray-light: #eaeaea;
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
       --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
       --transition: all 0.3s ease;
       --border-radius: 12px;
-      --max-width: 1200px;
     }
 
     * {
@@ -47,12 +42,205 @@
       box-sizing: border-box;
     }
 
-    h1 {
-      text-align: center;
-      margin-top: 30px;
-      color: #007acc;
+    /* Navigation Links Styles */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: inline-block;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 4px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links li a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-links li a i {
+  font-size: 18px;
+}
+
+/* Logout Link Specific Styles */
+.nav-links li a[href="/logout"] {
+  background-color: rgba(10, 34, 167, 0.2);
+  color: #c90f0f;
+  font-weight: bold;
+}
+
+
+/* Mobile Menu Styles */
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary-dark);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 15px;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+  }
+
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links li a {
+    justify-content: center;
+    padding: 12px;
+  }
+}
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+      color: var(--text-color);
+      line-height: 1.6;
     }
 
+    /* Skip to content link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px;
+      z-index: 100;
+      transition: top 0.3s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 5%;
+      background-color: var(--primary-color);
+      width: 100%;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .menu-icon {
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--white);
+      transition: var(--transition);
+      background: none;
+      border: none;
+      display: none;
+    }
+
+    .navbar .logo {
+      height: 50px;
+      width: auto;
+      transition: var(--transition);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .cover-wrapper {
+      position: relative;
+      height: 400px;
+      background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)),
+        url('https://www.stsarabia.com/ebv4.0/root_storage/en/eb_story_board/3-0.jpg') no-repeat center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .cover-content {
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .cover-content h1 {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      line-height: 1.2;
+    }
+
+    .profile {
+      position: relative;
+      margin: -80px auto 0;
+      width: 90%;
+      max-width: 1000px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      padding: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-lg);
+      z-index: 10;
+    }
+
+    .profile img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid var(--white);
+      box-shadow: var(--shadow-md);
+      margin-right: 30px;
+      transition: var(--transition);
+    }
+
+    .profile-content h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+
+    .profile-content p {
+      margin: 10px 0;
+      color: var(--text-light);
+    }
+
+    /* Applications Section */
     .applications {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -153,365 +341,18 @@
       margin-top: 40px;
     }
 
-    body {
-      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f7fa;
-      color: var(--text-color);
-      line-height: 1.6;
-      scroll-behavior: smooth;
-    }
-
-    /* Skip to content link for accessibility */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: var(--primary-color);
-      color: white;
-      padding: 8px;
-      z-index: 100;
-      transition: top 0.3s;
-    }
-
-    .skip-link:focus {
-      top: 0;
-    }
-
-    /* Navigation Bar */
-    .navbar {
+    /* Buttons Container */
+    .button-container {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 5%;
-      background-color: var(--primary-color);
-      width: 100%;
-      box-shadow: var(--shadow-md);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .menu-icon {
-      font-size: 28px;
-      cursor: pointer;
-      color: var(--white);
-      transition: var(--transition);
-      background: none;
-      border: none;
-      display: none;
-    }
-
-    .menu-icon:hover {
-      color: var(--accent-color);
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 30px;
-    }
-
-    .nav-links li a {
-      text-decoration: none;
-      color: var(--white);
-      font-size: 16px;
-      font-weight: 600;
-      padding: 8px 12px;
-      border-radius: 4px;
-      transition: var(--transition);
-    }
-
-    .nav-links li a:hover,
-    .nav-links li a:focus {
-      background-color: rgba(255, 255, 255, 0.2);
-      color: var(--secondary-color);
-      outline: none;
-    }
-
-    /* Icons */
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      color: white;
-      gap: 20px;
-    }
-
-    .navbar-right i {
-      font-size: 20px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .navbar-right i:hover {
-      color: var(--secondary-color);
-    }
-
-    .custom-link {
-      color: white;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .custom-link:hover {
-      color: var(--accent-color);
-    }
-
-    /* Dropdown Menu */
-    .dropdown-menu {
-      position: absolute;
-      top: 60px;
-      right: 5%;
-      width: 280px;
-      background-color: var(--white);
-      border-radius: var(--border-radius);
-      border: 1px solid #ddd;
-      box-shadow: var(--shadow-lg);
-      display: none;
-      z-index: 9999;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(-20px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .dropdown-menu.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .profile-section {
-      padding: 20px;
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-      color: var(--white);
-      text-align: center;
-    }
-
-    .profile-img2 {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--white);
-      margin-bottom: 15px;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-
-    .profile-img2:hover {
-      transform: scale(1.05);
-    }
-
-    .profile-name {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .profile-info {
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .dropdown-links {
-      list-style-type: none;
-    }
-
-    .dropdown-links li a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 20px;
-      color: var(--text-color);
-      text-decoration: none;
-      border-bottom: 1px solid #eee;
-      font-size: 15px;
-      transition: var(--transition);
-    }
-
-    .dropdown-links li a:hover,
-    .dropdown-links li a:focus {
-      background-color: var(--light-bg);
-      padding-left: 25px;
-      outline: none;
-    }
-
-    .dropdown-links li a i {
-      color: var(--primary-color);
-      width: 20px;
-      text-align: center;
-    }
-
-    /* Logo Styling */
-    .navbar .logo-container {
-      display: inline-block;
-      padding-right: 15px;
-    }
-
-    .navbar .logo {
-      height: 50px;
-      width: auto;
-      transition: var(--transition);
-    }
-
-    .navbar .logo:hover {
-      transform: scale(1.05);
-    }
-
-    .notification-icon-wrapper {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-    }
-
-    .notification-icon {
-      color: var(--white);
-      font-size: 1.5rem;
-      text-decoration: none;
-      position: relative;
-      display: inline-block;
-      padding: 10px;
-    }
-
-    .notification-badge {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background-color: #ff4d4f;
-      color: white;
-      border-radius: 50%;
-      padding: 2px 6px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      display: none;
-    }
-
-    .notification-dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      top: 100%;
-      background-color: white;
-      width: 350px;
-      max-height: 500px;
-      overflow-y: auto;
-      border-radius: 4px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      border: 1px solid #e8e8e8;
-      color: var(--primary-color);
-      opacity: 0;
-      transform: translateY(-20px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .notification-dropdown.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .notification-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 16px;
-      border-bottom: 1px solid #f0f0f0;
-      background-color: #fafafa;
-      font-weight: bold;
-    }
-
-    .mark-read-btn {
-      background: none;
-      border: none;
-      color: var(--primary-color);
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: var(--transition);
-    }
-
-    .mark-read-btn:hover {
-      color: var(--accent-color);
-      text-decoration: underline;
-    }
-
-    .notification-content {
-      padding: 0;
-    }
-
-    .notification-item {
-      padding: 12px 16px;
-      border-bottom: 1px solid #f0f0f0;
-      transition: background-color 0.3s;
-    }
-
-    .notification-item:hover {
-      background-color: #f5f5f5;
-    }
-
-    .notification-item:last-child {
-      border-bottom: none;
-    }
-
-    /* Animation for new notifications */
-    @keyframes highlight {
-      0% {
-        background-color: rgba(24, 144, 255, 0.1);
-      }
-
-      100% {
-        background-color: white;
-      }
-    }
-
-    .notification-item.new {
-      animation: highlight 2s;
-    }
-
-    /* Main Content */
-    .container {
-      max-width: var(--max-width);
-      margin: 20px auto;
-      background: var(--white);
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-    }
-
-    .cover-wrapper {
-      position: relative;
-      height: 400px;
-      background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.7)),
-        url('https://www.stsarabia.com/ebv4.0/root_storage/en/eb_story_board/3-0.jpg') no-repeat center/cover;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      color: var(--white);
-      text-align: center;
-    }
-
-    .cover-content {
-      max-width: 800px;
+      gap: 20px;
       padding: 20px;
-    }
-
-    .cover-content h1 {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      line-height: 1.2;
-    }
-
-    .cover-content p {
-      font-size: 1.2rem;
-      margin-bottom: 25px;
+      flex-wrap: wrap;
     }
 
     .btn {
       display: inline-block;
       padding: 12px 30px;
-      background-color: var(--secondary-color);
-      color: var(--primary-color);
       border-radius: 50px;
       text-decoration: none;
       font-weight: 600;
@@ -521,14 +362,6 @@
       font-size: 1rem;
     }
 
-    .btn:hover,
-    .btn:focus {
-      background-color: var(--secondary-dark);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-sm);
-      outline: none;
-    }
-
     .btn-primary {
       background-color: var(--primary-color);
       color: white;
@@ -536,510 +369,34 @@
 
     .btn-primary:hover {
       background-color: var(--primary-dark);
-    }
-
-    .profile {
-      position: relative;
-      margin: -80px auto 0;
-      width: 90%;
-      max-width: 1000px;
-      background: var(--white);
-      display: flex;
-      align-items: center;
-      padding: 30px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-lg);
-      z-index: 10;
-    }
-
-    .profile img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 5px solid var(--white);
-      box-shadow: var(--shadow-md);
-      margin-right: 30px;
-      transition: var(--transition);
-    }
-
-    .profile img:hover {
-      transform: scale(1.05);
-    }
-
-    .profile-content h1 {
-      margin: 0;
-      font-size: 2rem;
-      color: var(--primary-color);
-    }
-
-    .profile-content p {
-      margin: 10px 0;
-      color: var(--text-light);
-    }
-
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .social-links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      background-color: var(--primary-color);
-      color: var(--white);
-      border-radius: 50%;
-      transition: var(--transition);
-    }
-
-    .social-links a:hover,
-    .social-links a:focus {
-      background-color: var(--accent-color);
       transform: translateY(-3px);
-      outline: none;
-    }
-
-    /* Sections */
-    .section {
-      padding: 80px 5%;
-      border-top: 1px solid var(--gray-light);
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .section-header h2 {
-      color: var(--primary-color);
-      font-size: 2.2rem;
-      margin-bottom: 15px;
-      position: relative;
-      display: inline-block;
-    }
-
-    .section-header h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background-color: var(--secondary-color);
-    }
-
-    .section-header p {
-      max-width: 700px;
-      margin: 0 auto;
-      color: var(--text-light);
-    }
-
-    /* About Section */
-    .about-section {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 50px;
-    }
-
-    .about-section img {
-      flex: 1;
-      min-width: 300px;
-      max-width: 500px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-md);
-      transition: var(--transition);
-    }
-
-    .about-section img:hover {
-      transform: scale(1.02);
-    }
-
-    .about-text {
-      flex: 1;
-      min-width: 300px;
-      max-width: 600px;
-    }
-
-    .about-text h3 {
-      color: var(--primary-color);
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-    }
-
-    /* Services Section */
-    .services-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .service-card {
-      background: var(--white);
-      padding: 30px;
-      border-radius: var(--border-radius);
       box-shadow: var(--shadow-sm);
-      text-align: center;
-      transition: var(--transition);
-      border-top: 3px solid var(--primary-color);
     }
 
-    .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .service-card i {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      margin-bottom: 20px;
-    }
-
-    .service-card h3 {
-      color: var(--primary-color);
-      margin-bottom: 15px;
-    }
-
-    /* Cards Layout */
-    .news,
-    .achievements,
-    .team,
-    .locations,
-    .clients {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .news-card,
-    .achievement-card,
-    .team-card,
-    .location-card,
-    .client-card {
-      background: var(--white);
-      padding: 25px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-
-    .news-card:hover,
-    .achievement-card:hover,
-    .team-card:hover,
-    .location-card:hover,
-    .client-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .news-card img,
-    .achievement-card img,
-    .team-card img,
-    .client-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      transition: var(--transition);
-    }
-
-    .news-card:hover img,
-    .achievement-card:hover img,
-    .team-card:hover img,
-    .client-card:hover img {
-      transform: scale(1.03);
-    }
-
-    .card-content h3 {
-      color: var(--primary-color);
-      margin-bottom: 10px;
-    }
-
-    .card-content .date {
-      color: #777;
-      font-size: 0.9rem;
-      margin-bottom: 15px;
-      display: block;
-    }
-
-    /* Stats Section */
-    .stats-section {
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    .btn-secondary {
+      background-color: #6c757d;
       color: white;
-      padding: 60px 0;
-      text-align: center;
     }
 
-    .stats-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 5%;
-    }
-
-    .stat-item {
-      padding: 20px;
-      min-width: 200px;
-    }
-
-    .stat-number {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: var(--secondary-color);
-    }
-
-    .stat-label {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    /* Testimonials */
-    .testimonials {
-      background-color: var(--light-bg);
-    }
-
-    .testimonial-card {
-      background: white;
-      padding: 30px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-sm);
-      position: relative;
-    }
-
-    .testimonial-card::before {
-      content: '"';
-      font-size: 5rem;
-      color: var(--accent-color);
-      opacity: 0.2;
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      line-height: 1;
-    }
-
-    .testimonial-content {
-      position: relative;
-      z-index: 1;
-      margin-bottom: 20px;
-    }
-
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-    }
-
-    .testimonial-author img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 15px;
-    }
-
-    .author-info h4 {
-      margin: 0;
-      color: var(--primary-color);
-    }
-
-    .author-info p {
-      margin: 5px 0 0;
-      color: var(--text-light);
-      font-size: 0.9rem;
-    }
-
-    /* Contact Form */
-    .contact-form {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 30px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-family: inherit;
-      transition: var(--transition);
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(135, 206, 235, 0.2);
-    }
-
-    textarea.form-control {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-      color: var(--white);
-      padding: 50px 5% 20px;
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-      margin-bottom: 40px;
-      max-width: var(--max-width);
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .footer-column h3 {
-      font-size: 1.3rem;
-      margin-bottom: 20px;
-      position: relative;
-      padding-bottom: 10px;
-    }
-
-    .footer-column h3::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 50px;
-      height: 2px;
-      background-color: var(--secondary-color);
-    }
-
-    .footer-links {
-      list-style: none;
-    }
-
-    .footer-links li {
-      margin-bottom: 10px;
-    }
-
-    .footer-links a {
-      color: #ddd;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover,
-    .footer-links a:focus {
-      color: var(--secondary-color);
-      padding-left: 5px;
-      outline: none;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .contact-item i {
-      color: var(--secondary-color);
-      margin-top: 3px;
-    }
-
-    .social-media {
-      display: flex;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .social-media a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: var(--white);
-      border-radius: 50%;
-      transition: var(--transition);
-    }
-
-    .social-media a:hover,
-    .social-media a:focus {
-      background-color: var(--secondary-color);
-      color: var(--primary-color);
+    .btn-secondary:hover {
+      background-color: #5a6268;
       transform: translateY(-3px);
-      outline: none;
+      box-shadow: var(--shadow-sm);
     }
 
-    .footer-bottom {
-      text-align: center;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .back-to-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background-color: var(--primary-color);
+    .btn-success {
+      background-color: #28a745;
       color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      box-shadow: var(--shadow-md);
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
-      z-index: 999;
     }
 
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .back-to-top:hover {
-      background-color: var(--secondary-color);
-      color: var(--primary-color);
+    .btn-success:hover {
+      background-color: #218838;
       transform: translateY(-3px);
+      box-shadow: var(--shadow-sm);
     }
 
     /* Responsive Design */
     @media (max-width: 992px) {
-      .nav-links {
-        gap: 15px;
-      }
-
       .profile {
         flex-direction: column;
         text-align: center;
@@ -1049,35 +406,11 @@
         margin-right: 0;
         margin-bottom: 20px;
       }
-
-      .social-links {
-        justify-content: center;
-      }
     }
 
     @media (max-width: 768px) {
       .navbar {
         padding: 10px 20px;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background-color: var(--primary-dark);
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        gap: 15px;
-        box-shadow: var(--shadow-md);
-        transform: translateY(-150%);
-        transition: transform 0.3s ease;
-        z-index: 999;
-      }
-
-      .nav-links.active {
-        transform: translateY(0);
       }
 
       .menu-icon {
@@ -1086,51 +419,6 @@
 
       .cover-content h1 {
         font-size: 2.2rem;
-      }
-
-      .section {
-        padding: 60px 20px;
-      }
-
-      .section-header h2 {
-        font-size: 1.8rem;
-      }
-
-      .news-card,
-      .achievement-card,
-      .team-card,
-      .location-card,
-      .client-card {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .dropdown-menu {
-        right: 20px;
-        width: calc(100% - 40px);
-      }
-
-      .notification-dropdown {
-        right: -50px;
-        width: calc(100vw - 40px);
-      }
-    }
-
-    @media (max-width: 576px) {
-      .cover-wrapper {
-        height: 300px;
-      }
-
-      .cover-content h1 {
-        font-size: 1.8rem;
-      }
-
-      .cover-content p {
-        font-size: 1rem;
-      }
-
-      .btn {
-        padding: 10px 20px;
       }
 
       .profile {
@@ -1146,22 +434,27 @@
       .profile-content h1 {
         font-size: 1.5rem;
       }
+    }
 
-      .section-header h2 {
-        font-size: 1.5rem;
+    @media (max-width: 576px) {
+      .cover-wrapper {
+        height: 300px;
       }
 
-      .stat-item {
-        min-width: 150px;
+      .cover-content h1 {
+        font-size: 1.8rem;
       }
 
-      .stat-number {
-        font-size: 2rem;
+      .applications {
+        padding: 20px;
+        grid-template-columns: 1fr;
       }
 
-      .stat-label {
-        font-size: 1rem;
+      .button-container {
+        flex-direction: column;
+        align-items: center;
       }
+      
     }
   </style>
 </head>
@@ -1181,59 +474,13 @@
         <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="STS Logo" class="logo">
       </div>
       <ul class="nav-links" id="navLinks">
-        <li><a href="/home">Home</a></li>
-        <li><a href="companies">Companies</a></li>
-        <li><a href="/certi-0">Certificates</a></li>
-        <li><a href="/courses">Courses</a></li>
+     
         <li><a href="/logout">Logout</a></li>
 
-      </ul>
-      <div class="navbar-right">
-        <div id="notification-wrapper">
-          <div class="notification-icon-wrapper" onclick="toggleNotifications()">
-            <a href="#" class="notification-icon" aria-label="Notifications">
-              <i class="fas fa-bell"></i>
-              <span id="notification-badge" class="notification-badge">0</span>
-            </a>
-            <!-- Notification dropdown positioned below the icon -->
-            <div id="notification-dropdown" class="notification-dropdown">
-              <div class="notification-header">
-                <span>Notifications</span>
-                <button class="mark-read-btn" onclick="markNotificationAsRead()">Mark all as read</button>
-              </div>
-              <div class="notification-content">
-                <div class="notification-item">No new notifications</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <a href="/profile" title="Profile" class="custom-link" aria-label="User profile">
-          <i class="fas fa-user-circle"></i>
-        </a>
-      </div>
-      <!-- Dropdown menu structure -->
-      <div id="dropdown-menu" class="dropdown-menu">
-        <div class="profile-section">
-          <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg" alt="Profile Picture"
-            class="profile-img2"><br>
-          <span class="profile-name">Leen Samer Al-Suradi</span>
-          <span class="profile-info">Computer Information Systems<br>2145088</span>
-        </div>
-        <ul class="dropdown-links">
-          <li><a href="companies"><i class="fas fa-building"></i> Companies</a></li>
-          <li><a href="cv"><i class="fas fa-file-alt"></i> CV</a></li>
-          <li><a href="courses"><i class="fas fa-graduation-cap"></i> Courses</a></li>
-          <li><a href="task_std"><i class="fas fa-tasks"></i> Student Task</a></li>
-          <li><a href="rating"><i class="fas fa-star"></i> Student Rating</a></li>
-          <li><a href="certi-0"><i class="fas fa-certificate"></i> Certificate</a></li>
-          <li><a href="settings"><i class="fas fa-cog"></i> Settings</a></li>
-          <li><a href="contact"><i class="fas fa-envelope"></i> Contact Us</a></li>
-          <li><a href="logout" style="color: red;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
-      </div>
+      </ul>
     </nav>
   </header>
+  
 
   <main id="main-content">
     <div class="container">
@@ -1242,126 +489,38 @@
           <h1>
             <%= user.industry %>
           </h1>
-          <a href="#contact" class="btn btn-primary">Contact Us</a>
         </div>
       </div>
 
       <div class="profile">
-        <img src="https://www.stsarabia.com/ebv4.0/root_storage/en/eb_homepage/logov5.png" alt="STS Logo"
-          loading="lazy">
         <div class="profile-content">
           <h1>
             <%= user.name %>
           </h1>
           <p>📍 <%= user.location %>
           </p>
-          <p>🌐 <a href="https://stsarabia.com" target="_blank" rel="noopener noreferrer">stsarabia.com</a></p>
-          <div class="social-links">
-            <a href="https://facebook.com/stsarabia" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i
-                class="fab fa-facebook-f"></i></a>
-            <a href="https://twitter.com/stsarabia" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i
-                class="fab fa-twitter"></i></a>
-            <a href="https://linkedin.com/company/stsarabia" target="_blank" rel="noopener noreferrer"
-              aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://instagram.com/stsarabia" target="_blank" rel="noopener noreferrer"
-              aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          </div>
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-header">
-          <h2>About Us</h2>
-          <p>Pioneering digital transformation solutions across the MENA region</p>
-        </div>
-        <div class="about-section">
-          <div class="about-text">
-            <h3>Our Story</h3>
-            <p>Founded in 1989, STS has grown from a local IT provider to a regional powerhouse in digital
-              transformation, serving clients across multiple industries with innovative technology solutions.</p>
-            <p>Our mission is to empower organizations through cutting-edge technology, helping them navigate the
-              complexities of digital transformation with confidence and security.</p>
-            <p>With over three decades of experience, we've established ourselves as trusted partners for businesses
-              looking to modernize their operations and secure their digital assets.</p>
-            <a href="#" class="btn">Learn More About Our History</a>
-          </div>
-          <img src="https://www.stsarabia.com/EBV4.0/Root_Storage/AR/storey.png" alt="STS Team" loading="lazy">
-        </div>
+      <div class="loading" id="loading"></div>
+
+      <div class="applications" id="applications"></div>
+
+      <!-- Adding the three buttons with their respective links -->
+      <div class="button-container">
+        <a href="/req" class="btn btn-primary" id="showApplicantsBtn">Show Applicants</a>
+        <a href="/task_details" class="btn btn-secondary" id="makeTaskBtn">Make a Task</a>
+        <a href="/task_status" class="btn btn-success" id="showTasksStatusBtn">Show Tasks Status</a>
       </div>
     </div>
-
-    <h1>📄 Student Training Applications</h1>
-
-    <div class="loading" id="loading"></div>
-
-    <div class="applications" id="applications"></div>
-
-    <!-- Adding the three buttons with their respective links -->
-    <div class="button-container">
-      <a href="/req" class="btn btn-primary" id="showApplicantsBtn">Show Applicants</a>
-      <a href="/task_details" class="btn btn-secondary" id="makeTaskBtn">Make a Task</a>
-      <a href="/task_status" class="btn btn-success" id="showTasksStatusBtn">Show Tasks Status</a>
-    </div>
-
-
   </main>
-  <footer>
-    <div class="footer-content">
-      <div class="footer-column">
-        <h3>About STS</h3>
-        <p>Specialized Technical Services (STS) is a leading provider of digital transformation and IT solutions across
-          the MENA region, helping organizations harness technology for business success.</p>
-        <div class="social-media"> <a href="https://facebook.com/stsarabia" target="_blank" rel="noopener noreferrer"
-            aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> <a href="https://twitter.com/stsarabia"
-            target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a> <a
-            href="https://linkedin.com/company/stsarabia" target="_blank" rel="noopener noreferrer"
-            aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a> <a href="https://instagram.com/stsarabia"
-            target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a> <a
-            href="https://youtube.com/stsarabia" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i
-              class="fab fa-youtube"></i></a> </div>
-      </div>
-      <div class="footer-column">
-        <h3>Quick Links</h3>
-        <ul class="footer-links">
-          <li><a href="/home">Home</a></li>
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/solutions">Solutions</a></li>
-          <li><a href="/careers">Careers</a></li>
-          <li><a href="/news">News & Events</a></li>
-          <li><a href="/contact">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3>Services</h3>
-        <ul class="footer-links">
-          <li><a href="/cloud">Cloud Computing</a></li>
-          <li><a href="/cybersecurity">Cybersecurity</a></li>
-          <li><a href="/ai">AI & Automation</a></li>
-          <li><a href="/networking">Enterprise Networking</a></li>
-          <li><a href="/analytics">Data Analytics</a></li>
-          <li><a href="/transformation">Digital Transformation</a></li>
-          <li><a href="/managed-services">Managed Services</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3>Contact Info</h3>
-        <div class="contact-info">
-          <div class="contact-item"> <i class="fas fa-map-marker-alt"></i> <span>STS Headquarters<br>King Hussein
-              Business Park<br>Amman, Jordan</span> </div>
-          <div class="contact-item"> <i class="fas fa-phone-alt"></i> <span>+962 6 580 2000</span> </div>
-          <div class="contact-item"> <i class="fas fa-envelope"></i> <span>info@stsarabia.com</span> </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2023 Specialized Technical Services (STS). All Rights Reserved. | <a href="/privacy"
-          style="color: var(--secondary-color);">Privacy Policy</a> | <a href="/terms"
-          style="color: var(--secondary-color);">Terms of Service</a></p>
-    </div>
-  </footer> <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top"> <i class="fas fa-arrow-up"></i>
-  </a>
-  <script> // Toggle mobile menu function toggleMenu() { const navLinks = document.getElementById('navLinks'); navLinks.classList.toggle('active'); } // Toggle notifications dropdown function toggleNotifications() { const dropdown = document.getElementById('notification-dropdown'); dropdown.classList.toggle('active'); } // Toggle profile dropdown function toggleProfileDropdown() { const dropdown = document.getElementById('dropdown-menu'); dropdown.classList.toggle('active'); } // Mark notifications as read function markNotificationAsRead() { const badge = document.getElementById('notification-badge'); badge.style.display = 'none'; // Additional logic to mark notifications as read would go here } // Back to top button window.addEventListener('scroll', function() { const backToTop = document.getElementById('backToTop'); if (window.pageYOffset > 300) { backToTop.classList.add('visible'); } else { backToTop.classList.remove('visible'); } }); // Form submission document.getElementById('contactForm').addEventListener('submit', function(e) { e.preventDefault(); // Form submission logic would go here alert('Thank you for your message! We will contact you soon.'); this.reset(); }); // Animate stats function animateStats() { const stats = [ { id: 'years-exp', target: 34, suffix: '+' }, { id: 'clients', target: 500, suffix: '+' }, { id: 'projects', target: 2000, suffix: '+' }, { id: 'employees', target: 300, suffix: '+' } ]; stats.forEach(stat => { const element = document.getElementById(stat.id); const duration = 2000; // Animation duration in ms const step = Math.floor(stat.target / (duration / 16)); // 60fps let current = 0; const timer = setInterval(() => { current += step; if (current >= stat.target) { clearInterval(timer); current = stat.target; } element.textContent = current + stat.suffix; }, 16); }); } // Initialize stats animation when in view const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { animateStats(); observer.unobserve(entry.target); } }); }, { threshold: 0.5 }); const statsSection = document.querySelector('.stats-section'); if (statsSection) { observer.observe(statsSection); } // Close dropdowns when clicking outside document.addEventListener('click', function(event) { const dropdownMenu = document.getElementById('dropdown-menu'); const notificationDropdown = document.getElementById('notification-dropdown'); const profileIcon = document.querySelector('.fa-user-circle'); const notificationIcon = document.querySelector('.notification-icon-wrapper'); if (dropdownMenu.classList.contains('active')) { if (!event.target.closest('.fa-user-circle') && !event.target.closest('#dropdown-menu')) { dropdownMenu.classList.remove('active'); } } if (notificationDropdown.classList.contains('active')) { if (!event.target.closest('.notification-icon-wrapper') && !event.target.closest('#notification-dropdown')) { notificationDropdown.classList.remove('active'); } } }); // Initialize with some notifications (demo purposes) window.addEventListener('DOMContentLoaded', function() { const notificationBadge = document.getElementById('notification-badge'); notificationBadge.textContent = '3'; notificationBadge.style.display = 'flex'; const notificationContent = document.querySelector('.notification-content'); notificationContent.innerHTML = ` <div class="notification-item new"> <strong>New Partnership Announcement</strong> <p>STS has partnered with Microsoft to deliver enhanced cloud solutions</p> <small>2 hours ago</small> </div> <div class="notification-item new"> <strong>Webinar Invitation</strong> <p>Join our cybersecurity webinar on June 15th at 2 PM</p> <small>1 day ago</small> </div> <div class="notification-item new"> <strong>Service Update</strong> <p>New AI capabilities now available in our analytics platform</p> <small>3 days ago</small> </div> `; }); </script>
-</body>
 
+  <script>
+    // Toggle mobile menu
+    function toggleMenu() {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('active');
+    }
+  </script>
+</body>
 </html>
