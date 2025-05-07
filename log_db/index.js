@@ -87,170 +87,6 @@ const upload = multer({ storage: storage });
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// POST endpoint
-// Handle GET requests to /train (if needed)
-app.get("/train", (req, res) => {
-  res.render("train"); // اسم ملف EJS الخاص بصفحة النموذج
-});
-app.get("/train-success", (req, res) => {
-  res.render("train-success"); // صفحة EJS فيها رسالة نجاح
-});
-
-app.post(
-  "/train",
-  upload.fields([
-    { name: "national_id_file", maxCount: 1 },
-    { name: "transcript_file", maxCount: 1 },
-    { name: "cv_file", maxCount: 1 },
-  ]),
-  async (req, res) => {
-
-    try {
-     
-      console.log(req.body.id);
-      
-      const {
-        full_name,
-        national_id,
-        dob,
-        gender,
-        email,
-        phone,
-        address,
-        university,
-        degree,
-        major,
-        gpa,
-        training_type,
-        start_date,
-        skills,
-        terms_accepted,
-        id,
-      } = req.body;
-
-      if (!full_name || !national_id || !email || !phone) {
-        console.error("❌ Missing required fields.");
-        return res.status(400).json({
-          error: "Full name, national ID, email, and phone are required.",
-        });
-      }
-
-      console.log("✅ Body fields received:");
-    
-
-      const nationalIdFile = req.files?.["national_id_file"]?.[0];
-      const transcriptFile = req.files?.["transcript_file"]?.[0];
-      const cvFile = req.files?.["cv_file"]?.[0];
-
-      if (!req.files || !nationalIdFile) {
-        console.error("❌ Missing National ID file.");
-        return res.status(400).json({ error: "National ID file is required." });
-      }
-
-      if (!req.files || !transcriptFile) {
-        console.error("❌ Missing Transcript file.");
-        return res.status(400).json({ error: "Transcript file is required." });
-      }
-
-      if (!cvFile) {
-        return res.status(400).json({ error: "CV file is required." });
-      }
-
-      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-      if (nationalIdFile.size > MAX_FILE_SIZE) {
-        console.error("❌ National ID file is too large.");
-        return res
-          .status(400)
-          .json({ error: "National ID file size exceeds the limit of 10MB." });
-      }
-
-      if (transcriptFile.size > MAX_FILE_SIZE) {
-        console.error("❌ Transcript file is too large.");
-        return res
-          .status(400)
-          .json({ error: "Transcript file size exceeds the limit of 10MB." });
-      }
-
-    
-
-      const query = `
-      INSERT INTO applications (
-        full_name, national_id, dob, gender, email, phone, address,
-        university, degree, major, gpa, training_type, start_date, skills,
-        national_id_file, transcript_file,cv_file, terms_accepted ,company_id
-      ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7,
-        $8, $9, $10, $11, $12, $13, $14,
-        $15, $16, $17,$18 ,$19
-      ) RETURNING id;
-    `;
-
-      const values = [
-        full_name,
-        national_id,
-        dob,
-        gender,
-        email,
-        phone,
-        address,
-        university,
-        degree,
-        major,
-        gpa,
-        training_type,
-        start_date,
-        skills,
-        nationalIdFile.filename,
-        transcriptFile.filename,
-        cvFile.filename,
-        terms_accepted === "on",
-        id
-      ];
-
-      console.log("📤 Sending data to database...");
-      const result = await db.query(query, values);
-
-      if (!result || !result.rows || result.rows.length === 0) {
-        console.error("❌ Failed to insert data into the database.");
-        return res
-          .status(500)
-          .json({ error: "Failed to insert data into the database." });
-      }
-      console.log("✅ Insert success. Application ID:", result.rows[0].id);
-
-      // Add flash message before redirecting
-      // إضافة الإشعار في جدول notifications
-      const notificationQuery = `
-        INSERT INTO notifications (
-          user_std_id, 
-          title, 
-          message, 
-          url
-        ) VALUES ($1, $2, $3, $4)
-      `;
-
-      // await db.query(notificationQuery, [
-      //   req.user.std_id,
-      //   "New Training Application", // أزل المسافة الزائدة في البداية
-      //   `Your application has been successfully submitted! Application ID: ${applicationId}`, // أضف Application ID
-      //   `/ /${applicationId}`,
-      // ]);
-      req.flash(
-        "success_msg",
-        `Your application has been successfully submitted! Application ID: ${result.rows[0].id}`
-      );
-     res.redirect("./companies?status=completed");
-    } catch (err) {
-      console.error("🔥 General error occurred:", err.message);
-      console.error("Stack:", err.stack);
-      return res.status(500).json({
-        error: "An unexpected error occurred. Please try again later.",
-        details: err.message,
-      });
-    }
-  }
-);
-
 // ======================
 // NOTIFICATION SYSTEM
 // ======================
@@ -426,7 +262,168 @@ const requireSession = (req, res, next) => {
 // ======================
 // STATIC PAGES ROUTES
 // ======================
+// POST endpoint
+// Handle GET requests to /train (if needed)
+app.get("/train", requireAuth, (req, res) => {
+  const user = req.session.user;
+  console.log(user.std_id);
+  res.render("train"); // اسم ملف EJS الخاص بصفحة النموذج
+});
+app.get("/train-success", (req, res) => {
+  res.render("train-success"); // صفحة EJS فيها رسالة نجاح
+});
 
+app.post(
+  "/train",
+  requireAuth,
+  upload.fields([
+    { name: "national_id_file", maxCount: 1 },
+    { name: "transcript_file", maxCount: 1 },
+    { name: "cv_file", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      console.log(req.body.id);
+      const user = req.session.user;
+      const {
+        full_name,
+        national_id,
+        dob,
+        gender,
+        email,
+        phone,
+        address,
+        university,
+        degree,
+        major,
+        gpa,
+        training_type,
+        start_date,
+        skills,
+        terms_accepted,
+        id,
+      } = req.body;
+
+      if (!full_name || !national_id || !email || !phone) {
+        console.error("❌ Missing required fields.");
+        return res.status(400).json({
+          error: "Full name, national ID, email, and phone are required.",
+        });
+      }
+
+      console.log("✅ Body fields received:");
+
+      const nationalIdFile = req.files?.["national_id_file"]?.[0];
+      const transcriptFile = req.files?.["transcript_file"]?.[0];
+      const cvFile = req.files?.["cv_file"]?.[0];
+
+      if (!req.files || !nationalIdFile) {
+        console.error("❌ Missing National ID file.");
+        return res.status(400).json({ error: "National ID file is required." });
+      }
+
+      if (!req.files || !transcriptFile) {
+        console.error("❌ Missing Transcript file.");
+        return res.status(400).json({ error: "Transcript file is required." });
+      }
+
+      if (!cvFile) {
+        return res.status(400).json({ error: "CV file is required." });
+      }
+
+      const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+      if (nationalIdFile.size > MAX_FILE_SIZE) {
+        console.error("❌ National ID file is too large.");
+        return res
+          .status(400)
+          .json({ error: "National ID file size exceeds the limit of 10MB." });
+      }
+
+      if (transcriptFile.size > MAX_FILE_SIZE) {
+        console.error("❌ Transcript file is too large.");
+        return res
+          .status(400)
+          .json({ error: "Transcript file size exceeds the limit of 10MB." });
+      }
+
+      const query = `
+      INSERT INTO applications (
+        full_name, national_id, dob, gender, email, phone, address,
+        university, degree, major, gpa, training_type, start_date, skills,
+        national_id_file, transcript_file,cv_file, terms_accepted ,company_id,student_id
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7,
+        $8, $9, $10, $11, $12, $13, $14,
+        $15, $16, $17,$18 ,$19,$20
+      ) RETURNING id;
+    `;
+
+      const values = [
+        full_name,
+        national_id,
+        dob,
+        gender,
+        email,
+        phone,
+        address,
+        university,
+        degree,
+        major,
+        gpa,
+        training_type,
+        start_date,
+        skills,
+        nationalIdFile.filename,
+        transcriptFile.filename,
+        cvFile.filename,
+        terms_accepted === "on",
+        id,
+        user.std_id,
+      ];
+
+      console.log("📤 Sending data to database...");
+      const result = await db.query(query, values);
+
+      if (!result || !result.rows || result.rows.length === 0) {
+        console.error("❌ Failed to insert data into the database.");
+        return res
+          .status(500)
+          .json({ error: "Failed to insert data into the database." });
+      }
+      console.log("✅ Insert success. Application ID:", result.rows[0].id);
+
+      // Add flash message before redirecting
+      // إضافة الإشعار في جدول notifications
+      const notificationQuery = `
+        INSERT INTO notifications (
+          user_std_id, 
+          title, 
+          message, 
+          url
+        ) VALUES ($1, $2, $3, $4)
+      `;
+
+      // await db.query(notificationQuery, [
+      //   req.user.std_id,
+      //   "New Training Application", // أزل المسافة الزائدة في البداية
+      //   `Your application has been successfully submitted! Application ID: ${applicationId}`, // أضف Application ID
+      //   `/ /${applicationId}`,
+      // ]);
+      req.flash(
+        "success_msg",
+        `Your application has been successfully submitted! Application ID: ${result.rows[0].id}`
+      );
+      res.redirect("./companies?status=completed");
+    } catch (err) {
+      console.error("🔥 General error occurred:", err.message);
+      console.error("Stack:", err.stack);
+      return res.status(500).json({
+        error: "An unexpected error occurred. Please try again later.",
+        details: err.message,
+      });
+    }
+  }
+);
 // Landing page
 app.get(["/", "/first_p"], (req, res) => {
   res.render("first_p.ejs");
@@ -494,6 +491,7 @@ app.get("/register3", requireSession, (req, res) => {
   console.log("GET /register3, session:", req.session);
   res.render("register3.ejs");
 });
+
 app.post("/register", async (req, res) => {
   try {
     console.log("POST /register received:", req.body);
@@ -671,67 +669,68 @@ app.get("/login", (req, res) => {
   res.render("login.ejs");
 });
 app.post("/login", async (req, res) => {
-  const { std_id, password } = req.body;
+  const { std_id, password, user_type } = req.body;
 
   try {
-    // Special case for admin
-    if (std_id === "4412106" && password === "Cc!4412106") {
-      req.session.user = {
-        std_id: "4412106",
-        isAdmin: true,
-        name: "Admin User",
-      };
-      return res.redirect("/company1");
-    }
+    let error = null; // Initialize error variable
 
-    // Check if the user exists
+    // Check for student login
     const result = await db.query("SELECT * FROM users WHERE std_id = $1", [
       std_id,
     ]);
 
     if (result.rows.length > 0) {
       const user = result.rows[0];
-
-      // Compare the password with the hashed one in the database
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (isMatch) {
-        // Store user data in session
         req.session.user = {
           std_id: user.std_id,
           name: user.username,
           email: user.email,
-          isAdmin: user.isAdmin || false, // If 'isAdmin' exists in the DB
+          isAdmin: user.isAdmin || false,
         };
-
-        // Add login notification (function needs to be defined properly)
-        addNotification(
-          user.std_id,
-          NOTIFICATION_TYPES.SYSTEM_ALERT,
-          "You have successfully logged in"
-        );
-
-        // Send real-time login notification (function needs to be defined properly)
-        sendRealTimeNotification(user.std_id, {
-          type: NOTIFICATION_TYPES.SYSTEM_ALERT,
-          message: "You have successfully logged in",
-          timestamp: new Date(),
-        });
-
-        // Redirect to profile page after successful login
         return res.redirect("/home");
       } else {
-        // Password is incorrect
-        res.render("login", { error: "Incorrect Password" });
+        // Incorrect password for student
+        error = "Incorrect Password"; // Set error
       }
     } else {
-      // User not found
-      res.render("login", { error: "User not found" });
+      // Check for company login
+      const companyResult = await db.query(
+        "SELECT * FROM company WHERE company_id = $1",
+        [std_id]
+      );
+
+      if (companyResult.rows.length > 0) {
+        const company = companyResult.rows[0];
+        const isMatch = await bcrypt.compare(password, company.password);
+
+        if (isMatch) {
+          req.session.user = {
+            id: company.company_id,
+            isAdmin: true,
+            name: company.name,
+            location: company.location,
+            industry: company.industry,
+            email: company.contact_info,
+          };
+          return res.redirect("/company1");
+        } else {
+          // Incorrect password for company
+          error = "Incorrect Password"; // Set error
+        }
+      } else {
+        // If user not found in both student and company tables
+        error = "User not found"; // Set error
+      }
     }
+
+    // Render the login page with the error message (if any)
+    return res.render("login", { error });
   } catch (err) {
     console.error("Login error:", err);
-    // Error during login process
-    res.status(500).render("error", { message: "Login failed", error: err });
+    return res.status(500).render("login", { error: "Something went wrong" });
   }
 });
 
@@ -789,8 +788,70 @@ app.get("/profile", requireAuth, async (req, res) => {
     });
   }
 });
-app.get("/train", requireAuth, async (req, res) => {
-  res.redirect("/train");
+app.post("/login", async (req, res) => {
+  const { std_id, password, user_type } = req.body;
+
+  try {
+    let error = null; // Initialize error variable to null
+
+    // Check for student login
+    const result = await db.query("SELECT * FROM users WHERE std_id = $1", [
+      std_id,
+    ]);
+
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (isMatch) {
+        req.session.user = {
+          std_id: user.std_id,
+          name: user.username,
+          email: user.email,
+          isAdmin: user.isAdmin || false,
+        };
+        return res.redirect("/home");
+      } else {
+        // Incorrect password for student
+        error = "Incorrect Password"; // Set error message for incorrect password
+      }
+    } else {
+      // Check for company login
+      const companyResult = await db.query(
+        "SELECT * FROM company WHERE company_id = $1",
+        [std_id]
+      );
+
+      if (companyResult.rows.length > 0) {
+        const company = companyResult.rows[0];
+        const isMatch = await bcrypt.compare(password, company.password);
+
+        if (isMatch) {
+          req.session.user = {
+            id: company.company_id,
+            isAdmin: true,
+            name: company.name,
+            location: company.location,
+            industry: company.industry,
+            email: company.contact_info,
+          };
+          return res.redirect("/company1");
+        } else {
+          // Incorrect password for company
+          error = "Incorrect Password"; // Set error message for incorrect password
+        }
+      } else {
+        // If user not found in both student and company tables
+        error = "User not found"; // Set error message when user is not found
+      }
+    }
+
+    // Always pass the error (even if it's null) to the template
+    return res.render("login", { error });
+  } catch (err) {
+    console.error("Login error:", err);
+    return res.status(500).render("login", { error: "Something went wrong" });
+  }
 });
 
 // Logout route
@@ -820,6 +881,119 @@ app.post("/delete-account", requireAuth, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error: " + err.message);
+  }
+});
+app.get("/task_status", requireAuth, async (req, res) => {
+  const user = req.session.user;
+
+  try {
+    // Step 1: Fetch tasks for the company with the student's username
+    const assignedTasksResult = await db.query(
+      `
+      SELECT t.id, t.title, t.description, t.created_at, t.end_at, t.company_id, t.student_id, t.status, u.username
+      FROM task t
+      LEFT JOIN users u ON u.std_id = t.student_id  -- Assuming the table with usernames is 'users' and it has 'std_id' and 'username' fields
+      WHERE t.company_id = $1
+      ORDER BY
+        CASE
+          WHEN t.status = 'completed' THEN 1
+          WHEN t.status = 'active' THEN 2
+          WHEN t.status = 'overdue' THEN 3
+          ELSE 4
+        END
+      `,
+      [user.id]
+    );
+
+    const assignedTasks = assignedTasksResult.rows;
+
+    // Step 2: Process each task
+    const tasksWithSubmissions = await Promise.all(
+      assignedTasks.map(async (task) => {
+        // Step 2.1: Find the submission for the current task
+        const submissionResult = await db.query(
+          `SELECT id, created_at, task_id, description FROM task_submmistion WHERE task_id = $1`, // Use the correct table name 'task_submmistion'
+          [task.id]
+        );
+        const submission = submissionResult.rows[0];
+
+        // Step 2.2: Handle the "overdue" status
+        const currentDate = new Date();
+        const taskEndDate = new Date(task.end_at); // Convert end_at to a Date object
+
+        // If no submission and end_at is past the current date, set status to "overdue"
+        if (!submission && taskEndDate < currentDate) {
+          // Update status in the database
+          await db.query(`UPDATE task SET status = $1 WHERE id = $2`, [
+            "overdue",
+            task.id,
+          ]);
+          task.status = "overdue"; // Update in memory
+        }
+
+        // Add submission data to task
+        task.submission = submission || null; // Add submission if exists, else null
+
+        // Replace student_id with the username in the task record
+        task.student_username = task.username; // Store the student's username instead of student_id
+
+        return task;
+      })
+    );
+
+    console.log(tasksWithSubmissions);
+
+    // Step 3: Send the response with tasks and their associated submissions
+    res.status(200).render("task_status.ejs", {
+      user: user,
+      tasks: tasksWithSubmissions,
+    });
+  } catch (error) {
+    console.error("Error fetching task status:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/task_details", requireAuth, async (req, res) => {
+  try {
+    // const approved students
+    const user = req.session.user;
+    const studentsInCompany = await db.query(
+      `select * from applications where company_id=$1 and status='accepted' `,
+      [user.id]
+    );
+    res.status(200).render("task_details.ejs", {
+      user: user,
+      students: studentsInCompany.rows,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error: " + error.message);
+  }
+});
+app.post("/task_details", requireAuth, async (req, res) => {
+  const { title, description, deadline, assigned_students } = req.body;
+  const company_id = req.session.user.id;
+  const created_at = new Date().toLocaleDateString("en-CA");
+
+  console.log(title, description, deadline, assigned_students);
+
+  // Ensure assigned_students is always an array
+  const studentsArray = Array.isArray(assigned_students)
+    ? assigned_students
+    : [assigned_students];
+
+  try {
+    for (const studentId of studentsArray) {
+      await db.query(
+        "INSERT INTO task (created_at, end_at, title, description, company_id, student_id) VALUES ($1, $2, $3, $4, $5, $6)",
+        [created_at, deadline, title, description, company_id, studentId]
+      );
+    }
+
+    res.status(200).send("completed");
+  } catch (error) {
+    res.status(500).send("Internal Server Error: " + error.message);
   }
 });
 
@@ -985,7 +1159,7 @@ app.use((err, req, res, next) => {
 // ======================
 
 server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
 
 // Graceful shutdown
