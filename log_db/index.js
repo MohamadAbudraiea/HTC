@@ -104,12 +104,11 @@ app.post(
     { name: "cv_file", maxCount: 1 },
   ]),
   async (req, res) => {
-    console.log("🚀 Received POST /train request");
 
     try {
-      console.log(req.params.id);
-      console.log(req.query.id);
-      console.log(req.body);
+     
+      console.log(req.body.id);
+      
       const {
         full_name,
         national_id,
@@ -126,6 +125,7 @@ app.post(
         start_date,
         skills,
         terms_accepted,
+        id,
       } = req.body;
 
       if (!full_name || !national_id || !email || !phone) {
@@ -136,23 +136,7 @@ app.post(
       }
 
       console.log("✅ Body fields received:");
-      console.table({
-        full_name,
-        national_id,
-        dob,
-        gender,
-        email,
-        phone,
-        address,
-        university,
-        degree,
-        major,
-        gpa,
-        training_type,
-        start_date,
-        skills,
-        terms_accepted: terms_accepted === "on",
-      });
+    
 
       const nationalIdFile = req.files?.["national_id_file"]?.[0];
       const transcriptFile = req.files?.["transcript_file"]?.[0];
@@ -187,34 +171,17 @@ app.post(
           .json({ error: "Transcript file size exceeds the limit of 10MB." });
       }
 
-      console.log("🗂️ Files info:");
-      console.table({
-        "National ID File": {
-          name: nationalIdFile.originalname,
-          savedAs: nationalIdFile.filename,
-          sizeKB: Math.round(nationalIdFile.size / 1024),
-        },
-        "Transcript File": {
-          name: transcriptFile.originalname,
-          savedAs: transcriptFile.filename,
-          sizeKB: Math.round(transcriptFile.size / 1024),
-        },
-        "CV File": {
-          name: cvFile.originalname,
-          savedAs: cvFile.filename,
-          sizeKB: Math.round(cvFile.size / 1024),
-        },
-      });
+    
 
       const query = `
       INSERT INTO applications (
         full_name, national_id, dob, gender, email, phone, address,
         university, degree, major, gpa, training_type, start_date, skills,
-        national_id_file, transcript_file,cv_file, terms_accepted 
+        national_id_file, transcript_file,cv_file, terms_accepted ,company_id
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7,
         $8, $9, $10, $11, $12, $13, $14,
-        $15, $16, $17,$18 
+        $15, $16, $17,$18 ,$19
       ) RETURNING id;
     `;
 
@@ -237,6 +204,7 @@ app.post(
         transcriptFile.filename,
         cvFile.filename,
         terms_accepted === "on",
+        id
       ];
 
       console.log("📤 Sending data to database...");
@@ -261,17 +229,17 @@ app.post(
         ) VALUES ($1, $2, $3, $4)
       `;
 
-      await db.query(notificationQuery, [
-        req.user.std_id,
-        "New Training Application", // أزل المسافة الزائدة في البداية
-        `Your application has been successfully submitted! Application ID: ${applicationId}`, // أضف Application ID
-        `/applications/${applicationId}`,
-      ]);
+      // await db.query(notificationQuery, [
+      //   req.user.std_id,
+      //   "New Training Application", // أزل المسافة الزائدة في البداية
+      //   `Your application has been successfully submitted! Application ID: ${applicationId}`, // أضف Application ID
+      //   `/ /${applicationId}`,
+      // ]);
       req.flash(
         "success_msg",
         `Your application has been successfully submitted! Application ID: ${result.rows[0].id}`
       );
-      res.redirect("/home");
+     res.redirect("./companies?status=completed");
     } catch (err) {
       console.error("🔥 General error occurred:", err.message);
       console.error("Stack:", err.stack);

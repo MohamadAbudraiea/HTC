@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -402,6 +403,116 @@
 .company-info button:hover span {
     margin-right: 15px;
 }
+/* Media Queries for Responsive Design */
+@media (max-width: 1200px) {
+    /* Laptop adjustments */
+    .nav-links {
+        margin-left: 500px;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 992px) {
+    /* Small laptop/tablet adjustments */
+    .nav-links {
+        margin-left: 300px;
+        gap: 25px;
+    }
+    
+    .company {
+        width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Tablet adjustments */
+    .nav-links {
+        display: none; /* Hide desktop navigation */
+    }
+    
+    .menu-icon {
+        display: block; /* Show mobile menu icon */
+    }
+    
+    .navbar-right {
+        gap: 15px;
+    }
+    
+    .company {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filters select {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Mobile adjustments */
+    .navbar {
+        padding: 8px 15px;
+    }
+    
+    .logo {
+        height: 40px !important;
+    }
+    
+    .menu-icon {
+        font-size: 24px;
+    }
+    
+    .navbar-right i {
+        font-size: 18px;
+    }
+    
+    .dropdown-menu {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+    
+    .profile-img2 {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .company-info h3 {
+        font-size: 14px;
+    }
+    
+    .company-info p {
+        font-size: 12px;
+    }
+    
+    footer {
+        position: static;
+        margin-top: 20px;
+    }
+    
+    body {
+        padding-bottom: 0;
+    }
+}
+
+/* For mobile menu activation */
+.show-menu .nav-links {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: #003366;
+    margin-left: 0;
+    padding: 20px;
+    gap: 15px;
+}
     </style>
 </head>
 
@@ -487,6 +598,17 @@
 
         </select>
     </div>
+
+
+    <script>
+        //This script to parse the ID from the URL
+        // Get the ID from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');  // Gets the value of the "id" parameter
+        if(status!=null)
+        alert("Your Applicant Have been Saved");
+    </script>
+
     <!-- Companies List -->
     <!-- Companies List -->
     <div class="companies-list">
@@ -512,8 +634,8 @@
                 <p>specializing in enterprise IT solutions, database management, and cloud infrastructure</p>
                 <p>Phone: +962 (6) 4001005 </p>
                 <p>Location: King Abdullah II Street, Building No. 4, 1st Floor, Amman, Jordan 11855</p>
+                <a href="/train?id=2"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=2"><button><span>Apply Now</span></button></a>
         </div>
         <div class="company" data-location="amman" data-scoop="software, business analysis">
             <img src="https://media.licdn.com/dms/image/v2/D560BAQGS3xSZKx-cBg/company-logo_200_200/company-logo_200_200/0/1686234917804/atypon_logo?e=2147483647&v=beta&t=m3V1AvqfGb0-7s-Rip96JjTgadigUNPaFEnC7hc7Wt4"
@@ -523,8 +645,8 @@
                 <p>Specialized in content management software and digital transformation solutions.</p>
                 <p>Contact: hr@atypon.com</p>
                 <p>Location: at 141 Makkah Al Mukaramah Street, Hamadani 1 Complex, 3rd Floor, Amman 11181, Jordan.</p>
+                <a href="/train?id=3"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=3"><button><span>Apply Now</span></button></a>
         </div>
         <div class="company" data-location="irbid"
             data-scoop="business analysis,data_science,quality assurance,network_a">
@@ -536,8 +658,8 @@
                     science, quality assurance, and networking.</p>
                 <p>Contact: info@marsrobotic.com</p>
                 <p>Location: Wasfi At-Tal Street, Irbid, Jordan</p>
+                <a href="/train?id=4"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=4"><button><span>Apply Now</span></button></a>
         </div>
         <div class="company" data-location="amman" data-scoop="Web, software">
             <img src="https://secure.b8cdn.com/images/logo/99/1272499_logo_1566202787_n.png" alt="Kensoftware Logo"
@@ -548,8 +670,8 @@
                     Jordanian and global markets.</p>
                 <p>Contact: <a href="mailto:info@kensoftware.com">info@kensoftware.com</a></p>
                 <p>Location: Office #112, Al Husseini Complex, 314 Zahran Street, 7th Circle, Amman, Jordan</p>
+                <a href="/train?id=5"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=5"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman"
@@ -561,8 +683,8 @@
                 <p>Various fields including IT</p>
                 <p>Contact: hr@jo.zain.com</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=6"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=6"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman"
@@ -574,8 +696,9 @@
                 <p>Training in Coding</p>
                 <p>Contact: Orange_JO</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=7"><button><span>Apply Now</span></button></a>      
             </div>
-            <a href="/train?id=7"><button><span>Apply Now</span></button></a>        </div>
+        </div>
 
         <div class="company" data-location="amman"
             data-scoop="database management,software,business analysis,network_a,quality assurance (QA),cybersecurity">
@@ -586,8 +709,8 @@
                 <p>IT Support and DevOps for logistics technology</p>
                 <p>Contact: aramex.com</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=8"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=8"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman"
@@ -599,8 +722,8 @@
                 <p>Positions in software engineering, digital marketing, and finance for IT-related skills</p>
                 <p>Contact: for9a.com</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=9"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=9"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="irbid" data-scoop="software,business analysis">
@@ -612,8 +735,8 @@
                     customized system integration.</p>
                 <p>Contact: info@yalopi.com</p>
                 <p>Location: Near VOGO Traffic Light, Irbid, Jordan</p>
+                <a href="/train?id=10"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=10"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman" data-scoop="software,business analysis,cybersecurity">
@@ -624,8 +747,8 @@
                 <p>Different IT majors</p>
                 <p>Contact: Tel: +962 6 580 2626</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=11"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=11"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman" data-scoop="software">
@@ -636,8 +759,8 @@
                 <p>Software Development</p>
                 <p>Contact: info@datosolution.com</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=12"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=12"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman">
@@ -648,8 +771,8 @@
                 <p>Several fields in IT and design</p>
                 <p>Contact: a.qed@techmindsconsulting.io</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=13"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=13"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman">
@@ -660,8 +783,8 @@
                 <p>Various aspects of digital payment systems</p>
                 <p>Contact: +962 7 9808030</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=14"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=14"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman">
@@ -672,8 +795,8 @@
                 <p>Several fields related to digital transformation and financial technology</p>
                 <p>Contact: hr@bayanat.com</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=15"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=15"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman">
@@ -684,8 +807,8 @@
                 <p>Suitable for IT and tech marketing experience</p>
                 <p>Contact: careem.com</p>
                 <p>Location: Amman</p>
+                <a href="/train?id=16"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=16"><button><span>Apply Now</span></button></a>
         </div>
         <div class="company" data-location="amman">
             <img src="https://www.act.is/wp-content/uploads/2016/03/emp-logo-4_3.png"
@@ -696,8 +819,8 @@
                 <p>Contact: 06 5606829
                 </p>
                 <p>Location: Shmeisani, Amman</p>
+                <a href="/train?id=17"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=17"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman" data-scoop="software,web">
@@ -708,9 +831,9 @@
                 <p>Specialized in software development, web and business software solutions.</p>
                 <p>Contact: +962 6 5510717</p>
                 <p>Location: Al Madina Al Munawara, Amman</p>
+                <a href="/train?id=18"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=18"><button><span>Apply Now</span></button></a>
-        </div>
+           </div>
 
 
         <div class="company" data-location="amman">
@@ -721,8 +844,8 @@
                 <p>Specialized in IT consulting and systems integration.</p>
                 <p>Contact: 65802626 </p>
                 <p>Location: Abdullah Ghosheh Street, Amman</p>
+                <a href="/train?id=19"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=19"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman">
@@ -733,8 +856,8 @@
                 <p>Provides mobile app training and development services.</p>
                 <p>Contact: 798842622 </p>
                 <p>Location: University Street, Amman</p>
+                <a href="/train?id=20"><button><span>Apply Now</span></button></a>
             </div>
-            <a href="/train?id=20"><button><span>Apply Now</span></button></a>
         </div>
 
         <div class="company" data-location="amman" data-scoop="software,web">
@@ -745,9 +868,8 @@
                 <p>Specialized in workflow systems and software development.</p>
                 <p>Contact: 0795989588 </p>
                 <p>Location: Khalda, Amman</p>
+                <a href="/train?id=21"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=21"><button>Apply Now</button></a>
-
         </div>
 
         <div class="company" data-location="amman" data-scoop="software,web,database management">
@@ -757,9 +879,8 @@
                 <p>Specialized in enterprise IT solutions, database, and cloud infrastructure.</p>
                 <p>Contact: 65200800 </p>
                 <p>Location: Shmeisani, Amman</p>
+                <a href="/train?id=22"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=22"><button>Apply Now</button></a>
-
         </div>
 
 
@@ -771,9 +892,8 @@
                 <p>Specialized in IT consulting and system integration.</p>
                 <p>Contact: 0785440535 </p>
                 <p>Location: Al Madina Al Munawara, Amman</p>
+                <a href="/train?id=23"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=23"><button>Apply Now</button></a>
-
         </div>
 
 
@@ -788,9 +908,8 @@
                 <p>Specialty: Web design and development, Software development</p>
                 <p>Services: Web development, Mobile apps, Digital marketing</p>
                 <p>Contact: contact@smarttouch.com</p>
+                <a href="/train?id=24"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=24"><button>Apply Now</button></a>
-
         </div>
 
         <div class="company" data-location="zarqa" data-scoop="software , web">
@@ -802,9 +921,8 @@
                 <p>Specialty: Software development, Web development</p>
                 <p>Services: Web design and development, IT consulting</p>
                 <p>Contact: contact@intelligentsolutions.com</p>
+                <a href="/train?id=25"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=25"><button>Apply Now</button></a>
-
         </div>
 
         <div class="company" data-location="zarqa" data-scoop="software,web">
@@ -816,9 +934,8 @@
                 <p>Specialty: Software development, Web design</p>
                 <p>Services: Web development, Web apps, Hosting services</p>
                 <p>Contact: contact@toptechsolutions.com</p>
+                <a href="/train?id=26"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=26"><button>Apply Now</button></a>
-
         </div>
 
         <div class="company" data-location="zarqa" data-scoop="software,web">
@@ -830,9 +947,8 @@
                 <p>Specialty: IT consulting, Programming</p>
                 <p>Services: App and web development, Integrated systems</p>
                 <p>Contact: contact@softtech.com</p>
+                <a href="/train?id=27"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=27"><button>Apply Now</button></a>
-
         </div>
         <div class="company" data-location="zarqa">
             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Intel_logo.svg" alt="Intel Logo"
@@ -843,9 +959,8 @@
                 <p>Specialty: Semiconductor technology, Computing solutions</p>
                 <p>Services: Chip manufacturing, IT infrastructure solutions</p>
                 <p>Contact: contact@intel.com</p>
+                <a href="/train?id=28"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=28"><button>Apply Now</button></a>
-
         </div>
 
 
@@ -858,9 +973,8 @@
                 <p>Specialty: Software development, IT consulting</p>
                 <p>Services: Website development, Business software management</p>
                 <p>Contact: contact@digitallink.com</p>
+                <a href="/train?id=29"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=29"><button>Apply Now</button></a>
-
         </div>
 
         <!-- Company 1 -->
@@ -873,9 +987,8 @@
                 <p>Specialty: Software Development, Web Development</p>
                 <p>Services: Custom Software Development, Web Design, Mobile App Development</p>
                 <p>Contact: info@codebase.com.jo</p>
+                <a href="/train?id=30"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=30"><button>Apply Now</button></a>
-
         </div>
 
         <!-- Company 2 -->
@@ -888,9 +1001,8 @@
                 <p>Specialty: IT Consulting, Software Development</p>
                 <p>Services: IT Solutions, Custom Software, Business Consulting</p>
                 <p>Contact: info@beshara.com</p>
+                <a href="/train?id=31"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=31"><button>Apply Now</button></a>
-
         </div>
 
         <!-- Company 3 -->
@@ -903,9 +1015,8 @@
                 <p>Specialty: Software Development, Web Development</p>
                 <p>Services: Custom Software, Mobile and Web Applications</p>
                 <p>Contact: info@inova.jo</p>
+                <a href="/train?id=32"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=32"><button>Apply Now</button></a>
-
         </div>
 
         <div class="company" data-location="amman"
@@ -918,10 +1029,8 @@
                 <p>Specialty: IT Services and Consulting</p>
                 <p>Contact: info@tagtech.global</p>
                 <p>Phone: (+9626) 5100250</p>
-
+                <a href="/train?id=33"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=33"><button>Apply Now</button></a>
-
         </div>
 
 
@@ -935,9 +1044,8 @@
                 <p>Specialty: Web and Mobile App Development</p>
                 <p>Services: Custom Software Development, Mobile App and Web Development</p>
                 <p>Contact: support@lebaltech.com</p>
+                <a href="/train?id=34"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=34"><button>Apply Now</button></a>
-
         </div>
 
         <!-- Company 5 -->
@@ -950,9 +1058,8 @@
                 <p>Specialty: IT Consulting, Software Development</p>
                 <p>Services: IT Solutions, Web and Mobile App Development</p>
                 <p>Contact: info@softwave.com.jo</p>
+                <a href="/train?id=35"><button>Apply Now</button></a>
             </div>
-            <a href="/train?id=35"><button>Apply Now</button></a>
-
         </div>
 
 
