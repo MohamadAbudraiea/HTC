@@ -50,7 +50,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 app.use((req, res, next) => {
   // اجعل الـ flash messages متاحة في الـ views
   res.locals.success_msg = req.flash("success_msg");
@@ -997,7 +996,16 @@ app.post("/task_details", requireAuth, async (req, res) => {
     res.status(500).send("Internal Server Error: " + error.message);
   }
 });
-
+app.get("/req", requireAuth, async (req, res) => {
+  try {
+    const user = req.session.user;
+    console.log(user.id);
+    res.status(200).render("/req");
+  } catch (error) {
+    session.destroy();
+    res.status(400).redirect("/login");
+  }
+});
 // ======================
 // EMAIL SERVICES
 // ======================
@@ -1112,34 +1120,60 @@ app.post("/verify-otp", async (req, res) => {
 // ======================
 
 // Sample application data
-const applications = [
-  {
-    id: 1,
-    name: "Lana Abu-Hmaid",
-    email: "lana@example.com",
-    GPA: 3.8,
-    address: "Amman",
-    gender: "Female",
-    position: "Backend Developer",
-    cv_url: "/cv_files/cv1.pdf",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    name: "Ahmad Ali",
-    email: "ahmad@example.com",
-    GPA: 3.4,
-    address: "Zarqa",
-    gender: "Male",
-    position: "Software Engineer",
-    cv_url: "/cv_files/cv2.pdf",
-    status: "Accepted",
-  },
-];
+app.use("/uploads", express.static("uploads"));
 
 // API for retrieving training applications
-app.get("/company/:companyId/applications", requireAuth, (req, res) => {
-  res.json(applications);
+app.get("/company/:companyId/applications", requireAuth, async (req, res) => {
+  const user = req.session.user;
+  const applications = await db.query(
+    "select * from applications where company_id = $1 ",
+    [user.id]
+  );
+  res.json(applications.rows);
+});
+app.put("/applications/:id/status", (req, res) => {
+  const applicationId = req.params.id; // Get application ID from URL
+  const { status } = req.body; // Get status from the body
+
+  console.log(
+    "Received request to update application:",
+    applicationId,
+    "with status:",
+    status
+  );
+
+  // Correct SQL query using PostgreSQL parameterized queries
+  const query = "UPDATE applications SET status = $1 WHERE id = $2";
+  const params = [status, applicationId];
+
+  // Use db.query to execute the query (assuming db.query is your database query function)
+  db.query(query, params, (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error updating status", error: err });
+    }
+
+    console.log("Query result:", result);
+    if (result.rowCount > 0) {
+      console.log(
+        `Successfully updated application ID ${applicationId} to status ${status}`
+      );
+      return res.json({
+        success: true,
+        message: `Application status updated to ${status}`,
+      });
+    } else {
+      console.log("No rows affected");
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "No application found with this ID or status already set",
+        });
+    }
+  });
 });
 
 // Route for viewing student CVs

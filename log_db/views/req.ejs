@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Applications</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -33,7 +34,7 @@
       border: 1px solid #d9eaff;
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
       transition: transform 0.2s ease;
     }
 
@@ -120,6 +121,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>📄 Student Training Applications</h1>
@@ -146,33 +148,80 @@
           const card = document.createElement("div");
           card.className = "application";
 
+          let statusClass = "waiting";
+          if (app.status === "accepted") {
+            statusClass = "accepted";
+          } else if (app.status === "rejected") {
+            statusClass = "rejected";
+          }
+
           card.innerHTML = `
-            <h3>${app.name}</h3>
+            <h3>${app.full_name}</h3>
             <p><strong>email:</strong> ${app.email}</p>
-            <p><strong>GPA:</strong> ${app.GPA}</p>
+            <p><strong>GPA:</strong> ${app.gpa}</p>
             <p><strong>address:</strong> ${app.address}</p>
             <p><strong>gender:</strong> ${app.gender}</p>
-            <p><strong>position:</strong> ${app.position}</p>
-            <span class="status-badge">Status</span>
+            <p><strong>position:</strong> ${app.training_type}</p>
+            <span class="status-badge ${statusClass}">${app.status}</span>
             <div class="buttons">
               <button class="accept-btn">✅ Accept</button>
               <button class="reject-btn">❌ Reject</button>
             </div>
-            <a class="cv-link" href="http://localhost:3000${app.cv_url}" target="_blank">📂 View CV</a>
+            <a class="cv-link" href="./uploads/${app.cv_file}" target="_blank" download>📂 View and Download CV</a>
           `;
 
           const badge = card.querySelector(".status-badge");
           const acceptBtn = card.querySelector(".accept-btn");
           const rejectBtn = card.querySelector(".reject-btn");
 
+          // Send data to the backend when "Accept" is clicked
           acceptBtn.addEventListener("click", () => {
             badge.textContent = "Accepted";
             badge.className = "status-badge accepted";
+
+            // Send the application ID and new status to the backend
+            fetch(`http://localhost:3000/applications/${app.id}/status`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ status: 'accepted' }),
+            })
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  // Show alert when the status is updated successfully
+                  alert(`Application ID ${app.id} has been accepted!`);
+                }
+              })
+              .catch(err => {
+                console.error('Error updating status:', err);
+              });
           });
 
+          // Send data to the backend when "Reject" is clicked
           rejectBtn.addEventListener("click", () => {
             badge.textContent = "Rejected";
             badge.className = "status-badge rejected";
+
+            // Send the application ID and new status to the backend
+            fetch(`http://localhost:3000/applications/${app.id}/status`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ status: 'rejected' }),
+            })
+              .then(res => res.json())
+              .then(data => {
+                if (data.success) {
+                  // Show alert when the status is updated successfully
+                  alert(`Application ID ${app.id} has been rejected.`);
+                }
+              })
+              .catch(err => {
+                console.error('Error updating status:', err);
+              });
           });
 
           container.appendChild(card);
@@ -183,5 +232,10 @@
         console.error(err);
       });
   </script>
+
+
+
+
 </body>
+
 </html>
