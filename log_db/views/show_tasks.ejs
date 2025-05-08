@@ -99,6 +99,21 @@
             font-style: italic;
         }
         
+        /* Submit Task Button */
+        .submit-task {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s;
+        }
+        .submit-task:hover {
+            background: #27ae60;
+        }
+        
         /* Rating Popup Styles */
         .rating-popup {
             display: none;
@@ -161,6 +176,41 @@
             color: #7f8c8d;
             font-weight: normal;
         }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 0.75em;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 50px;
+        }
+        .badge-primary {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        .badge-success {
+            background-color: #ECFDF5;
+            color: #2ecc71;
+        }
+        .badge-danger {
+            background-color: #FEF2F2;
+            color: #e74c3c;
+        }
+        .badge-warning {
+            background-color: #FFFBEB;
+            color: #f39c12;
+        }
+        
+        /* Overdue Task Status */
+        .status-overdue {
+            background: #e74c3c;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -176,9 +226,10 @@
                     <div class="task-meta">
                         <span>Received: Apr 15, 2025</span>
                         <span>Deadline: Apr 20, 2025</span>
+                        <span class="badge badge-primary">active</span>
                     </div>
                 </div>
-                <div class="task-status status-pending">Pending</div>
+                <button class="submit-task">Submit Task</button>
             </div>
             
             <div class="task">
@@ -187,11 +238,14 @@
                     <div class="task-meta">
                         <span>Received: Jan 14, 2025</span>
                         <span>Deadline: Jan 18, 2025</span>
+                        <span class="badge badge-primary">active</span>
                     </div>
                 </div>
-                <div class="task-status status-pending">Pending</div>
+                <button class="submit-task">Submit Task</button>
             </div>
         </div>
+        
+
         
         <div class="task-section">
             <h2>Submitted to Company</h2>
@@ -201,11 +255,10 @@
                     <div class="task-title">API documentation update</div>
                     <div class="task-meta">
                         <span>Submitted: Mar 12, 2025</span>
-              
+                        <span class="badge badge-success">Completed</span>
                     </div>
                 </div>
                 <div class="rating">
-                 
                     <button class="view-rating">View Rating</button>
                 </div>
             </div>
@@ -215,7 +268,7 @@
                     <div class="task-title">Database optimization</div>
                     <div class="task-meta">
                         <span>Submitted: Feb 10, 2025</span>
-                    
+                        <span class="badge badge-success">Completed</span>
                     </div>
                 </div>
                 <div class="not-rated">Not rated yet</div>
@@ -226,12 +279,41 @@
                     <div class="task-title">User dashboard redesign</div>
                     <div class="task-meta">
                         <span>Submitted: Nov 8, 2025</span>
+                        <span class="badge badge-success">Completed</span>
                     </div>
                 </div>
                 <div class="rating">
-                  
                     <button class="view-rating">View Rating</button>
                 </div>
+                
+            </div>
+            
+        </div>
+        <div class="task-section">
+            <h2>Overdue Tasks</h2>
+            
+            <div class="task">
+                <div class="task-info">
+                    <div class="task-title">Server migration</div>
+                    <div class="task-meta">
+                        <span>Received: Mar 1, 2025</span>
+                        <span>Deadline: Mar 15, 2025</span>
+                        <span class="badge badge-danger">Overdue</span>
+                    </div>
+                </div>
+                <div class="task-status status-overdue">You Can No Longer Turn In Work</div>
+            </div>
+            
+            <div class="task">
+                <div class="task-info">
+                    <div class="task-title">Security audit</div>
+                    <div class="task-meta">
+                        <span>Received: Feb 5, 2025</span>
+                        <span>Deadline: Feb 20, 2025</span>
+                        <span class="badge badge-danger">Overdue</span>
+                    </div>
+                </div>
+                <div class="task-status status-overdue">You Can No Longer Turn In Work </div>
             </div>
         </div>
     </div>
@@ -264,13 +346,7 @@
         closeRating.addEventListener('click', function() {
             ratingPopup.style.display = 'none';
         });
-        
-        // Close when clicking outside the popup
-        ratingPopup.addEventListener('click', function(e) {
-            if (e.target === ratingPopup) {
-                ratingPopup.style.display = 'none';
-            }
-        });
+
     </script>
 </body>
 </html>
