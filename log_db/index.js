@@ -444,11 +444,10 @@ const authRoutes = [
   "cyber",
   "sw",
   "train",
-  "home",
+
   "company1",
   "comp-1",
   "CV",
-  "task_std",
   "req",
   "notification",
   "rating",
@@ -465,12 +464,46 @@ publicRoutes.forEach((view) => {
 authRoutes.forEach((view) => {
   app.get("/" + view, requireAuth, (req, res) => {
     try {
-      res.render(`${view}.ejs`, { user: req.session.user });
+      res.render(`${view}.ejs`, {
+        user: req.session.user,
+      });
     } catch (err) {
       console.error(`Error rendering ${view}.ejs:`, err);
       res.status(500).render("error", { message: "Page rendering error" });
     }
   });
+});
+
+app.get("/home", requireAuth, async (req, res) => {
+  try {
+    const reviews = await db.query("select * from review");
+    res.render(`home.ejs`, { user: req.session.user, reviews: reviews.rows });
+  } catch (err) {
+    console.error(`Error rendering ${view}.ejs:`, err);
+    res.status(500).render("error", { message: "Page rendering error" });
+  }
+});
+app.post("/home", requireAuth, async (req, res) => {
+  const { name, url, review } = req.body;
+
+  try {
+    if (url && url.trim() !== "") {
+      await db.query(
+        "INSERT INTO review (name, url, review) VALUES ($1, $2, $3)",
+        [name, url, review]
+      );
+    } else {
+      await db.query("INSERT INTO review (name, review) VALUES ($1, $2)", [
+        name,
+        review,
+      ]);
+    }
+    const reviews = await db.query("select * from review");
+    res.render(`home.ejs`, { user: req.session.user, reviews: reviews.rows });
+  } catch (err) {
+    console.error("Error inserting review:", err);
+    res.status(500).send({ success: false, message: "Failed to add review" });
+  }
 });
 
 // ======================
@@ -1166,12 +1199,10 @@ app.put("/applications/:id/status", (req, res) => {
       });
     } else {
       console.log("No rows affected");
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "No application found with this ID or status already set",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "No application found with this ID or status already set",
+      });
     }
   });
 });
@@ -1183,11 +1214,6 @@ app.use("/cv_files", express.static(path.join(__dirname, "cv_files")));
 // ERROR HANDLING
 // ======================
 
-// 404 handler
-app.use((req, res, next) => {
-  res.status(404).render("error", { message: "Page not found" });
-});
-
 // Global error handler
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
@@ -1195,6 +1221,50 @@ app.use((err, req, res, next) => {
     message: "Server error",
     error: process.env.NODE_ENV === "development" ? err : {},
   });
+});
+
+app.get("/task_std", requireAuth, async (req, res) => {
+  try {
+    const user = req.session.user;
+    const tasks = await db.query(`select * from task where student_id = $1`, [
+      user.std_id,
+    ]);
+    res.render("show_tasks", {
+      user,
+      tasks: tasks.rows,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+app.post("/submit-task", requireAuth, async (req, res) => {
+  try {
+    const { task_id, description } = req.body;
+
+    // الحصول على التاريخ الحالي بصيغة YYYY-MM-DD
+    const now = new Date();
+    const created_at = now.toISOString().split("T")[0]; // yyyy-mm-dd
+
+    // إدخال في task_subbmision
+    await db.query(
+      `INSERT INTO task_submmistion (task_id, description, created_at)
+       VALUES ($1, $2, $3)`,
+      [task_id, description, created_at]
+    );
+
+    // تحديث حالة المهمة إلى completed
+    await db.query(`UPDATE task SET status = 'completed' WHERE id = $1`, [
+      task_id,
+    ]);
+
+    // إرسال رسالة نجاح (يمكنك تعديلها حسب ما تحتاج في الفرونت إند)
+    res
+      .status(200)
+      .json({ success: true, message: "Task submitted successfully." });
+  } catch (err) {
+    console.error("Error in submitting task:", err);
+    res.status(500).json({ success: false, message: "Something went wrong." });
+  }
 });
 
 // ======================
