@@ -374,29 +374,7 @@
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
     
-    /* Edit Profile Button */
-    .edit-profile-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 10;
-    }
     
-    .edit-profile-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: rotate(15deg);
-    }
     
     /* Stats Section */
     .stats-container {
@@ -577,10 +555,7 @@
         <!-- Profile Avatar -->
         <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="Profile" class="profile-avatar">
         
-        <!-- Edit Profile Button -->
-        <button class="edit-profile-btn" title="Edit Profile">
-          <i class="fas fa-pencil-alt"></i>
-        </button>
+    
         
         <h3 class="profile-name">
           <i class="bi bi-mortarboard-fill me-2"></i>
@@ -619,7 +594,7 @@
             <div class="info-icon me-3"><i class="fas fa-chart-line"></i></div>
             <div>
               <div class="info-title">GPA</div>
-              <div class="info-value"><%= user.gpa %> <span class="badge badge-custom ms-2">Top 10%</span></div>
+              <div class="info-value"><%= user.gpa %> </div>
             </div>
           </div>
         </div>
@@ -680,13 +655,7 @@
         observer.observe(bar);
       });
       
-      // Add hover effect to edit profile button
-      const editBtn = document.querySelector('.edit-profile-btn');
-      if (editBtn) {
-        editBtn.addEventListener('click', function() {
-          alert('Edit profile feature coming soon!');
-        });
-      }
+      
     });
   </script>
 </body>
