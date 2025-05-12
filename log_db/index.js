@@ -1021,6 +1021,7 @@ app.get("/task_details", requireAuth, async (req, res) => {
 app.post("/task_details", requireAuth, async (req, res) => {
   const { assigned_students, title, description, deadline } = req.body;
   const company_id = req.session.user.id;
+  console.log(assigned_students, title, description, deadline, company_id);
 
   // Get the current date in YYYY-MM-DD format
   const nowDate = new Date().toISOString().split("T")[0]; // 'YYYY-MM-DD'
@@ -1029,8 +1030,20 @@ app.post("/task_details", requireAuth, async (req, res) => {
   console.log(req.body);
 
   try {
+    // Ensure that assigned_students is always an array (if it's a single value, wrap it in an array)
+    const students = Array.isArray(assigned_students)
+      ? assigned_students
+      : [assigned_students];
+
+    // Check for invalid student IDs
+    for (const student_id of students) {
+      if (student_id <= 0) {
+        return res.status(400).send("Invalid student ID provided.");
+      }
+    }
+
     // Loop through each student and insert the task for them
-    for (const student_id of assigned_students) {
+    for (const student_id of students) {
       // Insert task for each student into the database
       await db.query(
         `INSERT INTO task (created_at, end_at, title, description, company_id, student_id, status)
