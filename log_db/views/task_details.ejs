@@ -410,6 +410,7 @@
         <form action="/task_details" method="POST">
           <input type="hidden" name="task_id" id="task_id">
 
+
           <div class="form-group">
             <label for="title" class="form-label">Task Title</label>
             <input type="text" class="form-control" name="title" id="title" placeholder="Enter task title" required>
@@ -434,7 +435,7 @@
                   <input class="form-check-input" type="checkbox" name="assigned_students"
                     value="<%= student.student_id %>" id="student-<%= student.student_id %>">
                   <label class="form-check-label" for="student-<%= student.student_id %>">
-                    <%= student.full_name %> (<%= student.email %>)
+                    <%= student.full_name %> <a href="mailto:(<%= student.email %>)">(<%= student.email %>)</a>
                   </label>
                 </div>
                 <% }); %>

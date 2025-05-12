@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OTP Verification</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>
@@ -37,12 +38,14 @@
       color: #ffffff;
     }
 
-    .input1, .input2 {
+    .input1,
+    .input2 {
       position: relative;
       margin-bottom: 20px;
     }
 
-    .input1 input, .input2 input {
+    .input1 input,
+    .input2 input {
       width: 100%;
       padding: 20px 40px 20px 15px;
       border-radius: 25px;
@@ -55,12 +58,14 @@
       box-sizing: border-box;
     }
 
-    .input1 input:focus, .input2 input:focus {
+    .input1 input:focus,
+    .input2 input:focus {
       border: 2px solid #dddddd;
       box-shadow: 0 0 10px rgba(173, 173, 173, 0.6);
     }
 
-    .input1 i, .input2 i {
+    .input1 i,
+    .input2 i {
       position: absolute;
       right: 15px;
       top: 50%;
@@ -89,6 +94,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="all">
@@ -174,7 +180,7 @@
         });
 
         const data = await response.text();
-        alert(data);
+        alert("Register Completed Welcome to HTC ");
 
         if (response.ok) {
           // ✅ Set email in hidden form and submit to /register3
@@ -191,4 +197,5 @@
   </script>
 
 </body>
+
 </html>
