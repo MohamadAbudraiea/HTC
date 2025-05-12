@@ -519,60 +519,62 @@
 <body>
 
     <!-- Header -->
-    <header>
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <div class="menu-icon" onclick="toggleMenu()">
-                <span>&#9776;</span>
-            </div>
-
-            <div class="logo-container">
-                <!-- Logo Image -->
-                <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="Logo"
-                    class="logo">
-
-            </div>
-
-            <ul class="nav-links">
-                <li><a href="/home">Home</a></li>
-                <li><a href="companies">Companies</a></li>
-                <li><a href="/certi-0">Certificates</a></li>
-                <li><a href="/courses">Courses</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Sign Up</a></li>
-
-            </ul>
-
-            <div class="navbar-right">
-                <i class="fas fa-bell"></i> <!-- Icon for Notifications -->
-                <a href="/profile" title="Profile" class="custom-link">
-                    <i class="fas fa-user-circle"></i> <!-- Icon for User Profile -->
-                </a>
-            </div>
-
-            <!-- Dropdown menu structure -->
-            <div id="dropdown-menu" class="dropdown-menu">
-                <div class="profile-section">
-                    <img src="https://i.pinimg.com/736x/86/29/58/862958e10f4badc47cb0947dec13ad49.jpg"
-                        alt="Profile Picture" class="profile-img2"><br>
-                    <span class="profile-name">Leen Samer Al-Suradi</span>
-                    <span class="profile-info">Computer Information Systems<br>2145088</span>
-                </div>
-                <ul class="dropdown-links">
-                    <li><a href="companies">Companies</a></li>
-                    <li><a href="cv">CV</a></li>
-                    <li><a href="courses">Courses</a></li>
-                    <li><a href="task_std">Student Task</a></li>
-                    <li><a href="rating">Student Rating</a></li>
-                    <li><a href="certi-0">certificate</a></li>
-                    <li><a href="settings">Settings</a></li>
-                    <li><a href="contact">Contact Us</a></li>
-                    <li><a href="logout" style="color: red;">Logout</a></li>
-                </ul>
-            </div>
-        </nav>
-
-    </header>
+   <!-- Header -->
+   <header>
+    <nav class="navbar">
+      <!-- Menu icon for mobile -->
+      <div class="menu-icon" onclick="toggleMenu()">
+        <span>&#9776;</span>
+      </div>
+  
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="Logo" class="logo">
+      </div>
+  
+      <!-- Navigation Links -->
+      <ul class="nav-links">
+        <li><a href="/home">Home</a></li>
+        <li><a href="/companies">Companies</a></li>
+        <li><a href="/certi-0">Certificates</a></li>
+        <li><a href="/courses">Courses</a></li>
+        <% if (!user) { %>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Sign Up</a></li>
+        <% } %>
+      </ul>
+  
+      <!-- Right Section: Notifications + Profile -->
+      <% if (user) { %>
+      <div class="navbar-right">
+  
+        <!-- Profile Icon -->
+        <a href="/profile" title="Profile" class="custom-link">
+          <i class="fas fa-user-circle"></i>
+        </a>
+      </div>
+  
+      <!-- Dropdown Menu -->
+      <div id="dropdown-menu" class="dropdown-menu">
+        <div class="profile-section">
+          <span class="profile-name"><%= user.name %></span>
+          <span class="profile-info"><hr style="background-color:white"><%= user.std_id %></span>
+        </div>
+        <ul class="dropdown-links">
+          <li><a href="/companies">Companies</a></li>
+          <li><a href="/cv">CV</a></li>
+          <li><a href="/courses">Courses</a></li>
+          <li><a href="/certi-0">Certificate</a></li>
+          <li><a href="/settings">Settings</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+          <li><a href="/logout" style="color: red;">Logout</a></li>
+        </ul>
+      </div>
+      <% } %>
+    </nav>
+  </header>
+  
+  
 
     <div class="filters">
         <label for="location-filter">Location:</label>
