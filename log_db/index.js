@@ -939,7 +939,6 @@ app.get("/task_status", requireAuth, async (req, res) => {
     );
 
     const assignedTasks = assignedTasksResult.rows;
-
     // Step 2: Process each task
     const tasksWithSubmissions = await Promise.all(
       assignedTasks.map(async (task) => {
@@ -974,8 +973,6 @@ app.get("/task_status", requireAuth, async (req, res) => {
       })
     );
 
-    console.log(tasksWithSubmissions);
-
     // Step 3: Send the response with tasks and their associated submissions
     res.status(200).render("task_status.ejs", {
       user: user,
@@ -986,7 +983,24 @@ app.get("/task_status", requireAuth, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+app.post("/task_status", requireAuth, async (req, res) => {
+  const { task_id, rating } = req.body;
+  console.log(task_id, rating);
 
+  try {
+    // Update the task status in the database
+    await db.query("UPDATE task SET rating = $1 WHERE id = $2", [
+      rating,
+      task_id,
+    ]);
+
+    // Redirect to the task status page
+    res.redirect("/task_status");
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 app.get("/task_details", requireAuth, async (req, res) => {
   try {
     // const approved students
@@ -1005,30 +1019,79 @@ app.get("/task_details", requireAuth, async (req, res) => {
   }
 });
 app.post("/task_details", requireAuth, async (req, res) => {
-  const { title, description, deadline, assigned_students } = req.body;
+  const { assigned_students, title, description, deadline } = req.body;
   const company_id = req.session.user.id;
-  const created_at = new Date().toLocaleDateString("en-CA");
+  console.log(assigned_students, title, description, deadline, company_id);
 
-  console.log(title, description, deadline, assigned_students);
+  // Get the current date in YYYY-MM-DD format
+  const nowDate = new Date().toISOString().split("T")[0]; // 'YYYY-MM-DD'
 
-  // Ensure assigned_students is always an array
-  const studentsArray = Array.isArray(assigned_students)
-    ? assigned_students
-    : [assigned_students];
+  console.log(assigned_students, title, description, deadline, company_id);
+  console.log(req.body);
 
   try {
-    for (const studentId of studentsArray) {
+    // Ensure that assigned_students is always an array (if it's a single value, wrap it in an array)
+    const students = Array.isArray(assigned_students)
+      ? assigned_students
+      : [assigned_students];
+
+    // Check for invalid student IDs
+    for (const student_id of students) {
+      if (student_id <= 0) {
+        return res.status(400).send("Invalid student ID provided.");
+      }
+    }
+
+    // Loop through each student and insert the task for them
+    for (const student_id of students) {
+      // Insert task for each student into the database
       await db.query(
-        "INSERT INTO task (created_at, end_at, title, description, company_id, student_id) VALUES ($1, $2, $3, $4, $5, $6)",
-        [created_at, deadline, title, description, company_id, studentId]
+        `INSERT INTO task (created_at, end_at, title, description, company_id, student_id, status)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [
+          nowDate,
+          deadline,
+          title,
+          description,
+          company_id,
+          student_id,
+          "active",
+        ]
       );
     }
 
-    res.status(200).send("completed");
+    // Redirect to the task status page after all insertions
+    res.redirect("/task_status");
   } catch (error) {
-    res.status(500).send("Internal Server Error: " + error.message);
+    console.error("Error adding task:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
+
+app.post("/task_status", requireAuth, async (req, res) => {
+  const { task_id, rating } = req.body;
+  console.log("Task ID:", task_id, "Rating:", rating);
+
+  try {
+    // Update the task rating in the database
+    const result = await db.query("UPDATE task SET rating = $1 WHERE id = $2", [
+      rating,
+      task_id,
+    ]);
+
+    // If no rows were affected, the task might not have been found
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Task not found." });
+    }
+
+    // Respond with success if the update was successful
+    res.status(200).json({ message: "Task rated successfully!" });
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 app.get("/req", requireAuth, async (req, res) => {
   try {
     const user = req.session.user;
@@ -1229,6 +1292,7 @@ app.get("/task_std", requireAuth, async (req, res) => {
     const tasks = await db.query(`select * from task where student_id = $1`, [
       user.std_id,
     ]);
+
     res.render("show_tasks", {
       user,
       tasks: tasks.rows,
@@ -1264,6 +1328,23 @@ app.post("/submit-task", requireAuth, async (req, res) => {
   } catch (err) {
     console.error("Error in submitting task:", err);
     res.status(500).json({ success: false, message: "Something went wrong." });
+  }
+});
+
+app.get("/student_applicant", requireAuth, async (req, res) => {
+  try {
+    const user = req.session.user;
+    const student_applicant = await db.query(
+      `SELECT a.*, c.name AS company_name 
+       FROM applications a
+       LEFT JOIN company c ON a.company_id = c.company_id
+       WHERE a.student_id = $1`,
+      [user.std_id]
+    );
+    res.render("student_applicant", { applications: student_applicant.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
