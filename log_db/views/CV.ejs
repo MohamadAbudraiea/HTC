@@ -1,737 +1,625 @@
-<!DOCTYPE html>
-<!-- hello world -->
-<html lang="ar">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Creation Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Create CV</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      :root {
+        --primary-color: #003366;
+        --secondary-color: #79d9ff;
+        --accent-color: #25fa7a;
+        --light-bg: #f8f9fa;
+        --dark-text: #212529;
+      }
+
+      body {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+      }
+
+      /* Logo Styling */
+      .navbar .logo-container {
+        display: inline-block;
+        padding-right: 15px;
+      }
+
+      .navbar .logo {
+        height: 50px;
+        width: auto;
+      }
+
+      /* Navigation Bar */
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 20px;
+        background-color: #003366;
+        width: 100%;
+        box-shadow: 0 2px 10px rgba(131, 214, 237, 0.5);
+      }
+
+      .menu-icon {
+        font-size: 28px;
+        cursor: pointer;
+        color: #ffffff;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 40px;
+        margin-left: 800px;
+        margin-top: -4px;
+      }
+
+      .nav-links li a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .nav-links li a:hover {
+        background-color: rgba(110, 181, 255, 0.2);
+        border-radius: 5px;
+        padding: 5px 10px;
+      }
+
+      /* Icons */
+      .navbar-right {
+        display: flex;
+        align-items: center;
+        color: white;
+        gap: 20px;
+      }
+
+      .navbar-right i {
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .custom-link {
+        color: white;
+        text-decoration: none;
+      }
+
+      .custom-link:hover {
+        color: #ddd;
+      }
+
+      /* Dropdown Menu */
+      .dropdown-menu {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 250px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        display: none;
+        z-index: 9999;
+        overflow: hidden;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .profile-section {
+        background: linear-gradient(135deg, #4361ee, #003366);
+        color: white;
+        padding: 1rem 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .profile-img2 {
+        display: none;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        font-size: 1.05rem;
+        line-height: 1.3;
+      }
+
+      .profile-info {
+        font-size: 0.82rem;
+        opacity: 0.85;
+        letter-spacing: 0.3px;
+        margin-top: 0.4rem;
+      }
+
+      .dropdown-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .dropdown-links li {
+        border-bottom: 1px solid #eee;
+      }
+
+      .dropdown-links li:last-child {
+        border-bottom: none;
+      }
+
+      .dropdown-links li a {
+        display: flex;
+        align-items: center;
+        padding: 0.85rem 1.5rem;
+        text-decoration: none;
+        color: #2b2d42;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .dropdown-links li a i {
+        font-size: 1rem;
+        color: #606063;
+        margin-right: 0.5rem;
+        transition: color 0.3s ease;
+      }
+
+      .dropdown-links li a:hover {
+        background: #f8f8f8;
+        padding-left: 1.75rem;
+        color: #003366;
+      }
+
+      .dropdown-links li a:hover i {
+        color: #003366;
+      }
+
+      .dropdown-links li a[style*="color: #f72585;"] i {
+        color: #f72585;
+      }
+
+      .profile-container {
+        display: flex;
+        max-width: 1200px;
+        margin: 30px auto;
+        background-color: #fff;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .img-fluid {
+        width: 40%;
+        height: auto;
+        border-radius: 6px 0px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .img-fluid:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-section {
+        background: linear-gradient(to right, var(--primary-color), #004890);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('https://i.pinimg.com/736x/99/57/bc/9957bc2751b53c56b2688aec55114ca2.jpg') no-repeat center right;
+        background-size: contain;
+        opacity: 0.1;
+      }
+
+      .btn-primary {
+        background-color: var(--secondary-colorSPECT);
+        border-color: var(--secondary-color);
+        color: var(--primary-color);
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        color: var(--primary-color);
+        font-weight: bold;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 2rem;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background-color: var(--accent-color);
+        border-radius: 2px;
+      }
+
+      .feature-box {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .feature-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-icon {
+        font-size: 2.5rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+      }
+
+      .template-card {
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .template-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .template-img {
+        height: 300px;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .upload-zone {
+        border: 2px dashed #dee2e6;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .upload-zone:hover {
+        border-color: var(--secondary-color);
+        background-color: rgba(121, 217, 255, 0.05);
+      }
+
+      .guidelines-card {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      }
+
+      .badge-category {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+        display: inline-block;
+      }
+
+      footer {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .social-link {
+        color: white;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      .social-link:hover, .social-link:hover {
+        opacity: 1;
+        color: white;
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      .animate-bounce {
+        animation: bounce 2s infinite;
+      }
+
+      @media (max-width: 768px) {
+        .hero-section {
+          text-align: center;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fafafa;
-            color: rgb(0, 0, 0);
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Navigation Bar */
-
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 20px;
-            background-color: #003366;
-            width: 100%;
-            box-shadow: 0 2px 10px rgba(131, 214, 237, 0.5);
-
-        }
-
-
-        .menu-icon {
-            font-size: 28px;
-            cursor: pointer;
-            color: #ffffff;
+        .template-img {
+          height: 200px;
         }
 
         .nav-links {
-            display: flex;
-            list-style: none;
-
-            gap: 40px;
-            margin-left: 800px;
-            margin-top: -4px;
-
+          margin-left: auto;
+          gap: 20px;
         }
-
-        .nav-links li a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .nav-links li a:hover {
-            background-color: rgba(110, 181, 255, 0.2);
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-
-        /* Icons */
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            color: white;
-            gap: 20px;
-        }
-
-        .navbar-right i {
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .custom-link {
-            color: white;
-            text-decoration: none;
-        }
-
-        .custom-link:hover {
-            color: #ddd;
-            /* لون مختلف عند التحويم */
-        }
-
-
-        /* Dropdown Menu */
-        .dropdown-menu {
-            position: absolute;
-            top: 60px;
-            left: 0; /* Keep on the left side */
-            width: 250px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            display: none; /* Hidden by default */
-            z-index: 9999; /* Ensure it stays above other content */
-            overflow: hidden;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .profile-section {
-            background: linear-gradient(135deg, #4361ee, #003366);
-            color: white;
-            padding: 1rem 1.5rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .profile-img2 {
-            display: none; /* Hide image styling */
-        }
-
-        .profile-name {
-            font-weight: 600;
-            font-size: 1.05rem;
-            line-height: 1.3;
-        }
-
-        .profile-info {
-            font-size: 0.82rem;
-            opacity: 0.85;
-            letter-spacing: 0.3px;
-            margin-top: 0.4rem; /* Space between name and ID */
-        }
-
-        .dropdown-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .dropdown-links li {
-            border-bottom: 1px solid #eee;
-        }
-
-        .dropdown-links li:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-links li a {
-            display: flex;
-            align-items: center;
-            padding: 0.85rem 1.5rem;
-            text-decoration: none;
-            color: #2b2d42;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .dropdown-links li a i {
-            font-size: 1rem;
-            color: #606063;
-            margin-right: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .dropdown-links li a:hover {
-            background: #f8f8f8;
-            padding-left: 1.75rem;
-            color: #003366;
-        }
-
-        .dropdown-links li a:hover i {
-            color: #003366;
-        }
-
-        /* Ensure logout link icon matches accent color */
-        .dropdown-links li a[style*="color: #f72585;"] i {
-            color: #f72585;
-        }
-
-
-        /* الحاوية الأساسية */
-        .profile-container {
-            display: flex;
-            max-width: 1200px;
-            margin: 30px auto;
-            background-color: #fff;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        footer {
-            background-color: #003366;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            position: static;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
-
-
-
-
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f1f1f1, #e0e7ff);
-            color: #444;
-
-        }
-
-
-
-        /* Main Content Styling */
-        main {
-
-            background: #fff;
-
-            text-align: center;
-        }
-
-        /* Intro Section */
-        .intro {
-
-            margin-bottom: 40px;
-        }
-
-        .intro h2 {
-            font-size: 32px;
-            color: #1e3a8a;
-            font-weight: 700;
-        }
-
-        .intro p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        /* General form styling */
-        .cv-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #f8f8f8;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Upload icon label styling */
-        .upload-icon {
-            cursor: pointer;
-            font-size: 2.5rem;
-            color: #25fa7a;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-
-        /* Hover effect for the upload icon */
-        .upload-icon:hover {
-            background-color: #79d9ff;
-            transform: scale(1.05);
-            color: #fff;
-        }
-
-        /* File input hidden styling */
-        #cv-upload {
-            display: none;
-        }
-
-        /* Submit button styling */
-        .btn-submit {
-            background-color: #004890;
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        /* Submit button hover effect */
-        .btn-submit:hover {
-            background-color: #79d9ff;
-        }
-
-        /* File name display styling */
-        .file-name {
-            font-size: 1rem;
-            margin-top: 15px;
-            color: #555;
-            font-weight: bold;
-        }
-
-        /* Success/Error message styles */
-        #upload-status {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        #upload-status.success {
-            color: green;
-        }
-
-        #upload-status.error {
-            color: red;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .cv-form {
-                width: 80%;
-            }
-        }
-
-
-        /* إضافة حركة الترجمة مع التأثيرات عند التمرير */
-        .upload-icon:hover {
-            color: #6200ea;
-            transform: scale(1.1);
-            /* تكبير الأيقونة عند التمرير */
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        /* تطبيق حركة الحركة بشكل مستمر عبر الشاشة */
-        .upload-icon {
-            position: relative;
-            animation: moveHorizontally 5s ease-in-out infinite;
-            /* إضافة حركة أفقيه */
-        }
-
-        /* تعريف حركة الترجمة (يمين ويسار) عبر الشاشة */
-        @keyframes moveHorizontally {
-            0% {
-                left: -3%;
-                /* تبدأ الأيقونة من أقصى اليسار */
-            }
-
-            50% {
-                left: 4%;
-                /* تتحرك الأيقونة إلى اليمين قليلاً */
-            }
-
-            100% {
-                left: -3%;
-                /* تعود الأيقونة إلى أقصى اليسار */
-            }
-        }
-
-        /* Templates Section */
-        .templates {
-            margin-bottom: 90px;
-        }
-
-        .templates h3 {
-            font-size: 26px;
-            color: #333;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-
-        .template-images {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            gap: 5px;
-            /* تقليل المسافة بين الصور */
-            margin-top: 20px;
-        }
-
-        .template-images img {
-            width: 100%;
-            max-width: 280px;
-            /* تقليل حجم الصور */
-            height: auto;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .template-images img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Guidelines and Tips Section */
-        /* Container for the two cards */
-        /* Table container styling */
-        .cv-table-container {
-            max-width: 100%;
-            overflow-x: auto;
-            /* Allow horizontal scrolling for small screens */
-            margin-bottom: 50px;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        /* Styling for the table */
-        .cv-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #e9e9e9;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
-            text-align: left;
-        }
-
-        /* Table header styling */
-        .cv-table thead tr {
-            background-color: #2980b9;
-            margin-bottom: 40px;
-            color: rgb(199, 199, 199);
-            font-size: 18px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 25px;
-
-        }
-
-        .cv-table th {
-            padding: 12px;
-            font-size: 20px;
-
-        }
-
-        .cv-table tbody tr {
-            margin-bottom: 70px;
-            /* Space between rows */
-        }
-
-        /* Add some padding between rows as well */
-        .cv-table tbody tr:first-child td {
-            padding-bottom: 30px;
-            /* More padding for the first row */
-        }
-
-        .cv-table tbody tr:last-child td {
-            padding-bottom: 90px;
-            /* More padding for the last row */
-        }
-
-
-        /* Table body cells styling */
-        .cv-table td {
-            padding: 15px;
-
-            font-size: 16px;
-            color: #34495e;
-            vertical-align: top;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            margin-top: 10px;
-        }
-
-        .category {
-            background: linear-gradient(135deg, #f9d5ff, #cde0ff);
-            margin-bottom: 40px;
-
-            font-weight: 600;
-            width: 25%;
-        }
-
-        /* List inside table */
-        .cv-table td ul {
-            padding-left: 20px;
-        }
-
-        .cv-table td ul li {
-            list-style-type: disc;
-            margin-bottom: 10px;
-        }
-
-        /* Hover effect for table rows */
-        .cv-table tbody tr:hover {
-            background-color: #f1f1f1;
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .cv-table {
-                width: 100%;
-                font-size: 14px;
-            }
-
-            .cv-table td ul {
-                padding-left: 15px;
-            }
-
-            .cv-table th,
-            .cv-table td {
-                font-size: 16px;
-            }
-        }
-
-
-        /* تحديد المسافة بين الـ navbar و البطاقة */
-        .welcome-card {
-            /* المسافة أسفل الـ navbar */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .card {
-            max-width: 1700px;
-            width: 100%;
-            border-radius: 15px;
-            background: linear-gradient(135deg, #dfdfdf, #bcc3ff);
-            /* Gradient background for smooth look */
-
-
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            /* تأثير الظل */
-        }
-
-        .card-body {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .card-title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #1e88e5;
-            /* اللون الأزرق */
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-
-        .card-text {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-
-        /* تأثير عند تحميل الصفحة */
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .welcome-card {
-            animation: fadeIn 1s ease-out;
-        }
-
-        /* Logo Styling */
-        .navbar .logo-container {
-            display: inline-block;
-            padding-right: 15px;
-            /* Add spacing if necessary */
-        }
-
-        .navbar .logo {
-            height: 50px;
-            /* Adjust as necessary */
-            width: auto;
-        }
+      }
     </style>
-</head>
-
-<body>
-    <!-- Header -->
-    <header>
-        <!-- Navigation Bar -->
-
-        <nav class="navbar">
-            <div class="menu-icon" onclick="toggleMenu()">
-                <span>&#9776;</span>
-            </div>
-            <div class="logo-container">
-                <!-- Logo Image -->
-                <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="Logo"
-                    class="logo">
-
-            </div>
-            <ul class="nav-links">
-                <li><a href="/home">Home</a></li>
-                <li><a href="companies">Companies</a></li>
-                <li><a href="/certi-0">Certificates</a></li>
-                <li><a href="/courses">Courses</a></li>
-            </ul>
-            <!-- Dropdown menu structure -->
-
-            <!-- Dropdown Menu -->
-            <% if (user) { %>
-            <div id="dropdown-menu" class="dropdown-menu">
-                <div class="profile-section">
-                    <span class="profile-name"><%= user.name %></span>
-                    <span class="profile-info"><%= user.std_id %></span>
-                </div>
-                <ul class="dropdown-links">
-                    <li><a href="companies"><i class="fas fa-building"></i> Companies</a></li>
-                    <li><a href="cv"><i class="fas fa-file-alt"></i> CV</a></li>
-                    <li><a href="courses"><i class="fas fa-book-open"></i> Courses</a></li>
-                    <li><a href="/task_std"><i class="fas fa-tasks"></i> Student Task</a></li>
-                    <li><a href="/student_applicant"><i class="fas fa-users"></i> Applicants</a></li>
-                    <li><a href="certi-0"><i class="fas fa-certificate"></i> Certificate</a></li>
-                    <li><a href="contact"><i class="fas fa-envelope"></i> Contact Us</a></li>
-                    <li><a href="logout" style="color: #f72585;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                </ul>
-            </div>
-
-            <!-- Right Section: Profile Icon -->
-            <div class="navbar-right">
-                <a href="/profile" title="Profile" class="custom-link">
-                    <i class="fas fa-user-circle"></i>
-                </a>
-            </div>
-            <% } %>
-        </nav>
-
-    </header>
-
-
-    <main>
-
-
-
-
-
-
-
-
-
-
-        <section class="templates">
-            <h3>Explore Some Templates</h3>
-            <p>Don't have a CV? Explore our templates and tips to create your own!</p>
-            <div class="template-images">
-                <img src="https://i.pinimg.com/564x/a5/3e/bf/a53ebfd87fbc1ec38d0c447225a51965.jpg" alt="Template 1">
-                <img src="https://i.pinimg.com/736x/73/eb/cd/73ebcdaa7f7874ecf0abcd15ffd1b04b.jpg" alt="Template 2">
-                <img src="https://i.pinimg.com/564x/ee/68/bc/ee68bc5fc5430f108100bef7328b7ad0.jpg" alt="Template 3">
-            </div>
-        </section>
-
-        <section class="cv-table-container">
-            <table class="cv-table">
-
-                <tbody>
-                    <tr>
-                        <td class="category">CV Guidelines</td>
-                        <td>
-                            <ul>
-                                <li>Personal Information: Name, email, phone, LinkedIn (optional)</li>
-                                <li>Education: Degree, university name, graduation date, relevant coursework</li>
-                                <li>Work Experience: Job title, company, dates, and responsibilities</li>
-                                <li>Technical Skills: List your relevant skills</li>
-                                <li>Projects: Brief descriptions of major projects with links if available</li>
-                                <li>Languages: Language proficiencies</li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="category">Tips</td>
-                        <td>
-                            <ul>
-                                <li>Keep the CV concise, ideally one page for entry-level positions</li>
-                                <li>Use action verbs for work experience</li>
-                                <li>Proofread for grammar and spelling</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-
-
-
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 HTC. All rights reserved.</p>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="menu-icon" onclick="toggleMenu()">
+        <span>☰</span>
+      </div>
+      <div class="logo-container">
+        <img src="https://i.pinimg.com/736x/33/37/ee/3337eeff3be1747f984d9d8e59eeb1c1.jpg" alt="Logo" class="logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="/home">Home</a></li>
+        <li><a href="companies">Companies</a></li>
+        <li><a href="/certi-0">Certificates</a></li>
+        <li><a href="/courses">Courses</a></li>
+      </ul>
+      <% if (user) { %>
+      <div id="dropdown-menu" class="dropdown-menu">
+        <div class="profile-section">
+          <span class="profile-name"><%= user.name %></span>
+          <span class="profile-info"><%= user.std_id %></span>
         </div>
+        <ul class="dropdown-links">
+          <li><a href="companies"><i class="fas fa-building"></i> Companies</a></li>
+          <li><a href="cv"><i class="fas fa-file-alt"></i> CV</a></li>
+          <li><a href="courses"><i class="fas fa-book-open"></i> Courses</a></li>
+          <li><a href="/task_std"><i class="fas fa-tasks"></i> Student Task</a></li>
+          <li><a href="/student_applicant"><i class="fas fa-users"></i> Applicants</a></li>
+          <li><a href="certi-0"><i class="fas fa-certificate"></i> Certificate</a></li>
+          <li><a href="contact"><i class="fas fa-envelope"></i> Contact Us</a></li>
+          <li><a href="logout" style="color: #f72585;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+      </div>
+      <div class="navbar-right">
+        <a href="/profile" title="Profile" class="custom-link">
+          <i class="fas fa-user-circle"></i>
+        </a>
+      </div>
+      <% } %>
+    </nav>
+
+    <section class="hero-section text-white py-5">
+      <div class="container py-5">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h1 class="display-4 fw-bold mb-4">Craft Your Perfect CV</h1>
+            <p class="lead mb-4">Your CV is your first impression. Make it count with our professional templates and expert tips.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container py-5">
+      <section class="mb-5">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="feature-box text-center">
+              <div class="feature-icon">★</div>
+              <h3 class="h4 mb-3">ATS Optimization</h3>
+              <p class="text-muted mb-0">Our system checks your CV against Applicant Tracking Systems used by 90% of employers.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-box text-center">
+              <div class="feature-icon">📈</div>
+              <h3 class="h4 mb-3">Performance Score</h3>
+              <p class="text-muted mb-0">Get a detailed rating of your CV's strengths and areas for improvement.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-box text-center">
+              <div class="feature-icon">✏️</div>
+              <h3 class="h4 mb-3">Smart Suggestions</h3>
+              <p class="text-muted mb-0">Receive actionable recommendations to make your CV stand out.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="templates" class="mb-5">
+        <h2 class="section-title">Professional CV Templates</h2>
+        <p class="lead mb-5">Choose from our collection of modern, recruiter-approved templates</p>
+        <section class="container my-5">
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="template-card border shadow-sm rounded-3 h-100">
+                <img src="https://cdn.create.microsoft.com/catalog-assets/en-us/a8bd8a14-9ea2-40cf-af65-bf5e5b2944b5/thumbnails/616/ats-classic-hr-resume-white-modern-simple-2-1-0d2852570991.webp" 
+                     class="template-img w-100 rounded-top" 
+                     alt="Microsoft Create ATS Resume Template">
+                <div class="p-4">
+                  <h5 class="mb-2 d-flex justify-content-between align-items-center">
+                    Microsoft Create
+                    <span class="badge bg-success">ATS-Friendly</span>
+                  </h5>
+                  <p class="text-muted mb-2">Free, customizable templates designed to pass ATS screenings.</p>
+                  <ul class="small text-muted mb-3 ps-3">
+                    <li>Simple layouts without graphics</li>
+                    <li>Standard fonts and headings</li>
+                    <li>Optimized for keyword scanning</li>
+                  </ul>
+                  <a href="https://create.microsoft.com/en-us/templates/ats-resumes" class="btn btn-outline-primary w-100" target="_blank">Use Template</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="template-card border shadow-sm rounded-3 h-100">
+                <img src="https://d.novoresume.com/images/doc/basic-resume-template.png" 
+                     class="template-img w-100 rounded-top" 
+                     alt="Novorésumé ATS Resume Template">
+                <div class="p-4">
+                  <h5 class="mb-2 d-flex justify-content-between align-items-center">
+                    Novorésumé
+                    <span class="badge bg-success">ATS-Friendly</span>
+                  </h5>
+                  <p class="text-muted mb-2">Modern and professional designs tailored for ATS compatibility.</p>
+                  <ul class="small text-muted mb-3 ps-3">
+                    <li>Engineered to pass ATS screenings</li>
+                    <li>Customizable for various industries</li>
+                    <li>Optimized formatting and structure</li>
+                  </ul>
+                  <a href="https://novoresume.com/resume-templates" class="btn btn-outline-primary w-100" target="_blank">Use Template</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="template-card border shadow-sm rounded-3 h-100">
+                <img src="https://static.jobscan.co/blog/uploads/timeless_professional-1.jpg" 
+                     class="template-img w-100 rounded-top" 
+                     alt="Jobscan ATS Resume Template">
+                <div class="p-4">
+                  <h5 class="mb-2 d-flex justify-content-between align-items-center">
+                    Jobscan
+                    <span class="badge bg-success">ATS-Friendly</span>
+                  </h5>
+                  <p class="text-muted mb-2">Professionally designed templates optimized for ATS systems.</p>
+                  <ul class="small text-muted mb-3 ps-3">
+                    <li>100% ATS-compliant</li>
+                    <li>Editable in Microsoft Word</li>
+                    <li>Designed to increase interview chances</li>
+                  </ul>
+                  <a href="https://www.jobscan.co/resume-templates/ats-templates" class="btn btn-outline-primary w-100" target="_blank">Use Template</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class=" Bellingham-5">
+        <div class="bg-white rounded-4 shadow-sm p-5">
+          <h2 class="section-title">CV Writing Guidelines & Tips</h2>
+          <p class="lead mb-5">Follow these professional recommendations to create a CV that gets noticed</p>
+          <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+              <div class="guidelines-card">
+                <div class="bg-primary text-white p-3">
+                  <h5 class="mb-0">Essential CV Sections</h5>
+                </div>
+                <div class="p-4">
+                  <div class="mb-4">
+                    <span class="badge-category">Personal Information</span>
+                    <p class="mb-0">Include your full name, professional email, phone number, and LinkedIn profile.</p>
+                  </div>
+                  <div class="mb-4">
+                    <span class="badge-category">Professional Summary</span>
+                    <p class="mb-0">A 3-4 sentence overview of your experience, skills, and career goals.</p>
+                  </div>
+                  <div>
+                    <span class="badge-category">Work Experience</span>
+                    <p class="mb-0">List in reverse chronological order with achievements and measurable results.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="guidelines-card">
+                <div class="bg-primary text-white p-3">
+                  <h5 class="mb-0">Pro Tips</h5>
+                </div>
+                <div class="p-4">
+                  <ul class="list-unstyled mb-0">
+                    <li class="mb-3">
+                      <div class="d-flex">
+                        <span class="text-success me-2">✓</span>
+                        <div>
+                          <strong>Keep it concise:</strong> 1-2 pages maximum
+                        </div>
+                      </div>
+                    </li>
+                    <li class="mb-3">
+                      <div class="d-flex">
+                        <span class="text-success me-2">✓</span>
+                        <div>
+                          <strong>Use keywords:</strong> Match the job description
+                        </div>
+                      </div>
+                    </li>
+                    <li class="mb-3">
+                      <div class="d-flex">
+                        <span class="text-success me-2">✓</span>
+                        <div>
+                          <strong>Quantify results:</strong> Use numbers and metrics
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="d-flex">
+                        <span class="text-success me-2">✓</span>
+                        <div>
+                          <strong>Proofread thoroughly:</strong> Check for errors
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="py-5">
+      <div class="container">
+        <hr class="my-4 opacity-25">
+        <p class="text-center mb-0 opacity-75">© 2024 CareerConnect. All rights reserved.</p>
+      </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function toggleMenu() {
-            var dropdownMenu = document.getElementById("dropdown-menu");
-            if (dropdownMenu.style.display === "block") { // إضافة القوس المغلق هنا
-                dropdownMenu.style.display = "none";
-            } else {
-                dropdownMenu.style.display = "block";
-            }
+      function toggleMenu() {
+        var dropdownMenu = document.getElementById("dropdown-menu");
+        if (dropdownMenu.style.display === "block") {
+          dropdownMenu.style.display = "none";
+        } else {
+          dropdownMenu.style.display = "block";
         }
+      }
 
-        document.addEventListener('click', function (event) {
-            var dropdownMenu = document.getElementById("dropdown-menu");
-            var menuIcon = document.querySelector('.menu-icon');
-            if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.style.display = 'none';
-            }
+      document.addEventListener('click', function (event) {
+        var dropdownMenu = document.getElementById("dropdown-menu");
+        var menuIcon = document.querySelector('.menu-icon');
+        if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+          dropdownMenu.style.display = 'none';
+        }
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
         });
-
+      });
     </script>
-</body>
-
+  </body>
 </html>
