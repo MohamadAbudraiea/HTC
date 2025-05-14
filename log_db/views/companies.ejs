@@ -19,8 +19,9 @@
             background-color: #fafafa;
             color: rgb(0, 0, 0);
             margin: 0;
-            padding: 0;
-        }
+    padding-bottom: 100px; 
+}
+        
 
         /* Navigation Bar */
 
@@ -88,70 +89,103 @@
             /* لون مختلف عند التحويم */
         }
 
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  left: 0; /* Keep on the left side */
+  width: 250px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: none; /* Hidden by default */
+  z-index: 9999;
+  overflow: hidden;
+  animation: fadeIn 0.3s SHOPease-out;
+}
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-        .dropdown-menu {
-            position: absolute;
-            top: 60px;
-            left: 0;
-            width: 250px;
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            display: none;
-            /* Hidden by default */
-            z-index: 9999;
-        }
+.profile-section {
+  background: linear-gradient(135deg, #4361ee, #003366);
+  color: white;
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        .profile-section {
-            padding: 10px;
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-        }
+.profile-img2 {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 0.8rem;
+  object-fit: cover;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
 
+.profile-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
 
-        .profile-img2 {
-            width: 125px;
-            /* الحجم الأساسي للصورة */
-            height: 120px;
-            border-radius: 50%;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+.profile-info {
+  font-size: 0.82rem;
+  opacity: 0.85;
+  letter-spacing: 0.3px;
+  margin-top: 0.2rem;
+}
 
+.dropdown-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-        }
+.dropdown-links li {
+  border-bottom: 1px solid #eee;
+}
 
-        .profile-name {
-            font-weight: bold;
-        }
+.dropdown-links li:last-child {
+  border-bottom: none;
+}
 
-        .profile-info {
-            font-size: 14px;
-        }
+.dropdown-links li a {
+  display: flex;
+  align-items: center; /* Align icon and text vertically */
+  padding: 0.85rem 1.5rem;
+  text-decoration: none;
+  color: #2b2d42;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
 
-        .dropdown-links {
-            list-style-type: none;
-            padding: 0;
-        }
+.dropdown-links li a i {
+  font-size: 1rem; /* Size of the icon */
+  color: #545558; /* Match --primary-color */
+  margin-right: 0.5rem; /* Space between icon and text */
+  transition: color 0.3s ease;
+}
 
-        .dropdown-links li a {
-            display: block;
-            padding: 10px;
-            color: #333;
-            text-decoration: none;
-            border-bottom: 1px solid #ddd;
-            font-size: 16px;
-        }
+.dropdown-links li a:hover {
+  background: #f8f8f8;
+  padding-left: 1.75rem; /* Shift text and icon on hover */
+  color: #003366;
+}
 
-        .dropdown-links li a:hover {
-            background-color: #f0f0f0;
-        }
+.dropdown-links li a:hover i {
+  color: #003366; /* Match --primary-dark on hover */
+}
 
-        .dropdown-links li a:last-child {
-            color: rgb(0, 0, 0);
-        }
+/* Ensure logout link icon matches accent color */
+.dropdown-links li a[style*="color: #f72585;"] i {
+  color: #f72585;
+}
 
 
 
@@ -560,15 +594,16 @@
           <span class="profile-name"><%= user.name %></span>
           <span class="profile-info"><hr style="background-color:white"><%= user.std_id %></span>
         </div>
-        <ul class="dropdown-links">
-          <li><a href="/companies">Companies</a></li>
-          <li><a href="/cv">CV</a></li>
-          <li><a href="/courses">Courses</a></li>
-          <li><a href="/certi-0">Certificate</a></li>
-          <li><a href="/settings">Settings</a></li>
-          <li><a href="/contact">Contact Us</a></li>
-          <li><a href="/logout" style="color: red;">Logout</a></li>
-        </ul>
+                  <ul class="dropdown-links">
+    <li><a href="companies"><i class="fas fa-building me-2"></i>Companies</a></li>
+    <li><a href="cv"><i class="fas fa-file-alt me-2"></i>CV</a></li>
+    <li><a href="courses"><i class="fas fa-book-open me-2"></i>Courses</a></li>
+    <li><a href="/task_std"><i class="fas fa-tasks me-2"></i>Student Task</a></li>
+    <li><a href="/student_applicant"><i class="fas fa-users me-2"></i>Applicants</a></li>
+    <li><a href="certi-0"><i class="fas fa-certificate me-2"></i>Certificate</a></li>
+    <li><a href="contact"><i class="fas fa-envelope me-2"></i>Contact Us</a></li>
+    <li><a href="logout" style="color: #fc1c1c;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+</ul>
       </div>
       <% } %>
     </nav>

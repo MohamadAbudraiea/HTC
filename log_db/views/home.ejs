@@ -96,69 +96,223 @@
 
 
 
-        .dropdown-menu {
-            position: absolute;
-            top: 60px;
-            left: 0;
-            width: 250px;
-            background-color: #f7f7f7;
-            border: 1px solid #ddd;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            display: none;
-            /* Hidden by default */
-            z-index: 9999;
-        }
+  /* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 250px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: none;
+  z-index: 9999;
+  overflow: hidden;
+  animation: fadeIn 0.3s ease-out;
+}
 
-        .profile-section {
-            padding: 10px;
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-        }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+.profile-section {
+  background: linear-gradient(135deg, #4361ee, #003366);
+  color: white;
+  padding: 1.2rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-        .profile-img2 {
-            width: 125px;
-            /* الحجم الأساسي للصورة */
-            height: 120px;
-            border-radius: 50%;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+.profile-img2 {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 0.8rem;
+  object-fit: cover;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
 
+.profile-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
 
-        }
+.profile-info {
+  font-size: 0.82rem;
+  opacity: 0.85;
+  letter-spacing: 0.3px;
+  margin-top: 0.2rem;
+}
 
-        .profile-name {
-            font-weight: bold;
-        }
+.dropdown-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-        .profile-info {
-            font-size: 14px;
-        }
+.dropdown-links li {
+  border-bottom: 1px solid #eee;
+}
 
-        .dropdown-links {
-            list-style-type: none;
-            padding: 0;
-        }
+.dropdown-links li:last-child {
+  border-bottom: none;
+}
 
-        .dropdown-links li a {
-            display: block;
-            padding: 10px;
-            color: #333;
-            text-decoration: none;
-            border-bottom: 1px solid #ddd;
-            font-size: 16px;
-        }
+.dropdown-links li a {
+  display: block;
+  padding: 0.85rem 1.5rem;
+  text-decoration: none;
+  color: #2b2d42;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
 
-        .dropdown-links li a:hover {
-            background-color: #f0f0f0;
-        }
+.dropdown-links li a:hover {
+  background: #f8f8f8;
+  padding-left: 1.75rem;
+  color: #003366;
+}
 
-        .dropdown-links li a:last-child {
-            color: rgb(0, 0, 0);
-        }
+/* Keep the notification styles unchanged */
+.notification-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
 
+.notification-icon {
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #ff4d4f;
+  color: rgb(0, 25, 248);
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: none;
+}
+
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  width: 350px;
+  max-height: 500px;
+  overflow-y: auto;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border: 1px solid #e8e8e8;
+  color: #003366;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fafafa;
+  font-weight: bold;
+}
+
+.mark-read-btn {
+  background: none;
+  border: none;
+  color: #1890ff;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.mark-read-btn:hover {
+  text-decoration: underline;
+}
+
+.notification-content {
+  padding: 0;
+}
+
+.notification-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s;
+}
+
+.notification-item:hover {
+  background-color: #f5f5f5;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+/* Animation for new notifications */
+@keyframes highlight {
+  0% { background-color: rgba(24, 144, 255, 0.1); }
+  100% { background-color: white; }
+}
+
+.notification-item.new {
+  animation: highlight 2s;
+}
+
+/* Dropdown Links */
+.dropdown-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-links li {
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-links li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-links li a {
+  display: flex;
+  align-items: center; /* Align icon and text vertically */
+  padding: 0.85rem 1.5rem;
+  text-decoration: none;
+  color: #2b2d42;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.dropdown-links li a i {
+  font-size: 1rem; /* Size of the icon */
+  color: #7a7c85; /* Match --primary-color */
+  margin-right: 0.5rem; /* Space between icon and text */
+  transition: color 0.3s ease;
+}
+
+.dropdown-links li a:hover {
+  background: #f8f8f8;
+  padding-left: 1.75rem; /* Shift text and icon on hover */
+  color: #003366;
+}
+
+.dropdown-links li a:hover i {
+  color: #003366; /* Match --primary-dark on hover */
+}
         .img-fluid {
             width: 40%;
             /* تقليص حجم الصورة لتكون 60% من الحاوية أو يمكنك تعديل النسبة حسب الحاجة */
@@ -499,6 +653,72 @@
             margin-bottom: 15px;
 
         }
+        
+.add-review-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+}
+
+.add-review-form h4 {
+  color: #004080;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* تنسيق عناوين الحقول */
+.form-label,
+.add-review-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #004080;
+  font-size: 1rem;
+}
+
+/* تنسيق حقول الإدخال */
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #004080;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 64, 128, 0.2);
+}
+
+/* زر الإرسال */
+.add-review-form button[type="submit"] {
+  background-color: #004080;
+  color: #ffffff;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.add-review-form button[type="submit"]:hover {
+  background-color: #0066cc;
+}
 
         /* Footer Container Styles */
         footer {
@@ -813,17 +1033,16 @@
                         <%= user.std_id %>
                     </span>
                 </div>
-                <ul class="dropdown-links">
-                    <li><a href="companies">Companies</a></li>
-                    <li><a href="cv">CV</a></li>
-                    <li><a href="courses">Courses</a></li>
-                    <li><a href="/task_std">Student Task</a></li>
-                    <li><a href="/student_applicant">Applicants</a></li>
-                    <li><a href="certi-0">certificate</a></li>
-                    <li><a href="settings">Settings</a></li>
-                    <li><a href="contact">Contact Us</a></li>
-                    <li><a href="logout" style="color: red;">Logout</a></li>
-                </ul>
+             <ul class="dropdown-links">
+    <li><a href="companies"><i class="fas fa-building me-2"></i>Companies</a></li>
+    <li><a href="cv"><i class="fas fa-file-alt me-2"></i>CV</a></li>
+    <li><a href="courses"><i class="fas fa-book-open me-2"></i>Courses</a></li>
+    <li><a href="/task_std"><i class="fas fa-tasks me-2"></i>Student Task</a></li>
+    <li><a href="/student_applicant"><i class="fas fa-users me-2"></i>Applicants</a></li>
+    <li><a href="certi-0"><i class="fas fa-certificate me-2"></i>Certificate</a></li>
+    <li><a href="contact"><i class="fas fa-envelope me-2"></i>Contact Us</a></li>
+    <li><a href="logout" style="color: #fc1c1c;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+</ul>
             </div>
       <% } %>
     </nav>
@@ -993,7 +1212,7 @@
                     <div class="footer-section">
                         <h3><i class="fas fa-phone-alt"></i> Contact</h3>
                         <p>Email: <a href="mailto:support@company.com">HTCwebsite77@company.com</a></p>
-                        <p>Phone: <a href="tel:+123456789">+123 456 789</a></p>
+                        <p>Phone: <a href="tel:+123456789">+962 7909 88 283 </a></p>
                     </div>
                 </div>
 
