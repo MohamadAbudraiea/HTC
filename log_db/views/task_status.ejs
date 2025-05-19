@@ -347,7 +347,7 @@
   </div>
 
   <!-- Overlay Modal for Task Submission (Hidden by default) -->
-  <div class="overlay" id="taskModalOverlay">
+  <div class="overlay" id="taskModalOverlay" style="display:none;">
     <div class="modal-box">
       <div class="modal-header">
         <h5 id="taskModalTitle">Task Submission Details</h5>
@@ -356,7 +356,13 @@
       <div class="modal-body">
         <p><strong>Student: </strong><span id="modalStudentName"></span></p>
         <p><strong>Submission Date: </strong><span id="modalSubmissionDate"></span></p>
-        <p><strong>Description: </strong><span id="modalSubmissionDescription"></span></p>
+        <p><strong>Description: </strong>
+          <a id="downloadBtn" href="#" download>
+            <button class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-download"></i> Download Submission
+            </button>
+          </a>
+        </p>
         <p><strong>Rating: </strong>
         <div class="rating" id="taskRating" style="display: none;">
           <span class="star" data-rating="1">&#9733;</span>
@@ -423,7 +429,9 @@
       document.getElementById('taskModalTitle').textContent = 'Task Submission for ' + taskTitle;
       document.getElementById('modalStudentName').textContent = studentName;
       document.getElementById('modalSubmissionDate').textContent = submissionDate;
-      document.getElementById('modalSubmissionDescription').textContent = submissionDesc;
+
+      // Set the download link for submissionDesc
+      document.getElementById('downloadBtn').href = './uploads/' + submissionDesc;
 
       // Set task ID for later use
       document.getElementById('taskModalOverlay').setAttribute('data-task-id', taskId);
@@ -435,6 +443,11 @@
     // Close the modal
     function closeTaskModal() {
       document.getElementById('taskModalOverlay').style.display = 'none';
+      // Reset rating UI and selectedRating
+      selectedRating = 0;
+      updateStarDisplay();
+      document.getElementById('taskRating').style.display = 'none';
+      document.getElementById('rateTaskBtn').textContent = 'Rate This Task';
     }
 
     function rateTask() {
@@ -457,29 +470,26 @@
         }),
       })
         .then(response => {
-          console.log("Response Status:", response.status);  // Log the status code for debugging
+          console.log("Response Status:", response.status);
 
-          // If the response is successful (2xx), handle it
           if (response.ok) {
-            return response.json(); // Parse the JSON response body
+            return response.json();
           } else {
-            // Log and throw an error for unsuccessful responses
             return response.json().then(errorData => {
               throw new Error(errorData.message || "An unknown error occurred.");
             });
           }
         })
         .then(data => {
-          console.log("Success Data:", data);  // Log the success message from the server
+          console.log("Success Data:", data);
           alert("Task rated successfully!");
-          closeTaskModal();  // Close the modal after successful rating
+          closeTaskModal();
         })
         .catch(error => {
-          console.error("Error:", error);  // Log any errors
+          console.error("Error:", error);
           alert("Task rated successfully!");
         });
     }
-
   </script>
 </body>
 

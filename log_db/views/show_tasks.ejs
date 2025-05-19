@@ -282,8 +282,8 @@
             <span class="close-x" onclick="closeModal('submitModal')">&times;</span>
             <h3 id="submitTitle"></h3>
             <p id="submitDesc"></p>
-            <form id="submitForm">
-                <textarea name="description" placeholder="Submit your work here..."></textarea>
+            <form id="submitForm" enctype="multipart/form-data">
+                <input type="file" name="submissionFile" id="submissionFile" accept="*" required />
                 <input type="hidden" name="task_id" id="taskIdField" />
                 <button type="submit" class="close-rating">Submit</button>
                 <div class="success-message" id="successMessage" style="display: none;">Task submitted successfully!
@@ -323,13 +323,13 @@
 
         document.getElementById('submitForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
+
+            const formElement = this;
+            const formData = new FormData(formElement);
 
             const response = await fetch('/submit-task', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: formData
             });
 
             const result = await response.json();
