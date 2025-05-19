@@ -1301,35 +1301,48 @@ app.get("/task_std", requireAuth, async (req, res) => {
     console.error(err);
   }
 });
-app.post("/submit-task", requireAuth, async (req, res) => {
-  try {
-    const { task_id, description } = req.body;
+app.post(
+  "/submit-task",
+  requireAuth,
+  upload.single("submissionFile"), // multer middleware to handle single file upload
+  async (req, res) => {
+    try {
+      const { task_id } = req.body;
+      const file = req.file;
 
-    // الحصول على التاريخ الحالي بصيغة YYYY-MM-DD
-    const now = new Date();
-    const created_at = now.toISOString().split("T")[0]; // yyyy-mm-dd
+      if (!file) {
+        return res
+          .status(400)
+          .json({ success: false, message: "File is required." });
+      }
 
-    // إدخال في task_subbmision
-    await db.query(
-      `INSERT INTO task_submmistion (task_id, description, created_at)
-       VALUES ($1, $2, $3)`,
-      [task_id, description, created_at]
-    );
+      // Get current date in YYYY-MM-DD format
+      const now = new Date();
+      const created_at = now.toISOString().split("T")[0];
 
-    // تحديث حالة المهمة إلى completed
-    await db.query(`UPDATE task SET status = 'completed' WHERE id = $1`, [
-      task_id,
-    ]);
+      // Insert submission record, description = filename or relative path
+      await db.query(
+        `INSERT INTO task_submmistion (task_id, description, created_at)
+         VALUES ($1, $2, $3)`,
+        [task_id, file.filename, created_at]
+      );
 
-    // إرسال رسالة نجاح (يمكنك تعديلها حسب ما تحتاج في الفرونت إند)
-    res
-      .status(200)
-      .json({ success: true, message: "Task submitted successfully." });
-  } catch (err) {
-    console.error("Error in submitting task:", err);
-    res.status(500).json({ success: false, message: "Something went wrong." });
+      // Update task status to completed
+      await db.query(`UPDATE task SET status = 'completed' WHERE id = $1`, [
+        task_id,
+      ]);
+
+      res
+        .status(200)
+        .json({ success: true, message: "Task submitted successfully." });
+    } catch (err) {
+      console.error("Error in submitting task:", err);
+      res
+        .status(500)
+        .json({ success: false, message: "Something went wrong." });
+    }
   }
-});
+);
 
 app.get("/student_applicant", requireAuth, async (req, res) => {
   try {
